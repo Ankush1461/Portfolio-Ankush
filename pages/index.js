@@ -16,7 +16,7 @@ import ParticleBackground from './../components/ParticleBackground';
 const Page = () => {
   return (
     <Container>
-      <ParticleBackground/>
+      <ParticleBackground />
       <Box
         borderRadius="lg"
         bg={useColorModeValue("whiteAlpha.500", "whiteAlpha.200")}
@@ -62,11 +62,13 @@ const Page = () => {
           new technologies.
         </Paragraph>
         <Box align="center" my={4}>
-          <NextLink href="/works">
+          {/* <NextLink href="/works"> */}
+          <a href="https://drive.google.com/file/d/1pOwayiiBjmm4eajnkihhpBWgUXmfeLvt/view?usp=sharing">
             <Button rightIcon={<ChevronRightIcon />} colorScheme="teal">
               My Portfolio
             </Button>
-          </NextLink>
+          </a>
+          {/* </NextLink> */}
         </Box>
       </Section>
       <Section delay={0.2}>
@@ -75,10 +77,11 @@ const Page = () => {
         </Heading>
         <BioSection>
           <BioYear>2001</BioYear>
-          Born in Jamshedpur, India.<br/>
+          Born in Jamshedpur, India.
+          <br />
           Grew up in Kolkata, India.
         </BioSection>
-        <br/>
+        <br />
         <BioSection>
           <BioYear>2017</BioYear>
           Passed Secondary (X) from Andrew&apos;s High School
@@ -89,14 +92,15 @@ const Page = () => {
         </BioSection>
         <BioSection>
           <BioYear>2019-Present</BioYear>
-          Studying Btech(Hons) in Computer Science & Engineering from Narula Institute of Technology.
+          Studying Btech(Hons) in Computer Science & Engineering from Narula
+          Institute of Technology.
         </BioSection>
       </Section>
       <Section>
-        <Heading as="h3" variant="section-title">I ❤️</Heading>
-        <Paragraph>
-          Machine Learning, Football, Athletics, Badminton
-        </Paragraph>
+        <Heading as="h3" variant="section-title">
+          I ❤️
+        </Heading>
+        <Paragraph>Machine Learning, Football, Athletics, Badminton</Paragraph>
       </Section>
     </Container>
   );
