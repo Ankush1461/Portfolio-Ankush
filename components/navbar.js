@@ -69,9 +69,12 @@ const Navbar = (props) => {
           <LinkItem href="/projects" path={path}>
             Projects
           </LinkItem>
-          <LinkItem href="/posts" path={path}>
-            Posts
-          </LinkItem>
+          <Link
+                  href="https://github.com/Ankush1461/Portfolio-Ankush"
+                  target="_blank"
+                >
+            Source
+          </Link>
         </Stack>
         <Box flex={1} align="right">
           <ThemeToggleButton />
@@ -90,7 +93,10 @@ const Navbar = (props) => {
                 <NextLink href="/projects" passHref>
                   <MenuItem as={Link}>Projects</MenuItem>
                 </NextLink>
-                <Link href="https://github.com/Ankush1461/Portfolio-Ankush" target="_blank" >
+                <Link
+                  href="https://github.com/Ankush1461/Portfolio-Ankush"
+                  target="_blank"
+                >
                   <MenuItem as={Link}>View Source</MenuItem>
                 </Link>
               </MenuList>
