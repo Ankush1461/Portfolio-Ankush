@@ -90,9 +90,9 @@ const Navbar = (props) => {
                 <NextLink href="/projects" passHref>
                   <MenuItem as={Link}>Projects</MenuItem>
                 </NextLink>
-                <NextLink href="/posts" passHref>
-                  <MenuItem as={Link}>Posts</MenuItem>
-                </NextLink>
+                <Link href="https://github.com/Ankush1461/Portfolio-Ankush" target="_blank" >
+                  <MenuItem as={Link}>View Source</MenuItem>
+                </Link>
               </MenuList>
             </Menu>
           </Box>
