@@ -21,8 +21,8 @@ const Projects = () => {
                 title="Portfolio Website"
                 thumbnail={ThumbPort}
               >
-                A Portfolio Website. Made with technologies like <b>ReactJS</b>{" "}
-                , <b>NextJS</b> , <b>Chakra UI</b> , <b>TailwindCSS</b>.
+                A Portfolio Website. Made with technologies like <b>ReactJS</b>,<br/>
+                 <b>NextJS</b> , <b>Chakra UI</b> , <b>TailwindCSS</b>.
               </ProjectGridItem>
             </Link>
           </Section>
