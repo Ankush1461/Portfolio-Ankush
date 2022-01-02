@@ -242,7 +242,7 @@ const Page = () => {
                   colorScheme="teal"
                   leftIcon={<Icon as={IoMail} />}
                 >
-                  @Ankush1461
+                  @karmakarankush1461@gmail.com
                 </Button>
               </Link>
             </ListItem>
