@@ -75,9 +75,9 @@ const Page = () => {
           </Paragraph>
           <Box align="center" my={4}>
             {/* <NextLink href="/projects"> */}
-            <a href="https://drive.google.com/file/d/1pOwayiiBjmm4eajnkihhpBWgUXmfeLvt/view?usp=sharing">
+            <a href="https://drive.google.com/file/d/1JLD8MWFFBXjrf46v7r5iESgcQ2VFdlLy/view?usp=sharing">
               <Button rightIcon={<ChevronRightIcon />} colorScheme="teal">
-                My Portfolio
+                My Résumé
               </Button>
             </a>
             {/* </NextLink> */}
