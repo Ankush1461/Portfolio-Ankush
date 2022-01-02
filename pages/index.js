@@ -15,20 +15,20 @@ import Layout from "../components/layouts/article";
 import Section from "../components/section";
 import Paragraph from "../components/paragraph";
 import { BioSection, BioYear } from "../components/bio";
-import ParticleBackground from "./../components/ParticleBackground";
 
 import {
-IoMail,
+  IoMail,
   IoLogoInstagram,
   IoLogoLinkedin,
   IoLogoGithub,
 } from "react-icons/io5";
+import ParticleBackground from "./../components/ParticleBackground";
 
 const Page = () => {
   return (
     <Layout>
+      <ParticleBackground />
       <Container>
-        <ParticleBackground />
         <Box
           borderRadius="lg"
           bg={useColorModeValue("whiteAlpha.500", "whiteAlpha.200")}
@@ -257,7 +257,7 @@ const Page = () => {
                   colorScheme="teal"
                   leftIcon={<Icon as={IoLogoInstagram} />}
                 >
-                   @mysteriously_ecstatic_guy
+                  @mysteriously_ecstatic_guy
                 </Button>
               </Link>
             </ListItem>
