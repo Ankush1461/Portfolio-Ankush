@@ -127,8 +127,8 @@ const Page = () => {
 
             <Image
               pr={4}
-              src="https://img.icons8.com/color/48/000000/c-plus-plus-logo.png"
-              alt="C++ Programming Language"
+              src="https://img.icons8.com/color/48/000000/java.png"
+              alt="Java Programming Language"
             />
 
             <Image
