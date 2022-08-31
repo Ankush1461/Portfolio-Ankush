@@ -43,7 +43,7 @@ const Page = () => {
             <Heading as="h2" variant="page-title">
               Ankush Karmakar
             </Heading>
-            <p>Front-end Developer</p>
+            <p>Software Developer</p>
           </Box>
           <Box
             flexShrink={0}
@@ -71,7 +71,7 @@ const Page = () => {
             Ankush is an enthusiastic engineering fresher proficient in
             Front-end Web Development and creating progressive web apps. In
             possession of strong communication and leadership skills and capable
-            of mastering new technologies.
+            of mastering new technologies quickly and efficiently.
           </Paragraph>
           <Box align="center" my={4}>
             {/* <NextLink href="/projects"> */}
