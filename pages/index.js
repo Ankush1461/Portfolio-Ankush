@@ -36,7 +36,7 @@ const Page = () => {
           mb={6}
           textAlign="center"
         >
-          Hello, I&apos;m a front-end Developer based in India
+          Hello, I&apos;m a Software Developer based in India
         </Box>
         <Box display={{ md: "flex" }}>
           <Box flexGrow={1}>
