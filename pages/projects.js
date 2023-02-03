@@ -5,7 +5,7 @@ import Layout from "../components/layouts/article";
 import ParticleBackground from "./../components/ParticleBackground";
 import ThumbInsta from "../public/images/projects/instagram-next-2.png";
 import ThumbPort from "../public/images/projects/portfolio.png";
-import ThumbUber from "../public/images/projects/uberclone.png";
+import ThumbGPT from "../public/images/projects/nextgpt_thumbnail.png";
 const Projects = () => {
   return (
     <Layout>
@@ -39,14 +39,14 @@ const Projects = () => {
           </Section>
           <Section>
             <Link
-              href="https://uber-next-clone-indol.vercel.app"
+              href="https://nextgpt-nine.vercel.app"
               target="_blank"
             >
-              <ProjectGridItem title="Uber Clone" thumbnail={ThumbUber}>
-                An Uber clone with <b>route-recognition</b> and{" "}
-                <b>relative pricing model</b>. Made with technologies like{" "}
-                <b>ReactJS</b> , <b>NextJS</b> , <b>Firebase v9</b> ,{" "}
-                <b>TailwindCSS</b>.
+              <ProjectGridItem title="NextGPT" thumbnail={ThumbGPT}>
+                An AI tool to <b>play with</b> and{" "}
+                <b>ask for descriptive text answers</b>. Made with technologies like{" "}
+                <b>ReactJS</b> , <b>NextJS</b> , <b>OpenAI API</b> ,{" "}
+                <b>Bootstrap</b>.
               </ProjectGridItem>
             </Link>
           </Section>
