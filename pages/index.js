@@ -129,26 +129,26 @@ const Page = () => {
           <Box display={{ base: "flex" }}>
             <Image
               pr={4}
-              src={JavascriptImage}
-              alt="Javascript Programming Language" h={"48px"}
+              src={JavascriptImage}  height={100}
+              alt="Javascript Programming Language"
             />
 
             <Image
               pr={4}
-              src={PythonImage}
-              alt="Python Programming Language" h={"48px"}
+              src={PythonImage}  height={100}
+              alt="Python Programming Language"
             />
 
             <Image
               pr={4}
-              src={JavaImage}
-              alt="Java Programming Language" h={"48px"}
+              src={JavaImage}  height={100}
+              alt="Java Programming Language"
             />
 
             <Image
               pr={4}
-              src={CImage}
-              alt="C Programming Language" h={"48px"}
+              src={CImage}  height={100}
+              alt="C Programming Language"
             />
           </Box>
         </Section>
@@ -160,54 +160,51 @@ const Page = () => {
             <Image
               pr={4}
               pb={4}
-              src={HTMLImage}
-              alt="HTML 5" h={"48px"}
+              src={HTMLImage}  height={100}
+              alt="HTML 5"
             />
 
             <Image
               pr={4}
               pb={4}
-              src={CSSImage}
-              alt="CSS3" h={"48px"}
+              src={CSSImage}  height={100}
+              alt="CSS3"
             />
 
             <Image
               pr={4}
               pb={4}
-              src={ReactImage}
-              alt="ReactJS" h={"48px"}
+              src={ReactImage}  height={100}
+              alt="ReactJS"
             />
             <Image
               pr={4}
-              src={NextJsImage}
+              src={NextJsImage}  height={100}
               alt="NextJS"
-              h={"48px"}
             />
             <Image
               pr={4}
-              src={ChakraUIImage}
+              src={ChakraUIImage}  height={100}
               alt="Chakra UI"
-              h={"48px"}
             />
           </Box>
           <Box display={{ base: "flex" }}>
             <Image
               pr={4}
-              src={TailwindCSSImage}
-              alt="Tailwind CSS"
-              h={"48px"}
+              src={TailwindCSSImage}  height={100}
+              alt="Tailwind CSS" 
             />
 
             <Image
               pr={4}
-              src={BootstrapImage}
-              alt="Bootstrap" h={"48px"}
+              src={BootstrapImage}  height={100}
+              alt="Bootstrap"
             />
 
             <Image
               pr={4}
-              src={FirebaseImage}
-              alt="Firebase" h={"48px"}
+              src={FirebaseImage}  height={100}
+              alt="Firebase"
             />
           </Box>
         </Section>
