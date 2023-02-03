@@ -22,7 +22,21 @@ import {
   IoLogoLinkedin,
   IoLogoGithub,
 } from "react-icons/io5";
+// Programming Languages Images
 import ParticleBackground from "./../components/ParticleBackground";
+import JavaImage from "./../public/images/programming/java.png";
+import CImage from "./../public/images/programming/c.png";
+import PythonImage from "./../public/images/programming/python.png";
+import JavascriptImage from "./../public/images/programming/javascript.png";
+// Technologies Images
+import BootstrapImage from "./../public/images/technologies/bootstrap.png";
+import ChakraUIImage from "./../public/images/technologies/chakra-ui.png";
+import CSSImage from "./../public/images/technologies/css3.png";
+import FirebaseImage from "./../public/images/technologies/firebase.png";
+import HTMLImage from "./../public/images/technologies/html-5.png";
+import NextJsImage from "./../public/images/technologies/nextjs.png";
+import TailwindCSSImage from "./../public/images/technologies/tailwindcss.png";
+import ReactImage from "./../public/images/technologies/react.png";
 
 const Page = () => {
   return (
@@ -115,26 +129,26 @@ const Page = () => {
           <Box display={{ base: "flex" }}>
             <Image
               pr={4}
-              src="https://img.icons8.com/color/48/000000/javascript--v1.png"
-              alt="Javascript Programming Language"
+              src={JavascriptImage}
+              alt="Javascript Programming Language" h={"48px"}
             />
 
             <Image
               pr={4}
-              src="https://img.icons8.com/color/48/000000/python--v1.png"
-              alt="Python Programming Language"
+              src={PythonImage}
+              alt="Python Programming Language" h={"48px"}
             />
 
             <Image
               pr={4}
-              src="https://img.icons8.com/color/48/000000/java.png"
-              alt="Java Programming Language"
+              src={JavaImage}
+              alt="Java Programming Language" h={"48px"}
             />
 
             <Image
               pr={4}
-              src="https://img.icons8.com/color/48/000000/c-programming.png"
-              alt="C Programming Language"
+              src={CImage}
+              alt="C Programming Language" h={"48px"}
             />
           </Box>
         </Section>
@@ -146,32 +160,32 @@ const Page = () => {
             <Image
               pr={4}
               pb={4}
-              src="https://img.icons8.com/color/48/000000/html-5--v1.png"
-              alt="HTML 5"
+              src={HTMLImage}
+              alt="HTML 5" h={"48px"}
             />
 
             <Image
               pr={4}
               pb={4}
-              src="https://img.icons8.com/color/48/000000/css3.png"
-              alt="CSS3"
+              src={CSSImage}
+              alt="CSS3" h={"48px"}
             />
 
             <Image
               pr={4}
               pb={4}
-              src="https://img.icons8.com/office/48/000000/react.png"
-              alt="ReactJS"
+              src={ReactImage}
+              alt="ReactJS" h={"48px"}
             />
             <Image
               pr={4}
-              src="https://camo.githubusercontent.com/92ec9eb7eeab7db4f5919e3205918918c42e6772562afb4112a2909c1aaaa875/68747470733a2f2f6173736574732e76657263656c2e636f6d2f696d6167652f75706c6f61642f76313630373535343338352f7265706f7369746f726965732f6e6578742d6a732f6e6578742d6c6f676f2e706e67"
+              src={NextJsImage}
               alt="NextJS"
               h={"48px"}
             />
             <Image
               pr={4}
-              src="https://raw.githubusercontent.com/chakra-ui/chakra-ui/b983e4ceb7c1e794c2b901ce16f12016836d40d6/logo/logomark-colored.svg"
+              src={ChakraUIImage}
               alt="Chakra UI"
               h={"48px"}
             />
@@ -179,21 +193,21 @@ const Page = () => {
           <Box display={{ base: "flex" }}>
             <Image
               pr={4}
-              src="https://github.com/tailwindlabs/tailwindcss/raw/master/.github/logo-dark.svg"
+              src={TailwindCSSImage}
               alt="Tailwind CSS"
-              h={"20px"}
+              h={"48px"}
             />
 
             <Image
               pr={4}
-              src="https://img.icons8.com/color/48/000000/bootstrap.png"
-              alt="Bootstrap"
+              src={BootstrapImage}
+              alt="Bootstrap" h={"48px"}
             />
 
             <Image
               pr={4}
-              src="https://img.icons8.com/color/48/000000/firebase.png"
-              alt="Firebase"
+              src={FirebaseImage}
+              alt="Firebase" h={"48px"}
             />
           </Box>
         </Section>
