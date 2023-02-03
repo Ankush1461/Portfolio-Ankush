@@ -3,8 +3,8 @@ import {
   Button,
   Box,
   Heading,
-  Image,
   List,
+  Image as Img,
   ListItem,
   Link,
   Icon,
@@ -37,6 +37,7 @@ import HTMLImage from "../public/images/technologies/html-5.png";
 import NextJsImage from "../public/images/technologies/nextjs.png";
 import TailwindCSSImage from "../public/images/technologies/tailwindcss.png";
 import ReactImage from "../public/images/technologies/react.png";
+import Image from "next/image";
 
 const Page = () => {
   return (
@@ -65,7 +66,7 @@ const Page = () => {
             ml={{ md: 6 }}
             textAlign="center"
           >
-            <Image
+            <Img
               borderColor="whiteAlpha.800"
               borderWidth={2}
               borderStyle="solid"
@@ -129,25 +130,32 @@ const Page = () => {
           <Box display={{ base: "flex" }}>
             <Image
               pr={4}
-              src={JavascriptImage}  height={100}
+              src={JavascriptImage}
+              height={50}
+              width={50}
               alt="Javascript Programming Language"
             />
 
             <Image
-              pr={4}
-              src={PythonImage}  height={100}
+              src={PythonImage}
+              height={50}
+              width={50}
               alt="Python Programming Language"
             />
 
             <Image
               pr={4}
-              src={JavaImage}  height={100}
+              src={JavaImage}
+              height={50}
+              width={50}
               alt="Java Programming Language"
             />
 
             <Image
               pr={4}
-              src={CImage}  height={100}
+              src={CImage}
+              height={50}
+              width={50}
               alt="C Programming Language"
             />
           </Box>
@@ -160,50 +168,66 @@ const Page = () => {
             <Image
               pr={4}
               pb={4}
-              src={HTMLImage}  height={100}
+              src={HTMLImage}
+              height={50}
+              width={50}
               alt="HTML 5"
             />
 
             <Image
               pr={4}
               pb={4}
-              src={CSSImage}  height={100}
+              src={CSSImage}
+              height={50}
+              width={50}
               alt="CSS3"
             />
 
             <Image
               pr={4}
               pb={4}
-              src={ReactImage}  height={100}
+              src={ReactImage}
+              height={50}
+              width={50}
               alt="ReactJS"
             />
             <Image
               pr={4}
-              src={NextJsImage}  height={100}
+              src={NextJsImage}
+              height={50}
+              width={50}
               alt="NextJS"
             />
             <Image
               pr={4}
-              src={ChakraUIImage}  height={100}
+              src={ChakraUIImage}
+              height={50}
+              width={50}
               alt="Chakra UI"
             />
           </Box>
           <Box display={{ base: "flex" }}>
             <Image
               pr={4}
-              src={TailwindCSSImage}  height={100}
-              alt="Tailwind CSS" 
+              src={TailwindCSSImage}
+              height={50}
+              width={50}
+              alt="Tailwind CSS"
             />
 
             <Image
               pr={4}
-              src={BootstrapImage}  height={100}
+              src={BootstrapImage}
+              height={50}
+              width={50}
               alt="Bootstrap"
             />
 
             <Image
               pr={4}
-              src={FirebaseImage}  height={100}
+              src={FirebaseImage}
+              height={50}
+              width={50}
               alt="Firebase"
             />
           </Box>
