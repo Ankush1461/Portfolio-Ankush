@@ -23,20 +23,20 @@ import {
   IoLogoGithub,
 } from "react-icons/io5";
 // Programming Languages Images
-import ParticleBackground from "./../components/ParticleBackground";
-import JavaImage from "./../public/images/programming/java.png";
-import CImage from "./../public/images/programming/c.png";
-import PythonImage from "./../public/images/programming/python.png";
-import JavascriptImage from "./../public/images/programming/javascript.png";
+import ParticleBackground from "../components/ParticleBackground";
+import JavaImage from "../public/images/programming/java.png";
+import CImage from "../public/images/programming/c.png";
+import PythonImage from "../public/images/programming/python.png";
+import JavascriptImage from "../public/images/programming/javascript.png";
 // Technologies Images
-import BootstrapImage from "./../public/images/technologies/bootstrap.png";
-import ChakraUIImage from "./../public/images/technologies/chakra-ui.png";
-import CSSImage from "./../public/images/technologies/css3.png";
+import BootstrapImage from "../public/images/technologies/bootstrap.png";
+import ChakraUIImage from "../public/images/technologies/chakra-ui.png";
+import CSSImage from "../public/images/technologies/css3.png";
 import FirebaseImage from "./../public/images/technologies/firebase.png";
-import HTMLImage from "./../public/images/technologies/html-5.png";
-import NextJsImage from "./../public/images/technologies/nextjs.png";
-import TailwindCSSImage from "./../public/images/technologies/tailwindcss.png";
-import ReactImage from "./../public/images/technologies/react.png";
+import HTMLImage from "../public/images/technologies/html-5.png";
+import NextJsImage from "../public/images/technologies/nextjs.png";
+import TailwindCSSImage from "../public/images/technologies/tailwindcss.png";
+import ReactImage from "../public/images/technologies/react.png";
 
 const Page = () => {
   return (
