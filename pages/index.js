@@ -193,6 +193,7 @@ const Page = () => {
             />
             <Image
               pr={4}
+              pb={4}
               src={NextJsImage}
               height={50}
               width={50}
@@ -200,6 +201,7 @@ const Page = () => {
             />
             <Image
               pr={4}
+              pb={4}
               src={ChakraUIImage}
               height={50}
               width={50}
@@ -209,6 +211,7 @@ const Page = () => {
           <Box display={{ base: "flex" }}>
             <Image
               pr={4}
+              pb={4}
               src={TailwindCSSImage}
               height={50}
               width={50}
@@ -217,6 +220,7 @@ const Page = () => {
 
             <Image
               pr={4}
+              pb={4}
               src={BootstrapImage}
               height={50}
               width={50}
@@ -225,6 +229,7 @@ const Page = () => {
 
             <Image
               pr={4}
+              pb={4}
               src={FirebaseImage}
               height={50}
               width={50}
@@ -234,11 +239,9 @@ const Page = () => {
         </Section>
         <Section delay={0.3}>
           <Heading as="h3" variant="section-title">
-            I 🤍
+            I also 🤍
           </Heading>
-          <Paragraph>
-            Machine Learning, Football, Athletics, Badminton
-          </Paragraph>
+          <Paragraph>Football, Athletics, Badminton</Paragraph>
         </Section>
         <Section delay={0.3}>
           <Heading as="h3" variant="section-title">
