@@ -199,6 +199,8 @@ const Page = () => {
               width={50}
               alt="NextJS"
             />
+          </Box>
+          <Box display={{ base: "flex" }}>
             <Image
               pr={4}
               pb={4}
@@ -207,8 +209,6 @@ const Page = () => {
               width={50}
               alt="Chakra UI"
             />
-          </Box>
-          <Box display={{ base: "flex" }}>
             <Image
               pr={4}
               pb={4}
