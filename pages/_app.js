@@ -1,20 +1,26 @@
-import { ChakraProvider } from "@chakra-ui/react";
+import { Provider } from "@/components/ui/provider";
 import Layout from "../components/layouts/main";
+import dynamic from "next/dynamic";
+import { LanguageProvider } from "../lib/i18n";
 import Fonts from "../components/fonts";
-import theme from "../lib/theme";
-import { AnimatePresence } from "framer-motion";
+import "../styles/globals.css";
 
+const ParticleBackground = dynamic(
+  () => import("../components/ParticleBackground"),
+  { ssr: false }
+);
 
 function Website({ Component, pageProps, router }) {
   return (
-    <ChakraProvider theme={theme}>
-      <Fonts />
-      <Layout router={router}>
-        <AnimatePresence exitBeforeEnter initial={true}>
+    <LanguageProvider>
+      <Provider>
+        <Fonts />
+        <ParticleBackground />
+        <Layout router={router}>
           <Component {...pageProps} key={router.route} />
-        </AnimatePresence>
-      </Layout>
-    </ChakraProvider>
+        </Layout>
+      </Provider>
+    </LanguageProvider>
   );
 }
 

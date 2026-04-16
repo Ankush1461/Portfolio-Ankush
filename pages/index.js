@@ -5,16 +5,20 @@ import {
   Heading,
   List,
   Image as Img,
-  ListItem,
   Link,
   Icon,
-  useColorModeValue,
+  Text,
+  Badge,
+  SimpleGrid,
+  Flex,
 } from "@chakra-ui/react";
-import { ChevronRightIcon } from "@chakra-ui/icons";
+import { LuChevronRight, LuExternalLink, LuAward } from "react-icons/lu";
 import Layout from "../components/layouts/article";
 import Section from "../components/section";
 import Paragraph from "../components/paragraph";
-import { BioSection, BioYear } from "../components/bio";
+import { BioSection, BioYear, BioContent } from "../components/bio";
+import { useColorModeValue } from "@/components/ui/color-mode";
+import { useLanguage } from "@/lib/i18n";
 
 import {
   IoMail,
@@ -22,27 +26,75 @@ import {
   IoLogoLinkedin,
   IoLogoGithub,
 } from "react-icons/io5";
-// Programming Languages Images
-import ParticleBackground from "../components/ParticleBackground";
-import JavaImage from "../public/images/programming/java.png";
-import CImage from "../public/images/programming/c.png";
-import PythonImage from "../public/images/programming/python.png";
-import JavascriptImage from "../public/images/programming/javascript.png";
-// Technologies Images
-import BootstrapImage from "../public/images/technologies/bootstrap.png";
-import ChakraUIImage from "../public/images/technologies/chakra-ui.png";
-import CSSImage from "../public/images/technologies/css3.png";
-import FirebaseImage from "./../public/images/technologies/firebase.png";
-import HTMLImage from "../public/images/technologies/html-5.png";
-import NextJsImage from "../public/images/technologies/nextjs.png";
-import TailwindCSSImage from "../public/images/technologies/tailwindcss.png";
-import ReactImage from "../public/images/technologies/react.png";
-import Image from "next/image";
+
+const SkillBadge = ({ children }) => (
+  <Badge
+    colorPalette="teal"
+    variant="subtle"
+    px={3}
+    py={1}
+    borderRadius="full"
+    fontSize="xs"
+    fontWeight="medium"
+  >
+    {children}
+  </Badge>
+);
+
+const CertCard = ({ title, date, link }) => (
+  <Link
+    href={link}
+    target="_blank"
+    _hover={{ textDecoration: "none" }}
+    h="full"
+    display="block"
+  >
+    <Box
+      p={3}
+      h="full"
+      display="flex"
+      flexDirection="column"
+      justifyContent="center"
+      borderRadius="lg"
+      bg={useColorModeValue("whiteAlpha.500", "whiteAlpha.100")}
+      _hover={{
+        bg: useColorModeValue("whiteAlpha.700", "whiteAlpha.200"),
+        transform: "translateY(-4px)",
+        boxShadow: useColorModeValue("0 6px 12px rgba(0,0,0,0.1)", "0 6px 12px rgba(136, 204, 202, 0.15)"),
+        borderColor: useColorModeValue("transparent", "whiteAlpha.300"),
+      }}
+      borderWidth="1px"
+      borderColor={useColorModeValue("transparent", "whiteAlpha.50")}
+      transition="all 0.3s cubic-bezier(.08,.52,.52,1)"
+      cursor="pointer"
+    >
+      <Flex alignItems="flex-start" gap={3}>
+        <Icon color="teal.500" mt={1}>
+          <LuAward size={20} />
+        </Icon>
+        <Box flex={1}>
+          <Text fontSize="sm" fontWeight="bold" lineHeight="tight" mb={1}>
+            {title}
+          </Text>
+          <Flex justifyContent="space-between" alignItems="center">
+            <Text fontSize="xs" color={useColorModeValue("gray.600", "gray.400")} fontWeight="medium">
+              {date}
+            </Text>
+            <Icon color="teal.500" boxSize={3.5}>
+              <LuExternalLink />
+            </Icon>
+          </Flex>
+        </Box>
+      </Flex>
+    </Box>
+  </Link>
+);
 
 const Page = () => {
+  const { t } = useLanguage();
+
   return (
     <Layout>
-      <ParticleBackground />
       <Container>
         <Box
           borderRadius="lg"
@@ -50,15 +102,16 @@ const Page = () => {
           p={3}
           mb={6}
           textAlign="center"
+          fontSize="sm"
         >
-          Hello, I&apos;m a Software Developer based in India
+          {t.home.role}
         </Box>
         <Box display={{ md: "flex" }}>
           <Box flexGrow={1}>
-            <Heading as="h2" variant="page-title">
-              Ankush Karmakar
+            <Heading as="h2" size="2xl" fontFamily="'M PLUS Rounded 1c', sans-serif">
+              {t.home.title}
             </Heading>
-            <p>Software Developer</p>
+            <Text mt={1}>{t.home.subtitle}</Text>
           </Box>
           <Box
             flexShrink={0}
@@ -73,233 +126,187 @@ const Page = () => {
               maxWidth="100px"
               display="inline-block"
               borderRadius="full"
-              src="images/ankushprofile.png"
+              src="images/ankushprofile.jpeg"
               alt="Profile Image"
             />
           </Box>
         </Box>
+
         <Section delay={0.1}>
-          <Heading as="h3" variant="section-title">
-            About Me
+          <Heading as="h3" fontSize={20} textDecoration="underline" textUnderlineOffset={6} textDecorationColor="gray.500" textDecorationThickness="4px" mt={3} mb={4}>
+            {t.home.aboutTitle}
           </Heading>
           <Paragraph>
-            Ankush is an enthusiastic engineering fresher proficient in
-            Front-end Web Development and creating progressive web apps. In
-            possession of strong communication and leadership skills and capable
-            of mastering new technologies quickly and efficiently.
+            {t.home.aboutText}
           </Paragraph>
-          <Box align="center" my={4}>
-            {/* <NextLink href="/projects"> */}
-            <a href="https://drive.google.com/file/d/1HAoCHkVoGiIDFJw0ag1WK8s9paTiyKOY/view?usp=sharing">
-              <Button rightIcon={<ChevronRightIcon />} colorScheme="teal">
-                My Résumé
+          <Box textAlign="center" my={4}>
+            <Link
+              href="https://drive.google.com/file/d/1HAoCHkVoGiIDFJw0ag1WK8s9paTiyKOY/view?usp=sharing"
+              target="_blank"
+              _hover={{ textDecoration: "none" }}
+            >
+              <Button colorPalette="teal" size="sm">
+                {t.home.resumeBtn} <LuChevronRight />
               </Button>
-            </a>
-            {/* </NextLink> */}
+            </Link>
           </Box>
         </Section>
+
         <Section delay={0.2}>
-          <Heading as="h3" variant="section-title">
-            Bio
+          <Heading as="h3" fontSize={20} textDecoration="underline" textUnderlineOffset={6} textDecorationColor="gray.500" textDecorationThickness="4px" mt={3} mb={4}>
+            {t.home.workTitle}
           </Heading>
           <BioSection>
-            <BioYear>2001</BioYear>
-            Born in Jamshedpur, India.
-            <br />
-            Grew up in Kolkata, India.
+            <BioYear>Apr 2025–Oct 2025</BioYear>
+            <BioContent>
+              <Text as="span" fontWeight="semibold" color={useColorModeValue("gray.800", "whiteAlpha.900")}>{t.home.pwcRole}</Text> — PricewaterhouseCoopers LLP (PwC), Kolkata
+              <Text fontSize="sm" color={useColorModeValue("gray.600", "gray.400")} mt={1}>
+                {t.home.pwcDesc}
+              </Text>
+            </BioContent>
           </BioSection>
-          <br />
+          
+          <Box mb={4} />
+
           <BioSection>
-            <BioYear>2017</BioYear>
-            Passed Secondary (X) from Andrew&apos;s High School
+            <BioYear>Jul 2023–Apr 2025</BioYear>
+            <BioContent>
+              <Text as="span" fontWeight="semibold" color={useColorModeValue("gray.800", "whiteAlpha.900")}>{t.home.eyRole}</Text> — Ernst and Young LLP (EY), Mumbai
+              <Text fontSize="sm" color={useColorModeValue("gray.600", "gray.400")} mt={1}>
+                {t.home.eyDesc}
+              </Text>
+            </BioContent>
+          </BioSection>
+        </Section>
+
+        <Section delay={0.2}>
+          <Heading as="h3" fontSize={20} textDecoration="underline" textUnderlineOffset={6} textDecorationColor="gray.500" textDecorationThickness="4px" mt={3} mb={4}>
+            {t.home.eduTitle}
+          </Heading>
+          <BioSection>
+            <BioYear>2019–2023</BioYear>
+            <BioContent>
+              <Text as="span" fontWeight="semibold">{t.home.eduBtech}</Text> — Narula Institute of Technology, Kolkata (8.7 DGPA)
+            </BioContent>
           </BioSection>
           <BioSection>
-            <BioYear>2019</BioYear>
-            Passed Higher Secondary (XII) from Jodhpur Park Boys School
+            <BioYear>2017–2019</BioYear>
+            <BioContent>
+              <Text as="span" fontWeight="semibold">{t.home.eduHs}</Text> — Jodhpur Park Boys&apos; School, Kolkata
+            </BioContent>
           </BioSection>
           <BioSection>
-            <BioYear>2019-Present</BioYear>
-            Studying Btech(Hons) in Computer Science & Engineering from Narula
-            Institute of Technology.
+            <BioYear>2011–2017</BioYear>
+            <BioContent>
+              <Text as="span" fontWeight="semibold">{t.home.eduSec}</Text> — Andrew&apos;s High (HS) School, Kolkata
+            </BioContent>
           </BioSection>
         </Section>
+
         <Section delay={0.3}>
-          <Heading as="h3" variant="section-title">
-            Programming Languages
+          <Heading as="h3" fontSize={20} textDecoration="underline" textUnderlineOffset={6} textDecorationColor="gray.500" textDecorationThickness="4px" mt={3} mb={4}>
+            {t.home.skillsTitle}
           </Heading>
-          <Box display={{ base: "flex" }}>
-            <Image
-              pr={4}
-              src={JavascriptImage}
-              height={50}
-              width={50}
-              alt="Javascript Programming Language"
-            />
-
-            <Image
-              src={PythonImage}
-              height={50}
-              width={50}
-              alt="Python Programming Language"
-            />
-
-            <Image
-              pr={4}
-              src={JavaImage}
-              height={50}
-              width={50}
-              alt="Java Programming Language"
-            />
-
-            <Image
-              pr={4}
-              src={CImage}
-              height={50}
-              width={50}
-              alt="C Programming Language"
-            />
-          </Box>
+          <Flex flexWrap="wrap" gap={2} mb={3}>
+            <SkillBadge>Python</SkillBadge>
+            <SkillBadge>C#</SkillBadge>
+            <SkillBadge>JavaScript</SkillBadge>
+            <SkillBadge>SQL</SkillBadge>
+            <SkillBadge>Microsoft Azure</SkillBadge>
+            <SkillBadge>D365 CRM</SkillBadge>
+            <SkillBadge>Power Automate</SkillBadge>
+            <SkillBadge>.NET</SkillBadge>
+            <SkillBadge>FastAPI</SkillBadge>
+            <SkillBadge>Docker</SkillBadge>
+            <SkillBadge>Next.js</SkillBadge>
+            <SkillBadge>React</SkillBadge>
+            <SkillBadge>Machine Learning</SkillBadge>
+            <SkillBadge>DBMS</SkillBadge>
+          </Flex>
         </Section>
+
         <Section delay={0.3}>
-          <Heading as="h3" variant="section-title">
-            Technologies
+          <Heading as="h3" fontSize={20} textDecoration="underline" textUnderlineOffset={6} textDecorationColor="gray.500" textDecorationThickness="4px" mt={3} mb={4}>
+            {t.home.certTitle}
           </Heading>
-          <Box display={{ base: "flex" }}>
-            <Image
-              pr={4}
-              pb={4}
-              src={HTMLImage}
-              height={50}
-              width={50}
-              alt="HTML 5"
+          <SimpleGrid columns={[1, 2]} gap={3}>
+            <CertCard
+              title="Azure AI Fundamentals"
+              date="Feb 2025"
+              link="https://learn.microsoft.com/api/credentials/share/en-us/AnkushKarmakar-8857/1905535236501260?sharingId=8658FAC4C1E86102"
             />
-
-            <Image
-              pr={4}
-              pb={4}
-              src={CSSImage}
-              height={50}
-              width={50}
-              alt="CSS3"
+            <CertCard
+              title="Azure Data Fundamentals"
+              date="Dec 2024"
+              link="https://learn.microsoft.com/api/credentials/share/en-us/AnkushKarmakar-8857/5DFCEFE95A42440B?sharingId=8658FAC4C1E86102"
             />
-
-            <Image
-              pr={4}
-              pb={4}
-              src={ReactImage}
-              height={50}
-              width={50}
-              alt="ReactJS"
+            <CertCard
+              title="Azure Fundamentals"
+              date="Aug 2024"
+              link="https://learn.microsoft.com/api/credentials/share/en-us/AnkushKarmakar-8857/B629421A16CC1F61?sharingId=8658FAC4C1E86102"
             />
-            <Image
-              pr={4}
-              pb={4}
-              src={NextJsImage}
-              height={50}
-              width={50}
-              alt="NextJS"
+            <CertCard
+              title="Power Platform Fundamentals"
+              date="Nov 2023"
+              link="https://learn.microsoft.com/api/credentials/share/en-us/AnkushKarmakar-8857/FB95AC8EBA9E8026?sharingId=8658FAC4C1E86102"
             />
-          </Box>
-          <Box display={{ base: "flex" }}>
-            <Image
-              pr={4}
-              pb={4}
-              src={ChakraUIImage}
-              height={50}
-              width={50}
-              alt="Chakra UI"
+            <CertCard
+              title="Dynamics 365 Fundamentals (CRM)"
+              date="Sep 2023"
+              link="https://learn.microsoft.com/api/credentials/share/en-us/AnkushKarmakar-8857/6A44692AEBE7559?sharingId=8658FAC4C1E86102"
             />
-            <Image
-              pr={4}
-              pb={4}
-              src={TailwindCSSImage}
-              height={50}
-              width={50}
-              alt="Tailwind CSS"
-            />
-
-            <Image
-              pr={4}
-              pb={4}
-              src={BootstrapImage}
-              height={50}
-              width={50}
-              alt="Bootstrap"
-            />
-
-            <Image
-              pr={4}
-              pb={4}
-              src={FirebaseImage}
-              height={50}
-              width={50}
-              alt="Firebase"
-            />
-          </Box>
+          </SimpleGrid>
         </Section>
+
         <Section delay={0.3}>
-          <Heading as="h3" variant="section-title">
-            I also 🤍
+          <Heading as="h3" fontSize={20} textDecoration="underline" textUnderlineOffset={6} textDecorationColor="gray.500" textDecorationThickness="4px" mt={3} mb={4}>
+            {t.home.hobbiesTitle}
           </Heading>
-          <Paragraph>Football, Athletics, Badminton</Paragraph>
+          <Paragraph>{t.home.hobbiesText}</Paragraph>
         </Section>
+
         <Section delay={0.3}>
-          <Heading as="h3" variant="section-title">
-            On the web
+          <Heading as="h3" fontSize={20} textDecoration="underline" textUnderlineOffset={6} textDecorationColor="gray.500" textDecorationThickness="4px" mt={3} mb={4}>
+            {t.home.webTitle}
           </Heading>
-          <List>
-            <ListItem>
+          <List.Root listStyle="none" p={0}>
+            <List.Item>
               <Link
                 href="https://www.linkedin.com/in/ankush-karmakar"
                 target="_blank"
+                _hover={{ textDecoration: "none" }}
               >
-                <Button
-                  variant="ghost"
-                  colorScheme="teal"
-                  leftIcon={<Icon as={IoLogoLinkedin} />}
-                >
-                  @ankush-karmakar
+                <Button variant="ghost" colorPalette="teal" size="sm">
+                  <IoLogoLinkedin /> @ankush-karmakar
                 </Button>
               </Link>
-            </ListItem>
-            <ListItem>
-              <Link href="https://github.com/Ankush1461" target="_blank">
-                <Button
-                  variant="ghost"
-                  colorScheme="teal"
-                  leftIcon={<Icon as={IoLogoGithub} />}
-                >
-                  @Ankush1461
+            </List.Item>
+            <List.Item>
+              <Link href="https://github.com/Ankush1461" target="_blank" _hover={{ textDecoration: "none" }}>
+                <Button variant="ghost" colorPalette="teal" size="sm">
+                  <IoLogoGithub /> @Ankush1461
                 </Button>
               </Link>
-            </ListItem>
-            <ListItem>
-              <Link href="mailto:karmakarankush1461@gmail.com" target="_blank">
-                <Button
-                  variant="ghost"
-                  colorScheme="teal"
-                  leftIcon={<Icon as={IoMail} />}
-                >
-                  @karmakarankush1461@gmail.com
+            </List.Item>
+            <List.Item>
+              <Link href="mailto:karmakarankush1461@gmail.com" target="_blank" _hover={{ textDecoration: "none" }}>
+                <Button variant="ghost" colorPalette="teal" size="sm">
+                  <IoMail /> karmakarankush1461@gmail.com
                 </Button>
               </Link>
-            </ListItem>
-
-            <ListItem>
+            </List.Item>
+            <List.Item>
               <Link
                 href="https://www.instagram.com/mysteriously_ecstatic_guy"
                 target="_blank"
+                _hover={{ textDecoration: "none" }}
               >
-                <Button
-                  variant="ghost"
-                  colorScheme="teal"
-                  leftIcon={<Icon as={IoLogoInstagram} />}
-                >
-                  @mysteriously_ecstatic_guy
+                <Button variant="ghost" colorPalette="teal" size="sm">
+                  <IoLogoInstagram /> @mysteriously_ecstatic_guy
                 </Button>
               </Link>
-            </ListItem>
-          </List>
+            </List.Item>
+          </List.Root>
         </Section>
       </Container>
     </Layout>

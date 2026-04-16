@@ -1,8 +1,9 @@
-import styled from "@emotion/styled"
+import { Box } from "@chakra-ui/react";
 
-const Paragraph=styled.p`
-text-align:justify;
-text-indent:1em;
-`
+const Paragraph = ({ children, ...props }) => (
+  <Box as="p" textAlign="justify" textIndent="1em" {...props}>
+    {children}
+  </Box>
+);
 
-export default Paragraph
+export default Paragraph;

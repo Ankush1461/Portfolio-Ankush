@@ -4,10 +4,10 @@ import Navbar from "../navbar.js";
 
 const Main = ({ children, router }) => {
   return (
-    <Box as="main" pb={8}>
+    <Box as="main" pb={8} position="relative" zIndex={1}>
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Ankush Karmakar - HomePage</title>
+        <title>Ankush Karmakar — Portfolio</title>
       </Head>
       <Navbar path={router.asPath} />
       <Container maxW="container.md" pt={14}>
@@ -16,4 +16,5 @@ const Main = ({ children, router }) => {
     </Box>
   );
 };
+
 export default Main;
