@@ -107,15 +107,29 @@ const Page = () => {
     <Layout>
       <Container>
         <Box
-          borderRadius="lg"
+          borderRadius="xl"
           bg="whiteAlpha.500"
-          _dark={{ bg: "whiteAlpha.200" }}
-          p={3}
-          mb={6}
+          _dark={{ 
+            bg: "whiteAlpha.100",
+            borderColor: "whiteAlpha.200"
+          }}
+          backdropFilter="blur(10px)"
+          borderWidth="1px"
+          borderColor="whiteAlpha.300"
+          p={4}
+          mb={8}
           textAlign="center"
-          fontSize="sm"
+          fontSize={{ base: "sm", md: "sm" }}
+          fontWeight="semibold"
+          display="flex"
+          flexDirection={{ base: "column", md: "row" }}
+          alignItems="center"
+          justifyContent="center"
+          gap={{ base: 1, md: 3 }}
         >
-          {t.home.role}
+          <Text as="span">{t.home.role.split('|')[0].trim()}</Text>
+          <Box display={{ base: "none", md: "block" }} w="1px" h="14px" bg="gray.400" />
+          <Text as="span" color="teal.500" _dark={{ color: "teal.300" }}>{t.home.role.split('|')[1].trim()}</Text>
         </Box>
         <Box display={{ md: "flex" }}>
           <Box flexGrow={1}>
