@@ -304,7 +304,7 @@ const Page = () => {
           <Heading as="h3" fontSize={20} textDecoration="underline" textUnderlineOffset={6} textDecorationColor="gray.500" textDecorationThickness="4px" mt={3} mb={4}>
             {t.home.certTitle}
           </Heading>
-          <SimpleGrid columns={[1, 2]} gap={3}>
+          <SimpleGrid columns={{ base: 1, md: 2 }} gap={3}>
             <CertCard
               title="Azure AI Fundamentals"
               date="Feb 2025"
