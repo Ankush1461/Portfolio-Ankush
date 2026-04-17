@@ -8,12 +8,19 @@ const MotionBox = motion.create(
   })
 );
 
-const Section = ({ children, delay = 0 }) => (
+const Section = ({ children, delay = 0, mb = "4rem" }) => (
   <MotionBox
-    initial={{ y: 20, opacity: 0 }}
-    animate={{ y: 0, opacity: 1 }}
-    transition={{ duration: 0.6, delay, type: "spring", stiffness: 100, mass: 0.8 }}
-    style={{ marginBottom: "1.5rem" }}
+    initial={{ y: 20, opacity: 0, scale: 0.98 }}
+    animate={{ y: 0, opacity: 1, scale: 1 }}
+    transition={{
+      duration: 0.6,
+      delay,
+      type: "spring",
+      stiffness: 100,
+      damping: 20,
+      mass: 0.8
+    }}
+    style={{ marginBottom: mb }}
   >
     {children}
   </MotionBox>

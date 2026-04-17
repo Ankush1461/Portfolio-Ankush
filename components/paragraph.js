@@ -1,7 +1,7 @@
 import { Box } from "@chakra-ui/react";
 
 const Paragraph = ({ children, ...props }) => (
-  <Box as="p" textAlign="justify" textIndent="1em" {...props}>
+  <Box as="p" textAlign="left" lineHeight="tall" mb={6} {...props}>
     {children}
   </Box>
 );

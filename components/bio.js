@@ -1,7 +1,7 @@
 import { Flex, Box } from "@chakra-ui/react";
 
 export const BioSection = ({ children, ...props }) => (
-  <Flex direction={{ base: "column", md: "row" }} gap={{ base: 0, md: 4 }} mb={2} {...props}>
+  <Flex direction={{ base: "column", md: "row" }} gap={{ base: 0, md: 4 }} mb={10} {...props}>
     {children}
   </Flex>
 );

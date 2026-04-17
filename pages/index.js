@@ -3,7 +3,6 @@ import {
   Button,
   Box,
   Heading,
-  List,
   Image as Img,
   Link,
   Icon,
@@ -11,6 +10,10 @@ import {
   Badge,
   SimpleGrid,
   Flex,
+  Separator,
+  Stack,
+  ListRoot,
+  ListItem,
 } from "@chakra-ui/react";
 import { LuChevronRight, LuExternalLink, LuAward } from "react-icons/lu";
 import Layout from "../components/layouts/article";
@@ -145,12 +148,25 @@ const Page = () => {
               target="_blank"
               _hover={{ textDecoration: "none" }}
             >
-              <Button colorPalette="teal" size="sm">
+              <Button colorPalette="teal" size="sm" borderRadius="full" px={6}>
                 {t.home.resumeBtn} <LuChevronRight />
               </Button>
             </Link>
           </Box>
         </Section>
+
+        <Separator my={12} opacity={0.3} />
+
+        <Section delay={0.1}>
+          <Heading as="h3" fontSize={20} textDecoration="underline" textUnderlineOffset={6} textDecorationColor="gray.500" textDecorationThickness="4px" mt={3} mb={4}>
+            {t.home.philosophyTitle}
+          </Heading>
+          <Paragraph>
+            {t.home.philosophyText}
+          </Paragraph>
+        </Section>
+
+        <Separator my={12} opacity={0.3} />
 
         <Section delay={0.2}>
           <Heading as="h3" fontSize={20} textDecoration="underline" textUnderlineOffset={6} textDecorationColor="gray.500" textDecorationThickness="4px" mt={3} mb={4}>
@@ -159,71 +175,108 @@ const Page = () => {
           <BioSection>
             <BioYear>Apr 2025–Oct 2025</BioYear>
             <BioContent>
-              <Text as="span" fontWeight="semibold" color={useColorModeValue("gray.800", "whiteAlpha.900")}>{t.home.pwcRole}</Text> — PricewaterhouseCoopers LLP (PwC), Kolkata
-              <Text fontSize="sm" color={useColorModeValue("gray.600", "gray.400")} mt={1}>
+              <Text as="span" fontWeight="semibold" color="gray.800" _dark={{ color: "white" }}>{t.home.pwcRole}</Text> — PricewaterhouseCoopers LLP (PwC), Kolkata
+              <Text fontSize="sm" color={useColorModeValue("gray.600", "gray.400")} mt={2} lineHeight="tall">
                 {t.home.pwcDesc}
               </Text>
             </BioContent>
           </BioSection>
-          
-          <Box mb={4} />
+
 
           <BioSection>
             <BioYear>Jul 2023–Apr 2025</BioYear>
             <BioContent>
-              <Text as="span" fontWeight="semibold" color={useColorModeValue("gray.800", "whiteAlpha.900")}>{t.home.eyRole}</Text> — Ernst and Young LLP (EY), Mumbai
-              <Text fontSize="sm" color={useColorModeValue("gray.600", "gray.400")} mt={1}>
+              <Text as="span" fontWeight="semibold" color="gray.800" _dark={{ color: "white" }}>{t.home.eyRole}</Text> — Ernst and Young LLP (EY), Mumbai
+              <Text fontSize="sm" color={useColorModeValue("gray.600", "gray.400")} mt={2} lineHeight="tall">
                 {t.home.eyDesc}
               </Text>
             </BioContent>
           </BioSection>
         </Section>
 
+        <Separator my={12} opacity={0.3} />
+
         <Section delay={0.2}>
           <Heading as="h3" fontSize={20} textDecoration="underline" textUnderlineOffset={6} textDecorationColor="gray.500" textDecorationThickness="4px" mt={3} mb={4}>
             {t.home.eduTitle}
           </Heading>
           <BioSection>
-            <BioYear>2019–2023</BioYear>
+            <BioYear>2019 – 2023</BioYear>
             <BioContent>
-              <Text as="span" fontWeight="semibold">{t.home.eduBtech}</Text> — Narula Institute of Technology, Kolkata (8.7 DGPA)
+              <Text as="span" fontWeight="semibold">{t.home.eduBtech}</Text> — Narula Institute of Technology, Kolkata
+              <Text fontSize="sm" color={useColorModeValue("gray.600", "gray.400")} mt={1} whiteSpace="pre-line">
+                {t.home.eduBtechDesc}
+              </Text>
             </BioContent>
           </BioSection>
           <BioSection>
-            <BioYear>2017–2019</BioYear>
+            <BioYear>2017 – 2019</BioYear>
             <BioContent>
               <Text as="span" fontWeight="semibold">{t.home.eduHs}</Text> — Jodhpur Park Boys&apos; School, Kolkata
+              <Text fontSize="sm" color={useColorModeValue("gray.600", "gray.400")} mt={1} whiteSpace="pre-line">
+                {t.home.eduHsDesc}
+              </Text>
             </BioContent>
           </BioSection>
           <BioSection>
-            <BioYear>2011–2017</BioYear>
+            <BioYear>2011 – 2017</BioYear>
             <BioContent>
               <Text as="span" fontWeight="semibold">{t.home.eduSec}</Text> — Andrew&apos;s High (HS) School, Kolkata
+              <Text fontSize="sm" color={useColorModeValue("gray.600", "gray.400")} mt={1} whiteSpace="pre-line">
+                {t.home.eduSecDesc}
+              </Text>
             </BioContent>
           </BioSection>
         </Section>
+
+        <Separator my={12} opacity={0.3} />
 
         <Section delay={0.3}>
           <Heading as="h3" fontSize={20} textDecoration="underline" textUnderlineOffset={6} textDecorationColor="gray.500" textDecorationThickness="4px" mt={3} mb={4}>
             {t.home.skillsTitle}
           </Heading>
-          <Flex flexWrap="wrap" gap={2} mb={3}>
-            <SkillBadge>Python</SkillBadge>
-            <SkillBadge>C#</SkillBadge>
-            <SkillBadge>JavaScript</SkillBadge>
-            <SkillBadge>SQL</SkillBadge>
-            <SkillBadge>Microsoft Azure</SkillBadge>
-            <SkillBadge>D365 CRM</SkillBadge>
-            <SkillBadge>Power Automate</SkillBadge>
-            <SkillBadge>.NET</SkillBadge>
-            <SkillBadge>FastAPI</SkillBadge>
-            <SkillBadge>Docker</SkillBadge>
-            <SkillBadge>Next.js</SkillBadge>
-            <SkillBadge>React</SkillBadge>
-            <SkillBadge>Machine Learning</SkillBadge>
-            <SkillBadge>DBMS</SkillBadge>
-          </Flex>
+          <Stack gap={6}>
+            <Box>
+              <Text fontSize="xs" fontWeight="bold" textTransform="uppercase" letterSpacing="widest" color="teal.500" mb={3}>
+                {t.home.skillCats.dev}
+              </Text>
+              <Flex flexWrap="wrap" gap={2}>
+                <SkillBadge>Python</SkillBadge>
+                <SkillBadge>C#</SkillBadge>
+                <SkillBadge>JavaScript</SkillBadge>
+                <SkillBadge>.NET</SkillBadge>
+                <SkillBadge>React</SkillBadge>
+                <SkillBadge>Next.js</SkillBadge>
+                <SkillBadge>FastAPI</SkillBadge>
+              </Flex>
+            </Box>
+            <Box>
+              <Text fontSize="xs" fontWeight="bold" textTransform="uppercase" letterSpacing="widest" color="teal.500" mb={3}>
+                {t.home.skillCats.cloud}
+              </Text>
+              <Flex flexWrap="wrap" gap={2}>
+                <SkillBadge>Microsoft Azure</SkillBadge>
+                <SkillBadge>D365 CRM</SkillBadge>
+                <SkillBadge>Power Automate</SkillBadge>
+                <SkillBadge>Docker</SkillBadge>
+                <SkillBadge>Cloud Migrations</SkillBadge>
+              </Flex>
+            </Box>
+            <Box>
+              <Text fontSize="xs" fontWeight="bold" textTransform="uppercase" letterSpacing="widest" color="teal.500" mb={3}>
+                {t.home.skillCats.data}
+              </Text>
+              <Flex flexWrap="wrap" gap={2}>
+                <SkillBadge>SQL</SkillBadge>
+                <SkillBadge>Machine Learning</SkillBadge>
+                <SkillBadge>DBMS</SkillBadge>
+                <SkillBadge>Data Engineering</SkillBadge>
+              </Flex>
+            </Box>
+          </Stack>
         </Section>
+
+        <Separator my={12} opacity={0.3} />
 
         <Section delay={0.3}>
           <Heading as="h3" fontSize={20} textDecoration="underline" textUnderlineOffset={6} textDecorationColor="gray.500" textDecorationThickness="4px" mt={3} mb={4}>
@@ -265,12 +318,14 @@ const Page = () => {
           <Paragraph>{t.home.hobbiesText}</Paragraph>
         </Section>
 
+        <Separator my={12} opacity={0.3} />
+
         <Section delay={0.3}>
           <Heading as="h3" fontSize={20} textDecoration="underline" textUnderlineOffset={6} textDecorationColor="gray.500" textDecorationThickness="4px" mt={3} mb={4}>
             {t.home.webTitle}
           </Heading>
-          <List.Root listStyle="none" p={0}>
-            <List.Item>
+          <ListRoot listStyle="none" p={0}>
+            <ListItem>
               <Link
                 href="https://www.linkedin.com/in/ankush-karmakar"
                 target="_blank"
@@ -280,22 +335,22 @@ const Page = () => {
                   <IoLogoLinkedin /> @ankush-karmakar
                 </Button>
               </Link>
-            </List.Item>
-            <List.Item>
+            </ListItem>
+            <ListItem>
               <Link href="https://github.com/Ankush1461" target="_blank" _hover={{ textDecoration: "none" }}>
                 <Button variant="ghost" colorPalette="teal" size="sm">
                   <IoLogoGithub /> @Ankush1461
                 </Button>
               </Link>
-            </List.Item>
-            <List.Item>
+            </ListItem>
+            <ListItem>
               <Link href="mailto:karmakarankush1461@gmail.com" target="_blank" _hover={{ textDecoration: "none" }}>
                 <Button variant="ghost" colorPalette="teal" size="sm">
                   <IoMail /> karmakarankush1461@gmail.com
                 </Button>
               </Link>
-            </List.Item>
-            <List.Item>
+            </ListItem>
+            <ListItem>
               <Link
                 href="https://www.instagram.com/mysteriously_ecstatic_guy"
                 target="_blank"
@@ -305,8 +360,8 @@ const Page = () => {
                   <IoLogoInstagram /> @mysteriously_ecstatic_guy
                 </Button>
               </Link>
-            </List.Item>
-          </List.Root>
+            </ListItem>
+          </ListRoot>
         </Section>
       </Container>
     </Layout>

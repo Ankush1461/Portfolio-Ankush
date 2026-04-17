@@ -5,7 +5,7 @@ import { useColorModeValue } from "@/components/ui/color-mode";
 
 export default function ParticleBackground() {
   const [init, setInit] = useState(false);
-  const particleColor = useColorModeValue("#000000", "#ffffff");
+  const particleColor = useColorModeValue("#202023", "#f0e7db");
 
   useEffect(() => {
     initParticlesEngine(async (engine) => {
@@ -82,7 +82,7 @@ export default function ParticleBackground() {
       },
       detectRetina: true,
     }),
-    []
+    [particleColor]
   );
 
   if (!init) return null;
@@ -90,6 +90,7 @@ export default function ParticleBackground() {
   return (
     <Particles
       id="tsparticles"
+      key={particleColor}
       options={options}
     />
   );
