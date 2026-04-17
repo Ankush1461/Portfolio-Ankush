@@ -148,7 +148,7 @@ const Page = () => {
               borderColor="whiteAlpha.800"
               borderWidth={2}
               borderStyle="solid"
-              maxWidth="100px"
+              maxWidth="140px"
               display="inline-block"
               borderRadius="full"
               src="images/ankushprofile.jpeg"
@@ -198,7 +198,7 @@ const Page = () => {
             <BioYear>Apr 2025–Oct 2025</BioYear>
             <BioContent>
               <Text as="span" fontWeight="semibold" color="gray.800" _dark={{ color: "white" }}>{t.home.pwcRole}</Text> — PricewaterhouseCoopers LLP (PwC), Kolkata
-              <Text fontSize="sm" color="gray.600" _dark={{ color: "gray.400" }} mt={2} lineHeight="tall">
+              <Text fontSize="sm" color="gray.600" _dark={{ color: "gray.400" }} mt={2} lineHeight="tall" whiteSpace="pre-line">
                 {t.home.pwcDesc}
               </Text>
             </BioContent>
@@ -209,7 +209,7 @@ const Page = () => {
             <BioYear>Jul 2023–Apr 2025</BioYear>
             <BioContent>
               <Text as="span" fontWeight="semibold" color="gray.800" _dark={{ color: "white" }}>{t.home.eyRole}</Text> — Ernst and Young LLP (EY), Mumbai
-              <Text fontSize="sm" color="gray.600" _dark={{ color: "gray.400" }} mt={2} lineHeight="tall">
+              <Text fontSize="sm" color="gray.600" _dark={{ color: "gray.400" }} mt={2} lineHeight="tall" whiteSpace="pre-line">
                 {t.home.eyDesc}
               </Text>
             </BioContent>

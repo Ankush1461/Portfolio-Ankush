@@ -14,17 +14,17 @@ import { LuMenu } from "react-icons/lu";
 import ThemeToggleButton from "./theme-toggle-button";
 import LanguageToggleButton from "./language-toggle";
 import { useLanguage } from "@/lib/i18n";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const LinkItem = ({ href, path, children, target, ...props }) => {
   const active = path === href;
-  const inactiveColor = useColorModeValue("gray.800", "whiteAlpha.900");
   return (
     <Link
       asChild
       p={2}
       bg={active ? "#88ccca" : "transparent"}
-      color={active ? "#202023" : inactiveColor}
+      color={active ? "#202023" : "gray.800"}
+      _dark={{ color: active ? "#202023" : "whiteAlpha.900" }}
       borderRadius="md"
       fontSize="sm"
       fontWeight="medium"
@@ -45,17 +45,24 @@ const LinkItem = ({ href, path, children, target, ...props }) => {
 const Navbar = (props) => {
   const { path } = props;
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const { t } = useLanguage();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <Box
       position="fixed"
       as="nav"
       w="100%"
-      bg={useColorModeValue("#ffffff40", "#20202380")}
+      bg="#ffffff40"
+      _dark={{ bg: "#20202380" }}
       css={{ backdropFilter: "blur(18px)" }}
       borderBottom="1px"
-      borderColor={useColorModeValue("whiteAlpha.500", "whiteAlpha.100")}
+      borderColor="whiteAlpha.500"
+      _dark={{ borderColor: "whiteAlpha.100" }}
       zIndex={2}
     >
       <Container

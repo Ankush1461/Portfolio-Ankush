@@ -2,9 +2,16 @@ import Link from "next/link";
 import Image from "next/image";
 import { Text, Box } from "@chakra-ui/react";
 import { useColorModeValue } from "@/components/ui/color-mode";
+import { useEffect, useState } from "react";
 
 const Logo = () => {
+  const [mounted, setMounted] = useState(false);
   const footPrintImg = `/images/footprint${useColorModeValue("", "-dark")}.png`;
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   return (
     <Link href="/">
       <Box
@@ -25,9 +32,12 @@ const Logo = () => {
           },
         }}
       >
-        <Image src={footPrintImg} width={20} height={20} alt="logo" />
+        {mounted && (
+          <Image src={footPrintImg} width={20} height={20} alt="logo" />
+        )}
         <Text
-          color={useColorModeValue("gray.800", "whiteAlpha.900")}
+          color="gray.800"
+          _dark={{ color: "whiteAlpha.900" }}
           fontFamily="'M PLUS Rounded 1c', sans-serif"
           fontWeight="bold"
           ml={3}
