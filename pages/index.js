@@ -59,15 +59,22 @@ const CertCard = ({ title, date, link }) => (
       flexDirection="column"
       justifyContent="center"
       borderRadius="lg"
-      bg={useColorModeValue("whiteAlpha.500", "whiteAlpha.100")}
+      bg="whiteAlpha.500"
+      _dark={{ 
+        bg: "whiteAlpha.100",
+        borderColor: "whiteAlpha.50"
+      }}
       _hover={{
-        bg: useColorModeValue("whiteAlpha.700", "whiteAlpha.200"),
+        bg: "whiteAlpha.700",
+        _dark: { 
+          bg: "whiteAlpha.200",
+          borderColor: "whiteAlpha.300"
+        },
         transform: "translateY(-4px)",
-        boxShadow: useColorModeValue("0 6px 12px rgba(0,0,0,0.1)", "0 6px 12px rgba(136, 204, 202, 0.15)"),
-        borderColor: useColorModeValue("transparent", "whiteAlpha.300"),
+        boxShadow: "0 6px 12px rgba(0,0,0,0.1)",
       }}
       borderWidth="1px"
-      borderColor={useColorModeValue("transparent", "whiteAlpha.50")}
+      borderColor="transparent"
       transition="all 0.3s cubic-bezier(.08,.52,.52,1)"
       cursor="pointer"
     >
@@ -80,7 +87,7 @@ const CertCard = ({ title, date, link }) => (
             {title}
           </Text>
           <Flex justifyContent="space-between" alignItems="center">
-            <Text fontSize="xs" color={useColorModeValue("gray.600", "gray.400")} fontWeight="medium">
+            <Text fontSize="xs" color="gray.600" _dark={{ color: "gray.400" }} fontWeight="medium">
               {date}
             </Text>
             <Icon color="teal.500" boxSize={3.5}>
@@ -101,7 +108,8 @@ const Page = () => {
       <Container>
         <Box
           borderRadius="lg"
-          bg={useColorModeValue("whiteAlpha.500", "whiteAlpha.200")}
+          bg="whiteAlpha.500"
+          _dark={{ bg: "whiteAlpha.200" }}
           p={3}
           mb={6}
           textAlign="center"
@@ -176,7 +184,7 @@ const Page = () => {
             <BioYear>Apr 2025–Oct 2025</BioYear>
             <BioContent>
               <Text as="span" fontWeight="semibold" color="gray.800" _dark={{ color: "white" }}>{t.home.pwcRole}</Text> — PricewaterhouseCoopers LLP (PwC), Kolkata
-              <Text fontSize="sm" color={useColorModeValue("gray.600", "gray.400")} mt={2} lineHeight="tall">
+              <Text fontSize="sm" color="gray.600" _dark={{ color: "gray.400" }} mt={2} lineHeight="tall">
                 {t.home.pwcDesc}
               </Text>
             </BioContent>
@@ -187,7 +195,7 @@ const Page = () => {
             <BioYear>Jul 2023–Apr 2025</BioYear>
             <BioContent>
               <Text as="span" fontWeight="semibold" color="gray.800" _dark={{ color: "white" }}>{t.home.eyRole}</Text> — Ernst and Young LLP (EY), Mumbai
-              <Text fontSize="sm" color={useColorModeValue("gray.600", "gray.400")} mt={2} lineHeight="tall">
+              <Text fontSize="sm" color="gray.600" _dark={{ color: "gray.400" }} mt={2} lineHeight="tall">
                 {t.home.eyDesc}
               </Text>
             </BioContent>
@@ -204,7 +212,7 @@ const Page = () => {
             <BioYear>2019 – 2023</BioYear>
             <BioContent>
               <Text as="span" fontWeight="semibold">{t.home.eduBtech}</Text> — Narula Institute of Technology, Kolkata
-              <Text fontSize="sm" color={useColorModeValue("gray.600", "gray.400")} mt={1} whiteSpace="pre-line">
+              <Text fontSize="sm" color="gray.600" _dark={{ color: "gray.400" }} mt={1} whiteSpace="pre-line">
                 {t.home.eduBtechDesc}
               </Text>
             </BioContent>
@@ -213,7 +221,7 @@ const Page = () => {
             <BioYear>2017 – 2019</BioYear>
             <BioContent>
               <Text as="span" fontWeight="semibold">{t.home.eduHs}</Text> — Jodhpur Park Boys&apos; School, Kolkata
-              <Text fontSize="sm" color={useColorModeValue("gray.600", "gray.400")} mt={1} whiteSpace="pre-line">
+              <Text fontSize="sm" color="gray.600" _dark={{ color: "gray.400" }} mt={1} whiteSpace="pre-line">
                 {t.home.eduHsDesc}
               </Text>
             </BioContent>
@@ -222,7 +230,7 @@ const Page = () => {
             <BioYear>2011 – 2017</BioYear>
             <BioContent>
               <Text as="span" fontWeight="semibold">{t.home.eduSec}</Text> — Andrew&apos;s High (HS) School, Kolkata
-              <Text fontSize="sm" color={useColorModeValue("gray.600", "gray.400")} mt={1} whiteSpace="pre-line">
+              <Text fontSize="sm" color="gray.600" _dark={{ color: "gray.400" }} mt={1} whiteSpace="pre-line">
                 {t.home.eduSecDesc}
               </Text>
             </BioContent>
