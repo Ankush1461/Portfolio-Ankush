@@ -15,30 +15,33 @@ import ThemeToggleButton from "./theme-toggle-button";
 import LanguageToggleButton from "./language-toggle";
 import { useLanguage } from "@/lib/i18n";
 import { useState, useEffect } from "react";
+import Magnetic from "./Magnetic.js";
 
 const LinkItem = ({ href, path, children, target, ...props }) => {
   const active = path === href;
   return (
-    <Link
-      asChild
-      p={2}
-      bg={active ? "#88ccca" : "transparent"}
-      color={active ? "#202023" : "gray.800"}
-      _dark={{ color: active ? "#202023" : "whiteAlpha.900" }}
-      borderRadius="md"
-      fontSize="sm"
-      fontWeight="medium"
-      _hover={{ 
-        textDecoration: "none", 
-        bg: active ? "#88ccca" : "whiteAlpha.200",
-        transform: "scale(1.05)",
-      }}
-      transition="all 0.2s cubic-bezier(.08,.52,.52,1)"
-      target={target}
-      {...props}
-    >
-      <NextLink href={href}>{children}</NextLink>
-    </Link>
+    <Magnetic strength={0.15}>
+      <Link
+        asChild
+        p={2}
+        bg={active ? "#88ccca" : "transparent"}
+        color={active ? "#202023" : "gray.800"}
+        _dark={{ color: active ? "#202023" : "whiteAlpha.900" }}
+        borderRadius="md"
+        fontSize="sm"
+        fontWeight="medium"
+        _hover={{ 
+          textDecoration: "none", 
+          bg: active ? "#88ccca" : "whiteAlpha.200",
+          transform: "scale(1.05)",
+        }}
+        transition="all 0.2s cubic-bezier(.08,.52,.52,1)"
+        target={target}
+        {...props}
+      >
+        <NextLink href={href}>{children}</NextLink>
+      </Link>
+    </Magnetic>
   );
 };
 
@@ -62,8 +65,8 @@ const Navbar = (props) => {
       css={{ backdropFilter: "blur(18px)" }}
       borderBottom="1px"
       borderColor="whiteAlpha.500"
-      _dark={{ borderColor: "whiteAlpha.100" }}
-      zIndex={2}
+      dark={{ borderColor: "whiteAlpha.100" }}
+      zIndex={10}
     >
       <Container
         display="flex"
@@ -75,7 +78,11 @@ const Navbar = (props) => {
       >
         <Flex align="center" mr={5}>
           <Heading as="h1" size="lg" letterSpacing="tighter">
-            <Logo />
+            <Magnetic strength={0.2}>
+              <Box>
+                <Logo />
+              </Box>
+            </Magnetic>
           </Heading>
         </Flex>
         <Stack

@@ -22,6 +22,8 @@ import Paragraph from "../components/paragraph";
 import { BioSection, BioYear, BioContent } from "../components/bio";
 import { useColorModeValue } from "@/components/ui/color-mode";
 import { useLanguage } from "@/lib/i18n";
+import Magnetic from "../components/Magnetic";
+import RetroComputer from "../components/RetroComputer";
 
 import {
   IoMail,
@@ -45,59 +47,51 @@ const SkillBadge = ({ children }) => (
 );
 
 const CertCard = ({ title, date, link }) => (
-  <Link
-    href={link}
-    target="_blank"
-    _hover={{ textDecoration: "none" }}
-    h="full"
-    display="block"
-  >
-    <Box
-      p={3}
+  <Magnetic strength={0.1}>
+    <Link
+      href={link}
+      target="_blank"
+      _hover={{ textDecoration: "none" }}
       h="full"
-      display="flex"
-      flexDirection="column"
-      justifyContent="center"
-      borderRadius="lg"
-      bg="whiteAlpha.500"
-      _dark={{ 
-        bg: "whiteAlpha.100",
-        borderColor: "whiteAlpha.50"
-      }}
-      _hover={{
-        bg: "whiteAlpha.700",
-        _dark: { 
-          bg: "whiteAlpha.200",
-          borderColor: "whiteAlpha.300"
-        },
-        transform: "translateY(-4px)",
-        boxShadow: "0 6px 12px rgba(0,0,0,0.1)",
-      }}
-      borderWidth="1px"
-      borderColor="transparent"
-      transition="all 0.3s cubic-bezier(.08,.52,.52,1)"
-      cursor="pointer"
+      display="block"
     >
-      <Flex alignItems="flex-start" gap={3}>
-        <Icon color="teal.500" mt={1}>
-          <LuAward size={20} />
-        </Icon>
-        <Box flex={1}>
-          <Text fontSize="sm" fontWeight="bold" lineHeight="tight" mb={1}>
-            {title}
-          </Text>
-          <Flex justifyContent="space-between" alignItems="center">
-            <Text fontSize="xs" color="gray.600" _dark={{ color: "gray.400" }} fontWeight="medium">
-              {date}
+      <Box
+        p={3}
+        h="full"
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+        borderRadius="lg"
+        className="glass-card"
+        _hover={{
+          bg: "whiteAlpha.300",
+          _dark: { bg: "whiteAlpha.200" },
+          transform: "translateY(-4px)",
+        }}
+        transition="all 0.3s ease"
+        cursor="pointer"
+      >
+        <Flex alignItems="flex-start" gap={3}>
+          <Icon color="teal.500" mt={1}>
+            <LuAward size={20} />
+          </Icon>
+          <Box flex={1}>
+            <Text fontSize="sm" fontWeight="bold" lineHeight="tight" mb={1}>
+              {title}
             </Text>
-            <Icon color="teal.500" boxSize={3.5}>
-              <LuExternalLink />
-            </Icon>
-          </Flex>
-        </Box>
-      </Flex>
-    </Box>
-  </Link>
+            <Flex justifyContent="space-between" alignItems="center">
+              <Text fontSize="xs" color="gray.600" _dark={{ color: "gray.400" }} fontWeight="medium">
+                {date}
+              </Text>
+              <Icon color="teal.500" boxSize={3.5}>
+                <LuExternalLink />
+              </Icon>
+            </Flex>
+          </Box>
+        </Flex>
+      </Box>
+    </Link>
+  </Magnetic>
 );
 
 const Page = () => {
@@ -106,58 +100,66 @@ const Page = () => {
   return (
     <Layout>
       <Container>
-        <Box
-          borderRadius="xl"
-          bg="whiteAlpha.500"
-          _dark={{ 
-            bg: "whiteAlpha.100",
-            borderColor: "whiteAlpha.200"
-          }}
-          backdropFilter="blur(10px)"
-          borderWidth="1px"
-          borderColor="whiteAlpha.300"
-          p={4}
-          mb={8}
-          textAlign="center"
-          fontSize={{ base: "sm", md: "sm" }}
-          fontWeight="semibold"
-          display="flex"
-          flexDirection={{ base: "column", md: "row" }}
-          alignItems="center"
-          justifyContent="center"
-          gap={{ base: 1, md: 3 }}
-        >
-          <Text as="span">{t.home.role.split('|')[0].trim()}</Text>
-          <Box display={{ base: "none", md: "block" }} w="1px" h="14px" bg="gray.400" />
-          <Text as="span" color="teal.500" _dark={{ color: "teal.300" }}>{t.home.role.split('|')[1].trim()}</Text>
-        </Box>
-        <Box display={{ md: "flex" }}>
-          <Box flexGrow={1}>
-            <Heading as="h2" size="2xl" fontFamily="'M PLUS Rounded 1c', sans-serif">
-              {t.home.title}
-            </Heading>
-            <Text mt={1}>{t.home.subtitle}</Text>
-          </Box>
+        <Box position="relative" mt={6} mb={10}>
+          <RetroComputer />
+          
           <Box
-            flexShrink={0}
-            mt={{ base: 4, md: 0 }}
-            ml={{ md: 6 }}
-            textAlign="center"
+            position={{ base: "relative", md: "absolute" }}
+            bottom={{ base: "auto", md: "-10px" }} 
+            left={{ base: "auto", md: "50%" }}
+            transform={{ base: "none", md: "translateX(-50%)" }}
+            width={{ base: "100%", md: "95%" }}
+            mt={{ base: -20, sm: -36, md: 0 }} 
+            className="glass-card"
+            p={6}
+            zIndex={2}
+            textAlign="left"
+            display="flex"
+            flexDirection={{ base: "column", md: "row" }}
+            alignItems="center"
+            gap={6}
           >
-            <Img
-              borderColor="whiteAlpha.800"
-              borderWidth={2}
-              borderStyle="solid"
-              maxWidth="140px"
-              display="inline-block"
-              borderRadius="full"
-              src="images/ankushprofile.jpeg"
-              alt="Profile Image"
-            />
+            <Box flex={1}>
+              <Heading as="h2" size="2xl" variant="page-title" fontFamily="'M PLUS Rounded 1c', sans-serif">
+                {t.home.title}
+              </Heading>
+              <Text mt={1} fontWeight="medium" color="gray.800" _dark={{ color: "gray.300" }}>
+                {t.home.subtitle}
+              </Text>
+              
+              <Flex 
+                mt={3} 
+                gap={3} 
+                fontSize="xs" 
+                fontWeight="bold" 
+                color="teal.500" 
+                _dark={{ color: "teal.300" }}
+                align="center"
+              >
+                <Text letterSpacing="widest">{t.home.role?.split('|')[0]?.trim() || "Tech Consultant"}</Text>
+                <Box w="1px" h="12px" bg="gray.400" />
+                <Text letterSpacing="widest">{t.home.role?.split('|')[1]?.trim() || "CRM Specialist"}</Text>
+              </Flex>
+            </Box>
+
+            <Magnetic strength={0.3}>
+              <Box flexShrink={0}>
+                <Img
+                  borderColor="whiteAlpha.800"
+                  borderWidth={3}
+                  borderStyle="solid"
+                  maxWidth="120px"
+                  borderRadius="full"
+                  src="images/ankushprofile.png"
+                  alt="Profile Image"
+                  boxShadow="0 10px 30px rgba(0,0,0,0.5)"
+                />
+              </Box>
+            </Magnetic>
           </Box>
         </Box>
 
-        <Section delay={0.1}>
+        <Section delay={0.1} direction="left">
           <Heading as="h3" fontSize={20} textDecoration="underline" textUnderlineOffset={6} textDecorationColor="gray.500" textDecorationThickness="4px" mt={3} mb={4}>
             {t.home.aboutTitle}
           </Heading>
@@ -165,21 +167,24 @@ const Page = () => {
             {t.home.aboutText}
           </Paragraph>
           <Box textAlign="center" my={4}>
-            <Link
-              href="https://drive.google.com/file/d/1HAoCHkVoGiIDFJw0ag1WK8s9paTiyKOY/view?usp=sharing"
-              target="_blank"
-              _hover={{ textDecoration: "none" }}
-            >
-              <Button colorPalette="teal" size="sm" borderRadius="full" px={6}>
-                {t.home.resumeBtn} <LuChevronRight />
-              </Button>
-            </Link>
+            <Magnetic strength={0.4}>
+              <Link
+                href="https://drive.google.com/file/d/1HAoCHkVoGiIDFJw0ag1WK8s9paTiyKOY/view?usp=sharing"
+                target="_blank"
+                _hover={{ textDecoration: "none" }}
+                display="inline-block"
+              >
+                <Button colorPalette="teal" size="sm" borderRadius="full" px={6}>
+                  {t.home.resumeBtn} <LuChevronRight />
+                </Button>
+              </Link>
+            </Magnetic>
           </Box>
         </Section>
 
         <Separator my={12} opacity={0.3} />
 
-        <Section delay={0.1}>
+        <Section delay={0.1} direction="right">
           <Heading as="h3" fontSize={20} textDecoration="underline" textUnderlineOffset={6} textDecorationColor="gray.500" textDecorationThickness="4px" mt={3} mb={4}>
             {t.home.philosophyTitle}
           </Heading>
@@ -190,7 +195,7 @@ const Page = () => {
 
         <Separator my={12} opacity={0.3} />
 
-        <Section delay={0.2}>
+        <Section delay={0.2} direction="left">
           <Heading as="h3" fontSize={20} textDecoration="underline" textUnderlineOffset={6} textDecorationColor="gray.500" textDecorationThickness="4px" mt={3} mb={4}>
             {t.home.workTitle}
           </Heading>
@@ -218,7 +223,7 @@ const Page = () => {
 
         <Separator my={12} opacity={0.3} />
 
-        <Section delay={0.2}>
+        <Section delay={0.2} direction="right">
           <Heading as="h3" fontSize={20} textDecoration="underline" textUnderlineOffset={6} textDecorationColor="gray.500" textDecorationThickness="4px" mt={3} mb={4}>
             {t.home.eduTitle}
           </Heading>
@@ -253,7 +258,7 @@ const Page = () => {
 
         <Separator my={12} opacity={0.3} />
 
-        <Section delay={0.3}>
+        <Section delay={0.3} direction="left">
           <Heading as="h3" fontSize={20} textDecoration="underline" textUnderlineOffset={6} textDecorationColor="gray.500" textDecorationThickness="4px" mt={3} mb={4}>
             {t.home.skillsTitle}
           </Heading>
@@ -300,7 +305,7 @@ const Page = () => {
 
         <Separator my={12} opacity={0.3} />
 
-        <Section delay={0.3}>
+        <Section delay={0.3} direction="right">
           <Heading as="h3" fontSize={20} textDecoration="underline" textUnderlineOffset={6} textDecorationColor="gray.500" textDecorationThickness="4px" mt={3} mb={4}>
             {t.home.certTitle}
           </Heading>
@@ -333,7 +338,7 @@ const Page = () => {
           </SimpleGrid>
         </Section>
 
-        <Section delay={0.3}>
+        <Section delay={0.3} direction="left">
           <Heading as="h3" fontSize={20} textDecoration="underline" textUnderlineOffset={6} textDecorationColor="gray.500" textDecorationThickness="4px" mt={3} mb={4}>
             {t.home.hobbiesTitle}
           </Heading>
@@ -342,7 +347,7 @@ const Page = () => {
 
         <Separator my={12} opacity={0.3} />
 
-        <Section delay={0.3}>
+        <Section delay={0.3} direction="right">
           <Heading as="h3" fontSize={20} textDecoration="underline" textUnderlineOffset={6} textDecorationColor="gray.500" textDecorationThickness="4px" mt={3} mb={4}>
             {t.home.webTitle}
           </Heading>

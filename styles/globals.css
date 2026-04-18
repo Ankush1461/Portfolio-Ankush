@@ -1,3 +1,15 @@
+:root {
+  --teal-accent: #319795;
+  --teal-glow: rgba(49, 151, 149, 0.4);
+  --glass-bg: rgba(255, 255, 255, 0.85); /* Much more opaque for readability in light mode */
+  --glass-border: rgba(0, 0, 0, 0.1);
+}
+
+.dark {
+  --glass-bg: rgba(20, 20, 23, 0.85); /* Solidified dark mode glass as well */
+  --glass-border: rgba(255, 255, 255, 0.1);
+}
+
 html,
 body {
   padding: 0;
@@ -5,6 +17,14 @@ body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   scroll-behavior: smooth;
+  background-color: transparent;
+  color: #202023;
+  transition: color 0.5s ease;
+}
+
+.dark body {
+  background-color: transparent;
+  color: #f0e7db;
 }
 
 a {
@@ -14,6 +34,12 @@ a {
 
 * {
   box-sizing: border-box;
+  outline: none !important;
+}
+
+*:focus {
+  outline: none !important;
+  box-shadow: none !important;
 }
 
 ::selection {
@@ -38,13 +64,50 @@ a {
   background: #88ccca;
 }
 
-#tsparticles,
-#tsparticles canvas {
+/* Background & Z-Index Handling */
+#tsparticles {
   position: fixed !important;
   top: 0 !important;
   left: 0 !important;
-  width: 100vw !important;
-  height: 100vh !important;
-  z-index: 0 !important;
-  pointer-events: none !important;
+  width: 100% !important;
+  height: 100% !important;
+  z-index: -1; 
+  pointer-events: none;
+}
+
+/* Glassmorphism Classes */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  border-radius: 1.5rem; /* Softer Edges */
+}
+
+.glass-morphism {
+  background: rgba(255, 255, 255, 0.01);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Animations */
+@keyframes glow-pulse {
+  0% { box-shadow: 0 0 5px var(--teal-glow); }
+  50% { box-shadow: 0 0 20px var(--teal-glow); }
+  100% { box-shadow: 0 0 5px var(--teal-glow); }
+}
+
+.animate-glow {
+  animation: glow-pulse 3s infinite;
+  border-radius: 50% !important;
+}
+
+/* Footbal Playbook Path Style */
+.playbook-dot {
+  width: 4px;
+  height: 4px;
+  background-color: var(--teal-accent);
+  border-radius: 50%;
+  position: absolute;
 }

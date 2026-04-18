@@ -1,6 +1,9 @@
 import { Box, Container } from "@chakra-ui/react";
 import Head from "next/head";
 import Navbar from "../navbar.js";
+import ChatAssistant from "../chat-assistant.js";
+import CustomCursor from "../custom-cursor.js";
+import ScrollProgress from "../ScrollProgress.js";
 
 const Main = ({ children, router }) => {
   return (
@@ -16,12 +19,15 @@ const Main = ({ children, router }) => {
         <meta property="og:site_name" content="Ankush Karmakar" />
         <meta name="og:title" content="Ankush Karmakar" />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content="/images/ankushprofile.jpeg" />
+        <meta property="og:image" content="/images/ankushprofile.png" />
       </Head>
+      <ScrollProgress />
       <Navbar path={router.asPath} />
       <Container maxW="container.md" pt={14}>
         {children}
       </Container>
+      <ChatAssistant />
+      <CustomCursor />
     </Box>
   );
 };

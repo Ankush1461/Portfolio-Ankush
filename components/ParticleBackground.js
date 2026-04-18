@@ -6,6 +6,7 @@ import { useColorModeValue } from "@/components/ui/color-mode";
 export default function ParticleBackground() {
   const [init, setInit] = useState(false);
   const particleColor = useColorModeValue("#202023", "#f0e7db");
+  const bgColor = useColorModeValue("#f0e7db", "#202023");
 
   useEffect(() => {
     initParticlesEngine(async (engine) => {
@@ -20,13 +21,18 @@ export default function ParticleBackground() {
       fullScreen: { 
         enable: false,
       },
-      fpsLimit: 60,
+      background: {
+        color: {
+          value: bgColor,
+        },
+      },
+      fpsLimit: 120,
       particles: {
         number: {
-          value: 50,
+          value: 60,
           density: {
             enable: true,
-            area: 1000,
+            area: 800,
           },
         },
         color: {
@@ -36,25 +42,30 @@ export default function ParticleBackground() {
           type: "circle",
         },
         opacity: {
-          value: 0.4,
+          value: 0.3,
         },
         size: {
-          value: { min: 1, max: 3 },
+          value: { min: 1, max: 2 },
         },
         links: {
           enable: true,
-          distance: 150,
+          distance: 180,
           color: particleColor,
-          opacity: 0.3,
-          width: 1,
+          opacity: 0.2,
+          width: 0.5,
         },
         move: {
           enable: true,
-          speed: 2,
+          speed: 1.5,
           direction: "none",
           outModes: {
-            default: "out",
+            default: "bounce",
           },
+          attract: {
+            enable: true,
+            rotateX: 600,
+            rotateY: 1200
+          }
         },
       },
       interactivity: {
@@ -68,15 +79,17 @@ export default function ParticleBackground() {
             enable: true,
             mode: "push",
           },
-          resize: { enable: true },
+          resize: true,
         },
         modes: {
           repulse: {
-            distance: 150,
+            distance: 200,
             duration: 0.4,
+            speed: 1,
+            factor: 100,
           },
           push: {
-            quantity: 3,
+            quantity: 4,
           },
         },
       },
