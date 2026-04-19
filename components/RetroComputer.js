@@ -4,6 +4,8 @@ import Head from 'next/head';
 import { Box, Flex, Spinner } from '@chakra-ui/react';
 import { useColorModeValue } from '@/components/ui/color-mode';
 
+import { SplineErrorBoundary } from './SplineErrorBoundary';
+
 // Lazy loading the heavy WebGL engine drastically reduces payload on first paint
 const Spline = dynamic(() => import('@splinetool/react-spline'), { 
   ssr: false 
@@ -87,14 +89,59 @@ export default function RetroComputer() {
   }, []);
 
 
+  // Track global pointer events to ensure Spline tracks mouse coordinates infinitely across the whole screen width
+  // even though the Canvas DOM element stops at the constrained 768px layout boundary.
+  useEffect(() => {
+    const handleGlobalPointer = (e) => {
+      // Prevent infinite event echo loops from our own dispatched clones
+      if (!e.isTrusted) return; 
+      
+      const canvas = document.querySelector("#rc-spline-wrapper canvas");
+      const aboutSection = document.getElementById("about-section");
+      
+      if (canvas && e.target !== canvas) {
+        
+        // LIMIT DETECTION AREA: Stop tracking if the mouse is below the start of the About section
+        if (aboutSection) {
+          const rect = aboutSection.getBoundingClientRect();
+          if (e.clientY > rect.top) return; // Exit if mouse is in the content area
+        }
+
+        // Self-Healing Retracker pulse
+        const now = Date.now();
+        const lastEnter = parseInt(canvas.dataset.lastSyntheticEnter || "0");
+        if (now - lastEnter > 500) {
+          const enterEvent = new PointerEvent("pointerenter", {
+            bubbles: true, cancelable: true, clientX: e.clientX, clientY: e.clientY,
+            pointerId: e.pointerId, pointerType: e.pointerType, isPrimary: e.isPrimary
+          });
+          canvas.dispatchEvent(enterEvent);
+          canvas.dataset.lastSyntheticEnter = now.toString();
+        }
+
+        const clone = new PointerEvent(e.type, {
+          bubbles: true,
+          cancelable: true,
+          clientX: e.clientX,
+          clientY: e.clientY,
+          pointerId: e.pointerId,
+          pointerType: e.pointerType,
+          isPrimary: e.isPrimary,
+        });
+        canvas.dispatchEvent(clone);
+      }
+    };
+    
+    window.addEventListener("pointermove", handleGlobalPointer, { capture: true, passive: true });
+    return () => window.removeEventListener("pointermove", handleGlobalPointer, { capture: true });
+  }, []);
+
   return (
     <>
       {/* Preconnect to Spline CDN for faster resource fetching */}
       <Head>
         <link rel="preconnect" href="https://prod.spline.design" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://prod.spline.design" />
-        {/* Prefetch the scene file in parallel with the Spline runtime JS to eliminate the waterfall */}
-        <link rel="prefetch" href="https://prod.spline.design/9aPYJZsK-1XiIaN7/scene.splinecode" as="fetch" crossOrigin="anonymous" />
       </Head>
 
       <Box
@@ -136,10 +183,11 @@ export default function RetroComputer() {
           alignItems="center"
           justifyContent="center"
           overflow="hidden"
-          pointerEvents="none" /* Let clicks pass through if needed, though usually spline is interactive */
+          pointerEvents="auto" /* Enable mouse interactions */
         >
           {/* Spline Fixed-Aspect Ratio Canvas */}
           <Box
+            id="rc-spline-wrapper"
             w={{ base: "800px", md: "100%" }} // Provide a massive canvas on mobile to prevent Spline's internal FOV cropping
             h={{ base: "800px", md: "100%" }}
             flexShrink={0}
@@ -148,7 +196,7 @@ export default function RetroComputer() {
             transform={{ 
               base: "scale(0.42)", // Completely visible desk exactly fitting 360px+ screens
               sm: "scale(0.60)", 
-              md: "scale(1)" 
+              md: "none" 
             }}
             transformOrigin="center center"
             sx={{
@@ -170,18 +218,26 @@ export default function RetroComputer() {
               }
             }}
           >
-            <Spline
-              scene="https://prod.spline.design/9aPYJZsK-1XiIaN7/scene.splinecode"
-              onLoad={(splineApp) => {
-                setLoading(false);
-                // Attempt to force the background to be transparent
-                try {
-                  if (splineApp._scene) splineApp._scene.background = null;
-                  if (splineApp._renderer) splineApp._renderer.setClearAlpha(0);
-                  if (splineApp.setColors) splineApp.setColors();
-                } catch (e) {}
-              }}
-            />
+            <SplineErrorBoundary>
+              <Spline
+                scene="https://prod.spline.design/9aPYJZsK-1XiIaN7/scene.splinecode"
+                onLoad={(splineApp) => {
+                  setLoading(false);
+                  
+                  // Restore Standard Orientation: 
+                  // By restricting mouse events to the Hero section above,
+                  // we no longer need the 'heartbeat' loop to fight the Spline engine.
+                  // This allows the desk to maintain its natural artist-defined axis correctly.
+
+                  // Attempt to force the background to be transparent
+                  try {
+                    if (splineApp._scene) splineApp._scene.background = null;
+                    if (splineApp._renderer) splineApp._renderer.setClearAlpha(0);
+                    if (splineApp.setColors) splineApp.setColors();
+                  } catch (e) {}
+                }}
+              />
+            </SplineErrorBoundary>
           </Box>
         </Box>
 

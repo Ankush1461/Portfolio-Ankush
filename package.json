@@ -12,14 +12,11 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@ai-sdk/google": "^3.0.64",
-    "@ai-sdk/react": "^3.0.170",
     "@chakra-ui/react": "^3.34.0",
     "@emotion/react": "^11.14.0",
     "@splinetool/react-spline": "^4.1.0",
     "@tsparticles/react": "^3.0.0",
     "@tsparticles/slim": "^3.0.0",
-    "ai": "^6.0.168",
     "motion": "^12.0.0",
     "next": "^16.0.0",
     "next-themes": "^0.4.4",
@@ -32,10 +29,10 @@
     "eslint-config-next": "^16.0.0",
     "prettier": "^3.4.0"
   },
-  "description": "Ankush's Portfolio",
+  "description": "Ankush Karmakar's Portfolio — Built with Next.js, Chakra UI, and Spline 3D",
   "version": "2.0.0",
   "main": "next.config.js",
-  "keywords": [],
+  "keywords": ["portfolio", "nextjs", "chakra-ui", "spline-3d", "framer-motion"],
   "author": "Ankush Karmakar",
-  "license": "ANK"
+  "license": "MIT"
 }

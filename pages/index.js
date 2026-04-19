@@ -23,7 +23,6 @@ import { BioSection, BioYear, BioContent } from "../components/bio";
 import { useColorModeValue } from "@/components/ui/color-mode";
 import { useLanguage } from "@/lib/i18n";
 import Magnetic from "../components/Magnetic";
-import RetroComputer from "../components/RetroComputer";
 
 import {
   IoMail,
@@ -100,7 +99,8 @@ const Page = () => {
   return (
     <Layout>
       <Container>
-        <Box position="relative" mt={6} mb={10}>
+        {/* Set pointerEvents none to allow clicks through the transparent area of this header block */}
+        <Box position="relative" mt={6} mb={10} pointerEvents="none">
           {/* Placeholder for absolutely positioned Global RetroComputer */}
           <Box h={{ base: "320px", sm: "400px", md: "520px" }} w="100%" />
 
@@ -119,12 +119,13 @@ const Page = () => {
             flexDirection={{ base: "column", md: "row" }}
             alignItems="center"
             gap={6}
+            pointerEvents="none" /* Let mouse pass through the empty glass background padding */
           >
-            <Box flex={1}>
-              <Heading as="h2" size="2xl" variant="page-title" fontFamily="'M PLUS Rounded 1c', sans-serif">
+            <Box flex={1} pointerEvents="none">
+              <Heading as="h2" size="2xl" variant="page-title" fontFamily="'M PLUS Rounded 1c', sans-serif" pointerEvents="auto">
                 {t.home.title}
               </Heading>
-              <Text mt={1} fontWeight="medium" color="gray.800" _dark={{ color: "gray.300" }}>
+              <Text mt={1} fontWeight="medium" color="gray.800" _dark={{ color: "gray.300" }} pointerEvents="auto">
                 {t.home.subtitle}
               </Text>
               
@@ -137,14 +138,15 @@ const Page = () => {
                 _dark={{ color: "teal.300" }}
                 align="center"
               >
-                <Text letterSpacing="widest">{t.home.role?.split('|')[0]?.trim() || "Tech Consultant"}</Text>
+                <Text letterSpacing="widest" pointerEvents="auto">{t.home.role?.split('|')[0]?.trim() || "Tech Consultant"}</Text>
                 <Box w="1px" h="12px" bg="gray.400" />
-                <Text letterSpacing="widest">{t.home.role?.split('|')[1]?.trim() || "CRM Specialist"}</Text>
+                <Text letterSpacing="widest" pointerEvents="auto">{t.home.role?.split('|')[1]?.trim() || "CRM Specialist"}</Text>
               </Flex>
             </Box>
 
             <Magnetic strength={0.3}>
-              <Box flexShrink={0}>
+               {/* Make the explicitly interactive image component catch the mouse */}
+              <Box flexShrink={0} pointerEvents="auto">
                 <Img
                   borderColor="whiteAlpha.800"
                   borderWidth={3}
@@ -160,7 +162,7 @@ const Page = () => {
           </Box>
         </Box>
 
-        <Section delay={0.1} direction="left">
+        <Section delay={0.1} direction="left" id="about-section">
           <Heading as="h3" fontSize={20} textDecoration="underline" textUnderlineOffset={6} textDecorationColor="gray.500" textDecorationThickness="4px" mt={3} mb={4}>
             {t.home.aboutTitle}
           </Heading>

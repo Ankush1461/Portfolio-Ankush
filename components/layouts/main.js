@@ -30,10 +30,10 @@ const Main = ({ children, router }) => {
           top={14}
           left={0}
           right={0}
-          opacity={router.asPath === '/' ? 1 : 0}
-          visibility={router.asPath === '/' ? "visible" : "hidden"}
+          opacity={router.pathname === '/' ? 1 : 0}
+          visibility={router.pathname === '/' ? "visible" : "hidden"}
           transition="opacity 0.4s ease-in-out, visibility 0.4s ease-in-out"
-          pointerEvents={router.asPath === '/' ? "auto" : "none"}
+          pointerEvents={router.pathname === '/' ? "auto" : "none"}
           zIndex={0}
         >
           <RetroComputer />

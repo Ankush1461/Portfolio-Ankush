@@ -1,5 +1,4 @@
 import { Box, Button, Input, Flex, Text, IconButton, Spinner } from '@chakra-ui/react';
-import { useChat } from '@ai-sdk/react';
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { LuMessageCircle, LuX, LuSend } from 'react-icons/lu';
