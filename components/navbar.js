@@ -62,7 +62,7 @@ const Navbar = (props) => {
       w="100%"
       bg="#ffffff40"
       _dark={{ bg: "#20202380" }}
-      css={{ backdropFilter: "blur(18px)" }}
+      css={{ backdropFilter: "blur(18px)", WebkitBackdropFilter: "blur(18px)" }}
       borderBottom="1px"
       borderColor="whiteAlpha.500"
       dark={{ borderColor: "whiteAlpha.100" }}

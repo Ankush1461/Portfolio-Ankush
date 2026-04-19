@@ -97,6 +97,7 @@ const CursorInner = () => {
         height: isHovering ? cursorSizeHover : cursorSize,
         backgroundColor: isHovering ? cursorColor : "rgba(0, 0, 0, 0)",
         backdropFilter: isHovering ? "blur(2px)" : "blur(0px)",
+        WebkitBackdropFilter: isHovering ? "blur(2px)" : "blur(0px)",
       }}
       transition={{ type: "tween", ease: "backOut", duration: 0.1 }}
     />

@@ -20,12 +20,16 @@ body {
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch; /* iOS momentum scroll */
+  -webkit-text-size-adjust: 100%; /* Prevents iOS text inflation */
+  -moz-text-size-adjust: 100%;
+  text-size-adjust: 100%;
   text-rendering: optimizeSpeed;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   background-color: transparent;
   color: #202023;
   transition: color 0.5s ease;
 }
-
 
 .dark body {
   background-color: transparent;
@@ -39,12 +43,17 @@ a {
 
 * {
   box-sizing: border-box;
-  outline: none !important;
 }
 
+/* Accessible focus: hide for mouse, show for keyboard */
 *:focus {
-  outline: none !important;
-  box-shadow: none !important;
+  outline: none;
+  box-shadow: none;
+}
+
+*:focus-visible {
+  outline: 2px solid var(--teal-accent);
+  outline-offset: 2px;
 }
 
 ::selection {
@@ -52,6 +61,7 @@ a {
   color: #202023;
 }
 
+/* Scrollbar — Chromium / WebKit */
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -69,6 +79,12 @@ a {
   background: #88ccca;
 }
 
+/* Scrollbar — Firefox */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: #88ccca80 transparent;
+}
+
 /* Background & Z-Index Handling */
 #tsparticles {
   position: fixed !important;
@@ -76,24 +92,35 @@ a {
   left: 0 !important;
   width: 100% !important;
   height: 100% !important;
-  z-index: -1; 
+  z-index: -1;
   pointer-events: none;
   will-change: auto;
-  contain: strict;
+  contain: layout style;
 }
 
 /* Glassmorphism Classes */
 .glass-card {
   background: var(--glass-bg);
-  backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
   border: 1px solid var(--glass-border);
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
   border-radius: 1.5rem; /* Softer Edges */
 }
 
+/* Fallback for browsers that don't support backdrop-filter (e.g. older Firefox) */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass-card {
+    background: rgba(255, 255, 255, 0.95);
+  }
+  .dark .glass-card {
+    background: rgba(20, 20, 23, 0.95);
+  }
+}
+
 .glass-morphism {
   background: rgba(255, 255, 255, 0.01);
+  -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
@@ -124,4 +151,3 @@ nav {
   will-change: transform;
   contain: layout style;
 }
-
