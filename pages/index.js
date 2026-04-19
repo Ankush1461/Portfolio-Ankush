@@ -23,6 +23,7 @@ import { BioSection, BioYear, BioContent } from "../components/bio";
 import { useColorModeValue } from "@/components/ui/color-mode";
 import { useLanguage } from "@/lib/i18n";
 import Magnetic from "../components/Magnetic";
+import NextImage from "next/image";
 
 import {
   IoMail,
@@ -146,16 +147,27 @@ const Page = () => {
 
             <Magnetic strength={0.3}>
                {/* Make the explicitly interactive image component catch the mouse */}
-              <Box flexShrink={0} pointerEvents="auto">
-                <Img
-                  borderColor="whiteAlpha.800"
-                  borderWidth={3}
-                  borderStyle="solid"
-                  maxWidth="120px"
-                  borderRadius="full"
-                  src="images/ankushprofile.png"
+              <Box 
+                flexShrink={0} 
+                pointerEvents="auto"
+                borderColor="whiteAlpha.800"
+                borderWidth={3}
+                borderStyle="solid"
+                borderRadius="full"
+                // Match the visual footprint precisely
+                width="120px" 
+                height="120px"
+                overflow="hidden"
+                boxShadow="0 10px 30px rgba(0,0,0,0.5)"
+              >
+                <NextImage
+                  src="/images/ankushprofile.png"
                   alt="Profile Image"
-                  boxShadow="0 10px 30px rgba(0,0,0,0.5)"
+                  width={480}
+                  height={480}
+                  quality={100}
+                  priority
+                  style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
                 />
               </Box>
             </Magnetic>

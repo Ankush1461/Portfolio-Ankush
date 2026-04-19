@@ -30,27 +30,52 @@ export default function LoadingScreen() {
     const ssrOverlay = document.getElementById("initial-loader");
     if (ssrOverlay) ssrOverlay.remove();
 
+    let splineFinished = false;
+    let minTimePassed = false;
+    let isFullyDone = false;
+
     // Simulate loading progress
     const interval = setInterval(() => {
       setProgress((prev) => {
-        if (prev >= 100) {
-          clearInterval(interval);
-          return 100;
+        if (prev >= 90) { // Cap at 90% until actually loaded
+          return 90;
         }
         // Accelerating progress curve
-        const increment = prev < 60 ? 4 : prev < 85 ? 2 : 1;
-        return Math.min(prev + increment, 100);
+        const increment = prev < 50 ? 6 : prev < 75 ? 3 : 1;
+        return Math.min(prev + increment, 90);
       });
-    }, 40);
+    }, 45);
+
+    const tryFinish = () => {
+      if (isFullyDone) return;
+      if (splineFinished && minTimePassed) {
+        isFullyDone = true;
+        setProgress(100);
+        clearInterval(interval);
+        setTimeout(() => setIsVisible(false), 400); // Small delay to show 100%
+      }
+    };
+
+    const onSplineEvent = () => {
+      splineFinished = true;
+      tryFinish();
+    };
+
+    // Listen for events from the Spline component (RetroComputer)
+    window.addEventListener('spline-loaded', onSplineEvent);
+    window.addEventListener('spline-error', onSplineEvent);
 
     // Minimum display time for the animation to feel complete
-    const timer = setTimeout(() => {
-      setIsVisible(false);
-    }, 3200);
+    const minimumTimer = setTimeout(() => {
+      minTimePassed = true;
+      tryFinish();
+    }, 3000); 
 
     return () => {
       clearInterval(interval);
-      clearTimeout(timer);
+      clearTimeout(minimumTimer);
+      window.removeEventListener('spline-loaded', onSplineEvent);
+      window.removeEventListener('spline-error', onSplineEvent);
     };
   }, []);
 
@@ -208,15 +233,14 @@ export default function LoadingScreen() {
                   marginBottom: "10px",
                 }}
               >
-                <motion.div
-                  initial={{ width: "0%" }}
-                  animate={{ width: `${progress}%` }}
-                  transition={{ duration: 0.1, ease: "linear" }}
+                <div
                   style={{
+                    width: `${progress}%`,
                     height: "100%",
                     background: "linear-gradient(90deg, #319795, #5eead4)",
                     borderRadius: "2px",
                     boxShadow: "0 0 12px rgba(49,151,149,0.5)",
+                    transition: "width 50ms ease-out",
                   }}
                 />
               </div>

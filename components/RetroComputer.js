@@ -138,12 +138,6 @@ export default function RetroComputer() {
 
   return (
     <>
-      {/* Preconnect to Spline CDN for faster resource fetching */}
-      <Head>
-        <link rel="preconnect" href="https://prod.spline.design" crossOrigin="anonymous" />
-        <link rel="dns-prefetch" href="https://prod.spline.design" />
-      </Head>
-
       <Box
         position="relative"
         w="100%"
@@ -220,9 +214,15 @@ export default function RetroComputer() {
           >
             <SplineErrorBoundary>
               <Spline
-                scene="https://prod.spline.design/9aPYJZsK-1XiIaN7/scene.splinecode"
+                scene="/scene.splinecode"
                 onLoad={(splineApp) => {
-                  setLoading(false);
+                  // Buffer for WebGL to actually push its first populated frame
+                  setTimeout(() => {
+                    setLoading(false);
+                    if (typeof window !== 'undefined') {
+                      window.dispatchEvent(new Event('spline-loaded'));
+                    }
+                  }, 1200);
                   
                   // Restore Standard Orientation: 
                   // By restricting mouse events to the Hero section above,

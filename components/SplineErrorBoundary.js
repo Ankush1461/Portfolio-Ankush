@@ -13,6 +13,9 @@ export class SplineErrorBoundary extends React.Component {
 
   componentDidCatch(_error, _errorInfo) {
     // Silently caught — fallback UI is rendered via getDerivedStateFromError
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new Event('spline-error'));
+    }
   }
 
   render() {

@@ -10,7 +10,7 @@ const Section = ({ children, delay = 0, mb = "4rem", direction = "left", ...prop
       x: 0,
       opacity: 1,
     }}
-    viewport={{ once: true, amount: 0.05, margin: "10000px 0px -80px 0px" }}
+    viewport={{ once: false, amount: 0.05, margin: "10000px 0px -80px 0px" }}
     transition={{
       delay: delay * 0.5,
       type: "spring",

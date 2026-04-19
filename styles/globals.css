@@ -1,8 +1,8 @@
 :root {
   --teal-accent: #319795;
   --teal-glow: rgba(49, 151, 149, 0.4);
-  --glass-bg: rgba(255, 255, 255, 0.85); /* Much more opaque for readability in light mode */
-  --glass-border: rgba(0, 0, 0, 0.1);
+  --glass-bg: rgba(255, 255, 255, 0.4); /* True glassmorphism transparency */
+  --glass-border: rgba(255, 255, 255, 0.6); /* Glossy white border for the glass rim effect */
 }
 
 .dark {
