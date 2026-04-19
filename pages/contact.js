@@ -26,44 +26,7 @@ import {
 } from "react-icons/io5";
 import { LuSend } from "react-icons/lu";
 
-const ContactInfoCard = ({ icon, title, value, href }) => (
-  <Link href={href} target={href?.startsWith("http") ? "_blank" : undefined} _hover={{ textDecoration: "none" }}>
-    <Flex
-      alignItems="center"
-      gap={3}
-      p={4}
-      borderRadius="lg"
-      bg={useColorModeValue("whiteAlpha.500", "whiteAlpha.100")}
-      _hover={{
-        bg: useColorModeValue("whiteAlpha.700", "whiteAlpha.200"),
-        transform: "translateY(-2px)",
-      }}
-      transition="all 0.2s"
-      cursor="pointer"
-    >
-      <Flex
-        alignItems="center"
-        justifyContent="center"
-        w={10}
-        h={10}
-        borderRadius="lg"
-        bg="teal.500"
-        color="white"
-        flexShrink={0}
-      >
-        <Icon boxSize={5}>{icon}</Icon>
-      </Flex>
-      <Box>
-        <Text fontSize="xs" color="gray.500" fontWeight="medium">
-          {title}
-        </Text>
-        <Text fontSize="sm" fontWeight="semibold">
-          {value}
-        </Text>
-      </Box>
-    </Flex>
-  </Link>
-);
+
 
 const Contact = () => {
   const { t } = useLanguage();
@@ -85,8 +48,7 @@ const Contact = () => {
     window.location.href = `mailto:karmakarankush1461@gmail.com?subject=${encodeURIComponent(subject)}&body=${body}`;
   };
 
-  const inputBg = useColorModeValue("whiteAlpha.700", "whiteAlpha.100");
-  const inputBorder = useColorModeValue("gray.200", "whiteAlpha.200");
+
 
   return (
     <Layout title={t.contact.title}>
@@ -123,10 +85,7 @@ const Contact = () => {
             as="form"
             onSubmit={handleSubmit}
             p={6}
-            borderRadius="xl"
-            bg={useColorModeValue("whiteAlpha.500", "whiteAlpha.100")}
-            borderWidth="1px"
-            borderColor={inputBorder}
+            className="glass-card"
           >
             <SimpleGrid columns={[1, 2]} gap={4} mb={4}>
               <Box>
@@ -139,8 +98,8 @@ const Contact = () => {
                   value={formData.name}
                   onChange={handleChange}
                   required
-                  bg={inputBg}
-                  borderColor={inputBorder}
+                  bg={{ base: "whiteAlpha.700", _dark: "whiteAlpha.100" }}
+                  borderColor={{ base: "gray.200", _dark: "whiteAlpha.200" }}
                   size="sm"
                   borderRadius="md"
                   _focus={{ borderColor: "teal.500", boxShadow: "0 0 0 1px teal" }}
@@ -157,8 +116,8 @@ const Contact = () => {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  bg={inputBg}
-                  borderColor={inputBorder}
+                  bg={{ base: "whiteAlpha.700", _dark: "whiteAlpha.100" }}
+                  borderColor={{ base: "gray.200", _dark: "whiteAlpha.200" }}
                   size="sm"
                   borderRadius="md"
                   _focus={{ borderColor: "teal.500", boxShadow: "0 0 0 1px teal" }}
@@ -175,8 +134,8 @@ const Contact = () => {
                 value={formData.subject}
                 onChange={handleChange}
                 required
-                bg={inputBg}
-                borderColor={inputBorder}
+                bg={{ base: "whiteAlpha.700", _dark: "whiteAlpha.100" }}
+                borderColor={{ base: "gray.200", _dark: "whiteAlpha.200" }}
                 size="sm"
                 borderRadius="md"
                 _focus={{ borderColor: "teal.500", boxShadow: "0 0 0 1px teal" }}
@@ -193,8 +152,8 @@ const Contact = () => {
                 onChange={handleChange}
                 required
                 rows={5}
-                bg={inputBg}
-                borderColor={inputBorder}
+                bg={{ base: "whiteAlpha.700", _dark: "whiteAlpha.100" }}
+                borderColor={{ base: "gray.200", _dark: "whiteAlpha.200" }}
                 size="sm"
                 borderRadius="md"
                 _focus={{ borderColor: "teal.500", boxShadow: "0 0 0 1px teal" }}

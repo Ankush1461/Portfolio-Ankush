@@ -11,6 +11,17 @@ export default function Document() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <body>
+        {/* Server-rendered overlay that prevents content flash before LoadingScreen hydrates */}
+        <div
+          id="initial-loader"
+          style={{
+            position: "fixed",
+            inset: 0,
+            zIndex: 99998,
+            background: "#202023",
+            pointerEvents: "none",
+          }}
+        />
         <Main />
         <NextScript />
       </body>

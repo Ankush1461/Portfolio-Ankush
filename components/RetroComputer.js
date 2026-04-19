@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect } from 'react';
 import dynamic from 'next/dynamic';
+import Head from 'next/head';
 import { Box, Flex, Spinner } from '@chakra-ui/react';
 import { useColorModeValue } from '@/components/ui/color-mode';
 
@@ -85,118 +86,132 @@ export default function RetroComputer() {
     setMounted(true);
   }, []);
 
+
   return (
-    <Box
-      position="relative"
-      w="100%"
-      h={{ base: "320px", sm: "400px", md: "520px" }} // Tightened height so bio card naturally hugs the scene
-      mb={{ base: 4, md: 10 }}
-      bg="transparent"
-      display="flex"
-      alignItems="center"
-      justifyContent="center"
-    >
-      {/* Loading state */}
-      {loading && (
-        <Flex position="absolute" inset={0} align="center" justify="center" zIndex={5}>
-          <Spinner size="xl" color="teal.400" thickness="4px" />
-        </Flex>
-      )}
+    <>
+      {/* Preconnect to Spline CDN for faster resource fetching */}
+      <Head>
+        <link rel="preconnect" href="https://prod.spline.design" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://prod.spline.design" />
+        {/* Prefetch the scene file in parallel with the Spline runtime JS to eliminate the waterfall */}
+        <link rel="prefetch" href="https://prod.spline.design/9aPYJZsK-1XiIaN7/scene.splinecode" as="fetch" crossOrigin="anonymous" />
+      </Head>
 
-      {/* Orbiting Tech Tags Container */}
       <Box
-        position="absolute"
-        inset={0}
-        pointerEvents="none"
-        overflow="hidden"
-        zIndex={2}
-      >
-        {mounted && <OrbitingTags isDark={isDark} />}
-      </Box>
-
-      {/* Centering Wrapper for Spline */}
-      <Box
-        position="absolute"
-        inset={0}
-        zIndex={1}
+        position="relative"
+        w="100%"
+        h={{ base: "320px", sm: "400px", md: "520px" }} // Tightened height so bio card naturally hugs the scene
+        mb={{ base: 4, md: 10 }}
+        bg="transparent"
         display="flex"
         alignItems="center"
         justifyContent="center"
-        overflow="hidden"
-        pointerEvents="none" /* Let clicks pass through if needed, though usually spline is interactive */
+        overflow="hidden" /* Clip orbiting tags and canvas overflow */
       >
-        {/* Spline Fixed-Aspect Ratio Canvas */}
-        <Box
-          w={{ base: "800px", md: "100%" }} // Provide a massive canvas on mobile to prevent Spline's internal FOV cropping
-          h={{ base: "800px", md: "100%" }}
-          flexShrink={0}
-          pointerEvents="auto"
-          filter={{ base: "var(--rc-filter-base)", md: "var(--rc-filter-md)" }}
-          transform={{ 
-            base: "scale(0.42)", // Completely visible desk exactly fitting 360px+ screens
-            sm: "scale(0.60)", 
-            md: "scale(1)" 
-          }}
-          transformOrigin="center center"
-          sx={{
-            transition: 'filter 0.5s ease',
-            "--rc-filter-base": "brightness(1) contrast(1.05)",
-            "--rc-filter-md": "brightness(1) contrast(1.05) drop-shadow(0 20px 40px rgba(0,0,0,0.15))",
-            _dark: {
-              "--rc-filter-base": "brightness(0.85) contrast(1.15)", // Verified NO shadow for base/mobile breakpoints
-              "--rc-filter-md": "brightness(0.85) contrast(1.15) drop-shadow(0 40px 60px rgba(13, 148, 136, 0.4))"
-            },
-            maskImage: "linear-gradient(to bottom, black 85%, transparent 100%)",
-            WebkitMaskImage: "linear-gradient(to bottom, black 85%, transparent 100%)",
-            "& canvas": {
-              display: "block",
-              width: "100% !important",
-              height: "100% !important",
-              outline: "none",
-              backgroundColor: "transparent !important"
-            }
-          }}
-        >
-          <Spline
-            scene="https://prod.spline.design/9aPYJZsK-1XiIaN7/scene.splinecode"
-            onLoad={(splineApp) => {
-              setLoading(false);
-              // Attempt to force the background to be transparent
-              try {
-                if (splineApp._scene) splineApp._scene.background = null;
-                if (splineApp._renderer) splineApp._renderer.setClearAlpha(0);
-                if (splineApp.setColors) splineApp.setColors();
-              } catch (e) {}
-            }}
-          />
-        </Box>
-      </Box>
 
-      {/* Global Orbit Keyframes */}
-      <style jsx global>{`
-        @keyframes rcOrbit {
-          from {
-            transform: translate(-50%, -50%)
-              rotate(var(--rc-angle))
-              translateX(var(--rc-r))
-              translateY(var(--rc-y))
-              rotate(calc(-1 * var(--rc-angle)));
+        {/* Loading state */}
+        {loading && (
+          <Flex position="absolute" inset={0} align="center" justify="center" zIndex={5}>
+            <Spinner size="xl" color="teal.400" thickness="4px" />
+          </Flex>
+        )}
+
+        {/* Orbiting Tech Tags Container */}
+        <Box
+          position="absolute"
+          inset={0}
+          pointerEvents="none"
+          overflow="hidden"
+          zIndex={2}
+        >
+          {mounted && <OrbitingTags isDark={isDark} />}
+        </Box>
+
+        {/* Centering Wrapper for Spline */}
+        <Box
+          position="absolute"
+          inset={0}
+          zIndex={1}
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          overflow="hidden"
+          pointerEvents="none" /* Let clicks pass through if needed, though usually spline is interactive */
+        >
+          {/* Spline Fixed-Aspect Ratio Canvas */}
+          <Box
+            w={{ base: "800px", md: "100%" }} // Provide a massive canvas on mobile to prevent Spline's internal FOV cropping
+            h={{ base: "800px", md: "100%" }}
+            flexShrink={0}
+            pointerEvents="auto"
+            filter={{ base: "var(--rc-filter-base)", md: "var(--rc-filter-md)" }}
+            transform={{ 
+              base: "scale(0.42)", // Completely visible desk exactly fitting 360px+ screens
+              sm: "scale(0.60)", 
+              md: "scale(1)" 
+            }}
+            transformOrigin="center center"
+            sx={{
+              transition: 'filter 0.5s ease',
+              "--rc-filter-base": "brightness(1) contrast(1.05)",
+              "--rc-filter-md": "brightness(1) contrast(1.05) drop-shadow(0 20px 40px rgba(0,0,0,0.15))",
+              _dark: {
+                "--rc-filter-base": "brightness(0.85) contrast(1.15)", // Verified NO shadow for base/mobile breakpoints
+                "--rc-filter-md": "brightness(0.85) contrast(1.15) drop-shadow(0 40px 60px rgba(13, 148, 136, 0.4))"
+              },
+              maskImage: "linear-gradient(to bottom, black 85%, transparent 100%)",
+              WebkitMaskImage: "linear-gradient(to bottom, black 85%, transparent 100%)",
+              "& canvas": {
+                display: "block",
+                width: "100% !important",
+                height: "100% !important",
+                outline: "none",
+                backgroundColor: "transparent !important"
+              }
+            }}
+          >
+            <Spline
+              scene="https://prod.spline.design/9aPYJZsK-1XiIaN7/scene.splinecode"
+              onLoad={(splineApp) => {
+                setLoading(false);
+                // Attempt to force the background to be transparent
+                try {
+                  if (splineApp._scene) splineApp._scene.background = null;
+                  if (splineApp._renderer) splineApp._renderer.setClearAlpha(0);
+                  if (splineApp.setColors) splineApp.setColors();
+                } catch (e) {}
+              }}
+            />
+          </Box>
+        </Box>
+
+        {/* Global Orbit Keyframes */}
+        <style jsx global>{`
+          @keyframes rcOrbit {
+            from {
+              transform: translate(-50%, -50%)
+                rotate(var(--rc-angle))
+                translateX(var(--rc-r))
+                translateY(var(--rc-y))
+                rotate(calc(-1 * var(--rc-angle)));
+            }
+            to {
+              transform: translate(-50%, -50%)
+                rotate(calc(var(--rc-angle) + 360deg))
+                translateX(var(--rc-r))
+                translateY(var(--rc-y))
+                rotate(calc(-1 * (var(--rc-angle) + 360deg)));
+            }
           }
-          to {
-            transform: translate(-50%, -50%)
-              rotate(calc(var(--rc-angle) + 360deg))
-              translateX(var(--rc-r))
-              translateY(var(--rc-y))
-              rotate(calc(-1 * (var(--rc-angle) + 360deg)));
+          @media (max-width: 640px) {
+            .rc-tag:nth-child(n+12) { display: none !important; }
           }
-        }
-        @media (max-width: 640px) {
-          .rc-tag:nth-child(n+12) { display: none !important; }
-        }
-        @media (max-width: 400px) {
-          .rc-tag:nth-child(n+8) { display: none !important; }
-        }
-      `}</style>
-    </Box>
+          @media (max-width: 400px) {
+            .rc-tag:nth-child(n+8) { display: none !important; }
+          }
+        `}</style>
+      </Box>
+    </>
   );
 }
+

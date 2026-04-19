@@ -1,7 +1,9 @@
 import { useEffect, useState, useMemo } from "react";
 import Particles, { initParticlesEngine } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
+import { Box } from "@chakra-ui/react";
 import { useColorModeValue } from "@/components/ui/color-mode";
+
 
 export default function ParticleBackground() {
   const [init, setInit] = useState(false);
@@ -26,10 +28,10 @@ export default function ParticleBackground() {
           value: bgColor,
         },
       },
-      fpsLimit: 120,
+      fpsLimit: 60,
       particles: {
         number: {
-          value: 60,
+          value: 35,
           density: {
             enable: true,
             area: 800,
@@ -49,14 +51,14 @@ export default function ParticleBackground() {
         },
         links: {
           enable: true,
-          distance: 180,
+          distance: 150,
           color: particleColor,
           opacity: 0.2,
           width: 0.5,
         },
         move: {
           enable: true,
-          speed: 1.5,
+          speed: 1,
           direction: "none",
           outModes: {
             default: "bounce",
@@ -101,10 +103,23 @@ export default function ParticleBackground() {
   if (!init) return null;
 
   return (
-    <Particles
-      id="tsparticles"
-      key={particleColor}
-      options={options}
-    />
+    <Box 
+      id="particles-container" 
+      position="fixed" 
+      top={0} 
+      left={0} 
+      w="100%" 
+      h="100%" 
+      zIndex={-1} 
+      overflow="hidden"
+      pointerEvents="none"
+    >
+      <Particles
+        id="tsparticles"
+        key={particleColor}
+        options={options}
+      />
+    </Box>
   );
+
 }

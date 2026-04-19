@@ -14,13 +14,18 @@ html,
 body {
   padding: 0;
   margin: 0;
+  width: 100%;
+  overflow-x: hidden;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch; /* iOS momentum scroll */
+  text-rendering: optimizeSpeed;
   background-color: transparent;
   color: #202023;
   transition: color 0.5s ease;
 }
+
 
 .dark body {
   background-color: transparent;
@@ -73,6 +78,8 @@ a {
   height: 100% !important;
   z-index: -1; 
   pointer-events: none;
+  will-change: auto;
+  contain: strict;
 }
 
 /* Glassmorphism Classes */
@@ -111,3 +118,10 @@ a {
   border-radius: 50%;
   position: absolute;
 }
+
+/* GPU Compositing Hints */
+nav {
+  will-change: transform;
+  contain: layout style;
+}
+

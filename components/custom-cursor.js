@@ -2,7 +2,23 @@ import { useEffect, useState } from "react";
 import { motion, useMotionValue, useSpring } from "motion/react";
 import { useColorModeValue } from "@/components/ui/color-mode";
 
+/**
+ * Lightweight gate: on touch/mobile devices, this component renders
+ * nothing and avoids mounting any hooks, motion values, or springs.
+ */
 const CustomCursor = () => {
+  const [hasPointer, setHasPointer] = useState(false);
+
+  useEffect(() => {
+    setHasPointer(window.matchMedia("(pointer: fine)").matches);
+  }, []);
+
+  if (!hasPointer) return null;
+
+  return <CursorInner />;
+};
+
+const CursorInner = () => {
   const cursorSize = 24;
   const cursorSizeHover = 50;
 
@@ -10,8 +26,6 @@ const CustomCursor = () => {
   const mouseY = useMotionValue(-100);
 
   const [isHovering, setIsHovering] = useState(false);
-  const [hasMouse, setHasMouse] = useState(false);
-  const [mounted, setMounted] = useState(false);
 
   // High stiffness and low mass for ultra-low latency "snappiness"
   const springConfig = { damping: 20, stiffness: 800, mass: 0.1 };
@@ -22,15 +36,9 @@ const CustomCursor = () => {
   const cursorBorder = useColorModeValue("1px solid rgba(49, 151, 149, 0.8)", "1px solid rgba(129, 230, 217, 0.6)");
 
   useEffect(() => {
-    setMounted(true);
-    
-    const isPointerFine = window.matchMedia("(pointer: fine)").matches;
-    if (isPointerFine) {
-      setHasMouse(true);
-      // We keep the native hardware cursor visible for absolute 0ms latency.
-      // This custom cursor acts as a "trailing halo".
-      document.body.style.cursor = "auto";
-    }
+    // We keep the native hardware cursor visible for absolute 0ms latency.
+    // This custom cursor acts as a "trailing halo".
+    document.body.style.cursor = "auto";
 
     const handleMouseMove = (e) => {
       mouseX.set(e.clientX - (isHovering ? cursorSizeHover / 2 : cursorSize / 2));
@@ -57,18 +65,14 @@ const CustomCursor = () => {
       }
     };
 
-    if (isPointerFine) {
-      window.addEventListener("mousemove", handleMouseMove);
-      window.addEventListener("mouseover", handleMouseOver);
-    }
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseover", handleMouseOver);
 
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("mouseover", handleMouseOver);
     };
   }, [mouseX, mouseY, isHovering]);
-
-  if (!mounted || !hasMouse) return null;
 
   return (
     <motion.div
@@ -100,3 +104,4 @@ const CustomCursor = () => {
 };
 
 export default CustomCursor;
+

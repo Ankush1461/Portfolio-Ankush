@@ -11,27 +11,26 @@ const MotionBox = motion.create(
 const Section = ({ children, delay = 0, mb = "4rem", direction = "left" }) => (
   <MotionBox
     initial={{ 
-      x: direction === "left" ? -50 : 50, 
+      x: direction === "left" ? -30 : 30, 
       opacity: 0, 
       rotate: direction === "left" ? -2 : 2,
-      filter: "blur(10px)"
     }}
     whileInView={{ 
       x: 0, 
       opacity: 1, 
       rotate: 0,
-      filter: "blur(0px)"
     }}
-    viewport={{ once: false, amount: 0.1, margin: "10000px 0px -150px 0px" }} // Huge top margin prevents elements from animating out when exiting the top of the screen, so they never wrongly re-animate when scrolling back up. Mapped: Top Right Bottom Left.
+    viewport={{ once: false, amount: 0.1, margin: "10000px 0px -150px 0px" }}
     transition={{
-      duration: 0.8,
+      duration: 0.5,
       delay,
-      type: "spring",
-      stiffness: 80,
-      damping: 15,
-      mass: 1
+      ease: [0.25, 0.1, 0.25, 1], /* CSS ease — smooth single-pass, no bounce */
     }}
-    style={{ marginBottom: mb, position: "relative" }}
+    style={{ 
+      marginBottom: mb, 
+      position: "relative",
+      willChange: "transform, opacity",
+    }}
   >
     {children}
   </MotionBox>

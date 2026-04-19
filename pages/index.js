@@ -101,7 +101,7 @@ const Page = () => {
     <Layout>
       <Container>
         <Box position="relative" mt={6} mb={10}>
-          <RetroComputer />
+
           
           <Box
             position={{ base: "relative", md: "absolute" }}
@@ -109,7 +109,7 @@ const Page = () => {
             left={{ base: "auto", md: "50%" }}
             transform={{ base: "none", md: "translateX(-50%)" }}
             width={{ base: "100%", md: "95%" }}
-            mt={{ base: -20, sm: -36, md: 0 }} 
+            mt={{ base: -28, sm: -36, md: 0 }} 
             className="glass-card"
             p={6}
             zIndex={2}

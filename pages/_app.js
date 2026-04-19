@@ -10,11 +10,17 @@ const ParticleBackground = dynamic(
   { ssr: false }
 );
 
+const LoadingScreen = dynamic(
+  () => import("../components/LoadingScreen"),
+  { ssr: false }
+);
+
 function Website({ Component, pageProps, router }) {
   return (
     <LanguageProvider>
       <Provider>
         <Fonts />
+        <LoadingScreen />
         <ParticleBackground />
         <Layout router={router}>
           <Component {...pageProps} key={router.route} />
@@ -25,3 +31,4 @@ function Website({ Component, pageProps, router }) {
 }
 
 export default Website;
+

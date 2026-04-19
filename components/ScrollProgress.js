@@ -65,7 +65,7 @@ export default function ScrollProgress() {
   return (
     <Box
       position="fixed"
-      right={{ base: "10px", md: "20px" }}
+      right={{ base: "6px", md: "20px" }}
       top="50%"
       transform="translateY(-50%)"
       zIndex={50}
@@ -75,6 +75,7 @@ export default function ScrollProgress() {
       flexDirection="column"
       alignItems="center"
       justifyContent="space-between"
+      sx={{ willChange: "transform", contain: "layout style" }}
     >
       {/* Terminal Label */}
       <Text

@@ -4,6 +4,7 @@ import Navbar from "../navbar.js";
 import ChatAssistant from "../chat-assistant.js";
 import CustomCursor from "../custom-cursor.js";
 import ScrollProgress from "../ScrollProgress.js";
+import RetroComputer from "../RetroComputer.js";
 
 const Main = ({ children, router }) => {
   return (
@@ -24,6 +25,17 @@ const Main = ({ children, router }) => {
       <ScrollProgress />
       <Navbar path={router.asPath} />
       <Container maxW="container.md" pt={14}>
+        <Box 
+          opacity={router.asPath === '/' ? 1 : 0}
+          height={router.asPath === '/' ? "auto" : "0px"}
+          overflow="hidden"
+          mt={router.asPath === '/' ? 6 : 0}
+          mb={router.asPath === '/' ? 10 : 0}
+          transition="opacity 0.4s ease-in-out"
+          pointerEvents={router.asPath === '/' ? "auto" : "none"}
+        >
+          <RetroComputer />
+        </Box>
         {children}
       </Container>
       <ChatAssistant />
