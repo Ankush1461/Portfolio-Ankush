@@ -1,19 +1,11 @@
-import { Box } from "@chakra-ui/react";
 import { motion } from "motion/react";
-import { forwardRef } from "react";
-
-const MotionBox = motion.create(
-  forwardRef(function ChakraBox(props, ref) {
-    return <Box ref={ref} {...props} />;
-  })
-);
 
 const Section = ({ children, delay = 0, mb = "4rem", direction = "left" }) => (
-  <MotionBox
+  <motion.div
     initial={{ 
       x: direction === "left" ? -30 : 30, 
       opacity: 0, 
-      rotate: direction === "left" ? -2 : 2,
+      rotate: direction === "left" ? -1 : 1,
     }}
     whileInView={{ 
       x: 0, 
@@ -22,9 +14,12 @@ const Section = ({ children, delay = 0, mb = "4rem", direction = "left" }) => (
     }}
     viewport={{ once: false, amount: 0.1, margin: "10000px 0px -150px 0px" }}
     transition={{
-      duration: 0.5,
+      duration: 0.6,
       delay,
-      ease: [0.25, 0.1, 0.25, 1], /* CSS ease — smooth single-pass, no bounce */
+      type: "spring",
+      stiffness: 80,
+      damping: 15,
+      mass: 1
     }}
     style={{ 
       marginBottom: mb, 
@@ -33,7 +28,7 @@ const Section = ({ children, delay = 0, mb = "4rem", direction = "left" }) => (
     }}
   >
     {children}
-  </MotionBox>
+  </motion.div>
 );
 
 export default Section;

@@ -101,8 +101,9 @@ const Page = () => {
     <Layout>
       <Container>
         <Box position="relative" mt={6} mb={10}>
+          {/* Placeholder for absolutely positioned Global RetroComputer */}
+          <Box h={{ base: "320px", sm: "400px", md: "520px" }} w="100%" />
 
-          
           <Box
             position={{ base: "relative", md: "absolute" }}
             bottom={{ base: "auto", md: "-10px" }} 

@@ -26,13 +26,15 @@ const Main = ({ children, router }) => {
       <Navbar path={router.asPath} />
       <Container maxW="container.md" pt={14}>
         <Box 
+          position="absolute"
+          top={14}
+          left={0}
+          right={0}
           opacity={router.asPath === '/' ? 1 : 0}
-          height={router.asPath === '/' ? "auto" : "0px"}
-          overflow="hidden"
-          mt={router.asPath === '/' ? 6 : 0}
-          mb={router.asPath === '/' ? 10 : 0}
-          transition="opacity 0.4s ease-in-out"
+          visibility={router.asPath === '/' ? "visible" : "hidden"}
+          transition="opacity 0.4s ease-in-out, visibility 0.4s ease-in-out"
           pointerEvents={router.asPath === '/' ? "auto" : "none"}
+          zIndex={0}
         >
           <RetroComputer />
         </Box>
