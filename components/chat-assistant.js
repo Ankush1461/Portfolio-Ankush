@@ -36,7 +36,11 @@ const ChatAssistant = () => {
 
   useEffect(() => {
     if (cacheLoaded && messages && messages.length > 0) {
-      localStorage.setItem('ai-chat-history', JSON.stringify(messages));
+      try {
+        localStorage.setItem('ai-chat-history', JSON.stringify(messages));
+      } catch (err) {
+        // Silently fail if storage is unavailable (e.g. incognito)
+      }
     }
   }, [messages, cacheLoaded]);
 
@@ -81,6 +85,14 @@ const ChatAssistant = () => {
   useEffect(() => {
     scrollToBottom();
   }, [messages, isLoading]);
+
+  useEffect(() => {
+    if (isOpen) {
+      setTimeout(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: 'auto' });
+      }, 100);
+    }
+  }, [isOpen]);
 
   const handleManualSubmit = async (e) => {
     e.preventDefault();

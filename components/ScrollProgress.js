@@ -1,5 +1,5 @@
 import { motion, useScroll, useSpring, useTransform } from "motion/react";
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Box, Text } from "@chakra-ui/react";
 
@@ -9,7 +9,7 @@ import { Box, Text } from "@chakra-ui/react";
  * - Computer Terminal (loading progress percentage)
  */
 export default function ScrollProgress() {
-  const router = useRouter();
+  const pathname = usePathname();
   const { scrollYProgress } = useScroll();
   const scaleY = useSpring(scrollYProgress, {
     stiffness: 100,
@@ -22,7 +22,7 @@ export default function ScrollProgress() {
   // Map progress to 0-100%
   useEffect(() => {
     // Force 100% on contact page immediately
-    if (router.asPath.includes("/contact")) {
+    if (pathname && pathname.includes("/contact")) {
       setPercentage(100);
       return;
     }
@@ -60,7 +60,7 @@ export default function ScrollProgress() {
       unsubscribe();
       window.removeEventListener("resize", checkScrollability);
     };
-  }, [scrollYProgress, router.asPath]);
+  }, [scrollYProgress, pathname]);
 
   return (
     <Box

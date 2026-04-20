@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { useLoading } from "@/lib/loading-context";
 
 const LOADING_MESSAGES = [
   "Initializing something extraordinary...",
@@ -15,7 +16,8 @@ const LOADING_MESSAGES = [
  * Shows a terminal-style typewriter animation with a witty message,
  * then gracefully fades out once the site is ready.
  */
-export default function LoadingScreen() {
+export default function LoadingScreen({ onLoadingComplete }) {
+  const { setIsLoading } = useLoading();
   const [isVisible, setIsVisible] = useState(true);
   const [progress, setProgress] = useState(0);
 
@@ -28,7 +30,7 @@ export default function LoadingScreen() {
   useEffect(() => {
     // Remove the server-rendered overlay now that LoadingScreen has hydrated
     const ssrOverlay = document.getElementById("initial-loader");
-    if (ssrOverlay) ssrOverlay.remove();
+    if (ssrOverlay) ssrOverlay.style.display = "none";
 
     let splineFinished = false;
     let minTimePassed = false;
@@ -52,7 +54,11 @@ export default function LoadingScreen() {
         isFullyDone = true;
         setProgress(100);
         clearInterval(interval);
-        setTimeout(() => setIsVisible(false), 400); // Small delay to show 100%
+        setTimeout(() => {
+           setIsVisible(false);
+           setIsLoading(false); // Update global context
+           if (onLoadingComplete) onLoadingComplete();
+        }, 400); // Small delay to show 100%
       }
     };
 
@@ -77,7 +83,7 @@ export default function LoadingScreen() {
       window.removeEventListener('spline-loaded', onSplineEvent);
       window.removeEventListener('spline-error', onSplineEvent);
     };
-  }, []);
+  }, [onLoadingComplete]);
 
   return (
     <AnimatePresence>
@@ -94,10 +100,56 @@ export default function LoadingScreen() {
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
-            background: "#202023",
+            background: "#121214",
             overflow: "hidden",
           }}
         >
+          {/* Side Indicator - Sticking to the right side */}
+          <div
+            style={{
+              position: "fixed",
+              right: "0",
+              top: "0",
+              bottom: "0",
+              width: "60px",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              borderLeft: "1px solid rgba(49, 151, 149, 0.2)",
+              background: "rgba(20, 20, 23, 0.5)",
+              backdropFilter: "blur(5px)",
+              zIndex: 100,
+            }}
+          >
+             <div
+               style={{
+                 writingMode: "vertical-lr",
+                 transform: "rotate(180deg)",
+                 color: "#319795",
+                 fontFamily: "'JetBrains Mono', monospace",
+                 fontSize: "12px",
+                 fontWeight: 600,
+                 letterSpacing: "4px",
+                 opacity: 0.8,
+                 marginBottom: "20px"
+               }}
+             >
+               SYS_LOAD
+             </div>
+             <div style={{ height: "100px", width: "1px", background: "rgba(49, 151, 149, 0.2)", marginBottom: "16px" }} />
+             <div 
+               style={{ 
+                 color: "#319795", 
+                 fontFamily: "'JetBrains Mono', monospace", 
+                 fontSize: "14px", 
+                 fontWeight: "bold" 
+               }}
+             >
+               {progress}%
+             </div>
+          </div>
+
           {/* Subtle animated background grid */}
           <div
             style={{
@@ -128,7 +180,7 @@ export default function LoadingScreen() {
               borderRadius: "50%",
               background:
                 "radial-gradient(circle, rgba(49,151,149,0.25) 0%, transparent 70%)",
-              filter: "blur(40px)",
+              filter: "blur(60px)",
             }}
           />
 
@@ -136,147 +188,170 @@ export default function LoadingScreen() {
           <motion.div
             initial={{ y: 30, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
+            transition={{ duration: 0.8, ease: "circOut" }}
             style={{
               position: "relative",
-              width: "min(420px, 85vw)",
-              background: "rgba(30, 30, 34, 0.9)",
-              border: "1px solid rgba(49,151,149,0.2)",
-              borderRadius: "16px",
+              width: "min(480px, 90vw)",
+              background: "rgba(20, 20, 23, 0.75)",
+              backdropFilter: "blur(25px)",
+              border: "1px solid rgba(49,151,149,0.15)",
+              borderRadius: "24px",
               overflow: "hidden",
-              boxShadow: "0 25px 60px rgba(0,0,0,0.5), 0 0 40px rgba(49,151,149,0.1)",
+              boxShadow: "0 40px 100px rgba(0,0,0,0.8), 0 0 40px rgba(49,151,149,0.1)",
             }}
           >
+            {/* Scanner Line Animation */}
+            <motion.div
+              animate={{
+                top: ["0%", "100%", "0%"],
+              }}
+              transition={{
+                duration: 4,
+                repeat: Infinity,
+                ease: "linear",
+              }}
+              style={{
+                position: "absolute",
+                left: 0,
+                right: 0,
+                height: "1px",
+                background: "linear-gradient(90deg, transparent, rgba(49,151,149,0.5), transparent)",
+                zIndex: 2,
+                pointerEvents: "none"
+              }}
+            />
+
             {/* Terminal title bar */}
             <div
               style={{
                 display: "flex",
                 alignItems: "center",
-                gap: "8px",
-                padding: "12px 16px",
+                gap: "10px",
+                padding: "16px 20px",
                 borderBottom: "1px solid rgba(255,255,255,0.05)",
+                background: "rgba(255,255,255,0.02)"
               }}
             >
-              <div style={{ width: 12, height: 12, borderRadius: "50%", background: "#ff5f57" }} />
-              <div style={{ width: 12, height: 12, borderRadius: "50%", background: "#febc2e" }} />
-              <div style={{ width: 12, height: 12, borderRadius: "50%", background: "#28c840" }} />
+              <div style={{ display: "flex", gap: "6px" }}>
+                <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#ff5f57", boxShadow: "0 0 8px rgba(255,95,87,0.3)" }} />
+                <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#febc2e", boxShadow: "0 0 8px rgba(254,188,46,0.3)" }} />
+                <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#28c840", boxShadow: "0 0 8px rgba(40,200,64,0.3)" }} />
+              </div>
               <span
                 style={{
                   marginLeft: "auto",
-                  fontSize: "11px",
+                  fontSize: "10px",
                   fontFamily: "'JetBrains Mono', monospace",
-                  color: "rgba(255,255,255,0.3)",
-                  letterSpacing: "0.5px",
+                  color: "rgba(255,255,255,0.4)",
+                  letterSpacing: "1.5px",
+                  fontWeight: 500
                 }}
               >
-                ankush@portfolio ~
+                PROD_INIT_PHASE
               </span>
             </div>
 
             {/* Terminal body */}
-            <div style={{ padding: "20px 20px 24px" }}>
+            <div style={{ padding: "28px 32px 36px" }}>
               {/* Command line */}
               <div
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  gap: "8px",
-                  marginBottom: "16px",
-                  fontFamily: "'JetBrains Mono', 'Fira Code', monospace",
-                  fontSize: "13px",
+                  gap: "10px",
+                  marginBottom: "20px",
+                  fontFamily: "'JetBrains Mono', monospace",
+                  fontSize: "14px",
                 }}
               >
                 <span style={{ color: "#319795", fontWeight: 700 }}>❯</span>
-                <span style={{ color: "rgba(255,255,255,0.7)" }}>npx load-portfolio</span>
-                <span
+                <span style={{ color: "rgba(255,255,255,0.85)" }}>run sync --portfolio</span>
+                <motion.div
+                  animate={{ opacity: [1, 0, 1] }}
+                  transition={{ duration: 0.8, repeat: Infinity, ease: "linear" }}
                   style={{
-                    display: "inline-block",
                     width: "8px",
                     height: "16px",
                     background: "#319795",
                     marginLeft: "2px",
-                    animation: "cursorBlink 0.8s steps(1) infinite",
                   }}
                 />
-                <style>{`
-                  @keyframes cursorBlink {
-                    0%, 49% { opacity: 1; }
-                    50%, 100% { opacity: 0; }
-                  }
-                `}</style>
               </div>
 
-              {/* Message with typewriter effect */}
+              {/* Message with subtle glow */}
               <motion.p
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 0.4, duration: 0.3 }}
+                transition={{ delay: 0.2, duration: 0.4 }}
                 style={{
-                  fontFamily: "'JetBrains Mono', 'Fira Code', monospace",
-                  fontSize: "12px",
-                  color: "rgba(94,234,212,0.8)",
-                  margin: "0 0 20px 0",
-                  lineHeight: 1.6,
+                  fontFamily: "'JetBrains Mono', monospace",
+                  fontSize: "12.5px",
+                  color: "rgba(94,234,212,0.9)",
+                  margin: "0 0 28px 0",
+                  lineHeight: 1.8,
+                  textShadow: "0 0 10px rgba(49,151,149,0.3)"
                 }}
               >
                 {message}
               </motion.p>
 
-              {/* Progress bar */}
-              <div
-                style={{
-                  width: "100%",
-                  height: "4px",
-                  background: "rgba(255,255,255,0.06)",
-                  borderRadius: "2px",
-                  overflow: "hidden",
-                  marginBottom: "10px",
-                }}
-              >
+              {/* Progress Container */}
+              <div style={{ position: "relative" }}>
                 <div
-                  style={{
-                    width: `${progress}%`,
-                    height: "100%",
-                    background: "linear-gradient(90deg, #319795, #5eead4)",
-                    borderRadius: "2px",
-                    boxShadow: "0 0 12px rgba(49,151,149,0.5)",
-                    transition: "width 50ms ease-out",
-                  }}
-                />
-              </div>
+                    style={{
+                      width: "100%",
+                      height: "2px",
+                      background: "rgba(255,255,255,0.03)",
+                      borderRadius: "2px",
+                      overflow: "hidden",
+                      marginBottom: "12px"
+                    }}
+                >
+                    <motion.div
+                    animate={{ width: `${progress}%` }}
+                    transition={{ type: "spring", bounce: 0, duration: 0.3 }}
+                    style={{
+                        height: "100%",
+                        background: "linear-gradient(90deg, #319795, #5eead4)",
+                        boxShadow: "0 0 20px rgba(49,151,149,0.6)",
+                    }}
+                    />
+                </div>
 
-              {/* Progress percentage */}
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  fontFamily: "'JetBrains Mono', 'Fira Code', monospace",
-                  fontSize: "10px",
-                  color: "rgba(255,255,255,0.3)",
-                }}
-              >
-                <span>SYS_LOAD</span>
-                <span>{progress}%</span>
+                <div
+                    style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    fontFamily: "'JetBrains Mono', monospace",
+                    fontSize: "10px",
+                    color: "rgba(255,255,255,0.35)",
+                    letterSpacing: "1px"
+                    }}
+                >
+                    <span>INITIALIZING_HYDRATION</span>
+                    <span style={{ color: "#319795" }}>{progress}%</span>
+                </div>
               </div>
             </div>
           </motion.div>
 
-          {/* Bottom signature */}
+          {/* Center Bottom Signature */}
           <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.8, duration: 0.5 }}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6, duration: 0.6 }}
             style={{
-              position: "relative",
-              marginTop: "32px",
+              position: "absolute",
+              bottom: "40px",
               fontFamily: "'M PLUS Rounded 1c', sans-serif",
-              fontSize: "13px",
-              color: "rgba(255,255,255,0.25)",
-              letterSpacing: "3px",
+              fontSize: "11px",
+              color: "rgba(255,255,255,0.15)",
+              letterSpacing: "6px",
               textTransform: "uppercase",
+              fontWeight: 700
             }}
           >
-            Ankush Karmakar
+            ANKUSH KARMAKAR
           </motion.p>
         </motion.div>
       )}

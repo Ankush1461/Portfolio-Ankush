@@ -1,48 +1,67 @@
+"use client";
+import { useState } from "react";
+
 import { Box, Container } from "@chakra-ui/react";
-import Head from "next/head";
+import { usePathname } from "next/navigation";
+import dynamic from "next/dynamic";
 import Navbar from "../navbar.js";
 import ChatAssistant from "../chat-assistant.js";
 import CustomCursor from "../custom-cursor.js";
 import ScrollProgress from "../ScrollProgress.js";
 import RetroComputer from "../RetroComputer.js";
+import Footer from "../footer.js";
 
-const Main = ({ children, router }) => {
+const ParticleBackground = dynamic(() => import("../ParticleBackground"), { ssr: false });
+const LoadingScreen = dynamic(() => import("../LoadingScreen"), { ssr: false });
+
+import { AnimatePresence, motion } from "motion/react";
+import { useLoading } from "@/lib/loading-context";
+
+const Main = ({ children }) => {
+  const pathname = usePathname();
+  const { isLoading, setIsLoading } = useLoading();
+
   return (
-    <Box as="main" pb={8} position="relative" zIndex={1}>
-      <Head>
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
-        <title>Ankush Karmakar — Portfolio</title>
-        <meta name="description" content="Ankush Karmakar's Professional Portfolio - Microsoft Certified Tech Consultant, Dynamics CRM Specialist, and Data Science Enthusiast." />
-        <meta name="author" content="Ankush Karmakar" />
-        <meta name="theme-color" content="#202023" />
-        <link rel="apple-touch-icon" href="/images/footprint.png" />
-        <link rel="shortcut icon" href="/images/footprint.png" type="image/x-icon" />
-        <meta property="og:site_name" content="Ankush Karmakar" />
-        <meta name="og:title" content="Ankush Karmakar" />
-        <meta property="og:type" content="website" />
-        <meta property="og:image" content="/images/ankushprofile.png" />
-      </Head>
-      <ScrollProgress />
-      <Navbar path={router.asPath} />
-      <Container maxW="container.md" pt={14}>
-        <Box 
-          position="absolute"
-          top={14}
-          left={0}
-          right={0}
-          opacity={router.pathname === '/' ? 1 : 0}
-          visibility={router.pathname === '/' ? "visible" : "hidden"}
-          transition="opacity 0.4s ease-in-out, visibility 0.4s ease-in-out"
-          pointerEvents={router.pathname === '/' ? "auto" : "none"}
-          zIndex={0}
-        >
-          <RetroComputer />
+    <>
+      <LoadingScreen onLoadingComplete={() => setIsLoading(false)} />
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={!isLoading ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.8, ease: [0.6, 0.05, 0.01, 0.9] }}
+      >
+        <Box as="main" pb={8} position="relative" zIndex={1}>
+          <ParticleBackground />
+          <ScrollProgress />
+          <Navbar path={pathname} />
+          <Container maxW="container.md" pt={14} position="relative">
+             {/* 3D Scene - Always mounted to allow background initialization */}
+             <Box 
+                position="absolute"
+                top={14}
+                left="50%"
+                transform="translateX(-50%)"
+                width="100%"
+                opacity={pathname === '/' ? 1 : 0}
+                visibility={pathname === '/' ? "visible" : "hidden"}
+                pointerEvents={pathname === '/' && !isLoading ? "auto" : "none"}
+                zIndex={0}
+              >
+                <RetroComputer />
+              </Box>
+
+              {/* Page Content - Mounted immediately but reveal is handled by Section components via Context */}
+              <AnimatePresence mode="wait" initial={false}>
+                <Box key={pathname}>
+                  {children}
+                </Box>
+              </AnimatePresence>
+              <Footer />
+          </Container>
         </Box>
-        {children}
-      </Container>
+      </motion.div>
       <ChatAssistant />
       <CustomCursor />
-    </Box>
+    </>
   );
 };
 

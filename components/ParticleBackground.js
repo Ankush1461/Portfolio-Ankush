@@ -31,10 +31,10 @@ export default function ParticleBackground() {
       fpsLimit: 60,
       particles: {
         number: {
-          value: 35,
+          value: 25,
           density: {
             enable: true,
-            area: 800,
+            area: 1200,
           },
         },
         color: {

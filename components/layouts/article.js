@@ -1,5 +1,6 @@
+"use client";
+
 import { motion } from "motion/react";
-import Head from "next/head";
 
 const variants = {
   hidden: { opacity: 0, x: 0, y: 20 },
@@ -7,7 +8,7 @@ const variants = {
   exit: { opacity: 0, x: 0, y: 20 },
 };
 
-const Layout = ({ children, title }) => (
+const Layout = ({ children }) => (
   <motion.article
     initial="hidden"
     animate="enter"
@@ -16,16 +17,7 @@ const Layout = ({ children, title }) => (
     transition={{ duration: 0.4, type: "easeInOut" }}
     style={{ position: "relative" }}
   >
-    <>
-      {title && (
-        <Head>
-          <title>{title} - Ankush Karmakar</title>
-          <meta name="twitter:title" content={title} />
-          <meta property="og:title" content={title} />
-        </Head>
-      )}
-      {children}
-    </>
+    {children}
   </motion.article>
 );
 

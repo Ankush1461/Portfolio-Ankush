@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Container,
   Heading,
@@ -8,8 +10,8 @@ import {
   Badge,
   Flex,
 } from "@chakra-ui/react";
-import Section from "../components/section";
-import Layout from "../components/layouts/article";
+import Section from "@/components/section";
+import Layout from "@/components/layouts/article";
 import { useColorModeValue } from "@/components/ui/color-mode";
 import { useLanguage } from "@/lib/i18n";
 import { IoLogoGithub, IoCheckmarkCircleOutline } from "react-icons/io5";
@@ -160,7 +162,7 @@ const Projects = () => {
 
   return (
     <Layout title={t.projects.title}>
-      <Container>
+      <Container mb={18}>
         <Heading as="h3" fontSize={20} mb={10} textDecoration="underline" textUnderlineOffset={6} textDecorationColor="gray.500" textDecorationThickness="4px">
           {t.projects.title}
         </Heading>
@@ -225,3 +227,4 @@ const Projects = () => {
 };
 
 export default Projects;
+

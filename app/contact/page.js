@@ -1,4 +1,6 @@
-import { useState } from "react";
+"use client";
+
+import { useState, useEffect } from "react";
 import {
   Container,
   Heading,
@@ -12,8 +14,8 @@ import {
   Flex,
   Icon,
 } from "@chakra-ui/react";
-import Layout from "../components/layouts/article";
-import Section from "../components/section";
+import Layout from "@/components/layouts/article";
+import Section from "@/components/section";
 import { useColorModeValue } from "@/components/ui/color-mode";
 import { useLanguage } from "@/lib/i18n";
 import {
@@ -36,6 +38,14 @@ const Contact = () => {
     subject: "",
     message: "",
   });
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const subtitleColor = useColorModeValue("gray.600", "gray.400");
+  const iconColor = useColorModeValue("gray.600", "gray.400");
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -66,11 +76,13 @@ const Contact = () => {
           {t.contact.title}
         </Heading>
 
-        <Section delay={0.1}>
-          <Text fontSize="sm" mb={6} color={useColorModeValue("gray.600", "gray.400")}>
-            {t.contact.subtitle}
-          </Text>
-        </Section>
+        {mounted && (
+          <Section delay={0.1}>
+            <Text fontSize="sm" mb={6} color={subtitleColor}>
+              {t.contact.subtitle}
+            </Text>
+          </Section>
+        )}
 
         <Section delay={0.2}>
           <Heading
@@ -165,25 +177,27 @@ const Contact = () => {
           </Box>
         </Section>
 
-        <Section delay={0.3}>
-          <Flex justifyContent="center" gap={4} mt={4}>
-            <Link href="https://github.com/Ankush1461" target="_blank">
-              <Icon boxSize={6} color={useColorModeValue("gray.600", "gray.400")} _hover={{ color: "teal.500" }} transition="color 0.2s">
-                <IoLogoGithub />
-              </Icon>
-            </Link>
-            <Link href="https://www.linkedin.com/in/ankush-karmakar" target="_blank">
-              <Icon boxSize={6} color={useColorModeValue("gray.600", "gray.400")} _hover={{ color: "teal.500" }} transition="color 0.2s">
-                <IoLogoLinkedin />
-              </Icon>
-            </Link>
-            <Link href="https://www.instagram.com/mysteriously_ecstatic_guy" target="_blank">
-              <Icon boxSize={6} color={useColorModeValue("gray.600", "gray.400")} _hover={{ color: "teal.500" }} transition="color 0.2s">
-                <IoLogoInstagram />
-              </Icon>
-            </Link>
-          </Flex>
-        </Section>
+        {mounted && (
+          <Section delay={0.3}>
+            <Flex justifyContent="center" gap={4} mt={4}>
+              <Link href="https://github.com/Ankush1461" target="_blank">
+                <Icon boxSize={6} color={iconColor} _hover={{ color: "teal.500" }} transition="color 0.2s">
+                  <IoLogoGithub />
+                </Icon>
+              </Link>
+              <Link href="https://www.linkedin.com/in/ankush-karmakar" target="_blank">
+                <Icon boxSize={6} color={iconColor} _hover={{ color: "teal.500" }} transition="color 0.2s">
+                  <IoLogoLinkedin />
+                </Icon>
+              </Link>
+              <Link href="https://www.instagram.com/mysteriously_ecstatic_guy" target="_blank">
+                <Icon boxSize={6} color={iconColor} _hover={{ color: "teal.500" }} transition="color 0.2s">
+                  <IoLogoInstagram />
+                </Icon>
+              </Link>
+            </Flex>
+          </Section>
+        )}
         </Container>
       </Flex>
     </Layout>
@@ -191,3 +205,4 @@ const Contact = () => {
 };
 
 export default Contact;
+

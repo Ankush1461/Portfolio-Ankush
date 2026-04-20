@@ -1,3 +1,6 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import {
   Container,
   Button,
@@ -16,13 +19,13 @@ import {
   ListItem,
 } from "@chakra-ui/react";
 import { LuChevronRight, LuExternalLink, LuAward } from "react-icons/lu";
-import Layout from "../components/layouts/article";
-import Section from "../components/section";
-import Paragraph from "../components/paragraph";
-import { BioSection, BioYear, BioContent } from "../components/bio";
+import Layout from "@/components/layouts/article";
+import Section from "@/components/section";
+import Paragraph from "@/components/paragraph";
+import { BioSection, BioYear, BioContent } from "@/components/bio";
 import { useColorModeValue } from "@/components/ui/color-mode";
 import { useLanguage } from "@/lib/i18n";
-import Magnetic from "../components/Magnetic";
+import Magnetic from "@/components/Magnetic";
 import NextImage from "next/image";
 
 import {
@@ -96,6 +99,11 @@ const CertCard = ({ title, date, link }) => (
 
 const Page = () => {
   const { t } = useLanguage();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <Layout>
@@ -130,19 +138,21 @@ const Page = () => {
                 {t.home.subtitle}
               </Text>
               
-              <Flex 
-                mt={3} 
-                gap={3} 
-                fontSize="xs" 
-                fontWeight="bold" 
-                color="teal.500" 
-                _dark={{ color: "teal.300" }}
-                align="center"
-              >
-                <Text letterSpacing="widest" pointerEvents="auto">{t.home.role?.split('|')[0]?.trim() || "Tech Consultant"}</Text>
-                <Box w="1px" h="12px" bg="gray.400" />
-                <Text letterSpacing="widest" pointerEvents="auto">{t.home.role?.split('|')[1]?.trim() || "CRM Specialist"}</Text>
-              </Flex>
+              {mounted && (
+                <Flex 
+                  mt={3} 
+                  gap={3} 
+                  fontSize="xs" 
+                  fontWeight="bold" 
+                  color="teal.500" 
+                  _dark={{ color: "teal.300" }}
+                  align="center"
+                >
+                  <Text letterSpacing="widest" pointerEvents="auto">{t.home.role?.split('|')[0]?.trim() || "Tech Consultant"}</Text>
+                  <Box w="1px" h="12px" bg="gray.400" />
+                  <Text letterSpacing="widest" pointerEvents="auto">{t.home.role?.split('|')[1]?.trim() || "CRM Specialist"}</Text>
+                </Flex>
+              )}
             </Box>
 
             <Magnetic strength={0.3}>
@@ -411,3 +421,4 @@ const Page = () => {
 };
 
 export default Page;
+

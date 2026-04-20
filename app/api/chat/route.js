@@ -1,12 +1,9 @@
-// Running in standard Node.js runtime to ensure compatibility
+import { NextResponse } from 'next/server';
 
-export default async function handler(req, res) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
-
+export async function POST(req) {
   try {
-    const { messages } = req.body;
+    const body = await req.json();
+    const { messages } = body;
 
     const systemPrompt = `You are the personal AI Assistant for Ankush Karmakar's portfolio website. 
 Your goal is to politely and professionally answer questions about Ankush's professional background, skills, and projects.
@@ -48,7 +45,7 @@ TECHNICAL SKILLS:
 LANGUAGES:
 - Bengali & Hindi (Native)
 - English: Proficient (C1 level), IELTS Academic Band 7.0
-- German: Currently taking A2 level classes
+- German: Currently taking A2 level classes from Goethe-Institut
 
 GUIDELINES:
 - If asked what he is doing now or anything related to Germany then only mention that he is planning to pursue a Master's in Data Science in Germany.
@@ -83,19 +80,28 @@ GUIDELINES:
     const data = await response.json();
 
     if (!response.ok) {
-       return res.status(response.status || 500).json({ 
-         error: data.error?.message || "Failed to fetch from Gemini REST API",
-         details: data.error
-       });
+       console.error("Gemini API Error:", data.error);
+       
+       // Handle specific error types gracefully
+       if (response.status === 429) {
+         return NextResponse.json({ 
+           text: "I'm receiving a lot of messages right now! Please give me a moment to breathe and try asking again in a few seconds."
+         });
+       }
+
+       return NextResponse.json({ 
+         error: "I'm having a bit of trouble connecting to my brain right now.",
+         details: data.error?.message
+       }, { status: 500 });
     }
 
     const aiText = data.candidates?.[0]?.content?.parts?.[0]?.text || "Sorry, I am out of operation at the moment.";
 
-    return res.status(200).json({ text: aiText });
+    return NextResponse.json({ text: aiText });
   } catch (error) {
-    return res.status(500).json({ 
+    return NextResponse.json({ 
       error: error.message || 'Internal server error', 
       details: error.toString() 
-    });
+    }, { status: 500 });
   }
 }
