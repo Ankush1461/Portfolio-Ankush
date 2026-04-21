@@ -163,13 +163,21 @@ h1, h2, h3, h4, h5, h6 {
   position: absolute;
 }
 
-/* GPU Compositing & Optimization */
-nav, .glass-card, .rc-tag, #initial-loader {
-  will-change: transform, opacity;
-  transform: translate3d(0, 0, 0);
+/* GPU Compositing & Optimization - Mobile friendly */
+nav, .glass-card {
+  will-change: opacity;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
-  contain: layout style;
+}
+
+.rc-tag {
+  will-change: transform;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+#initial-loader {
+  will-change: opacity;
 }
 
 /* Speed-optimized rendering */

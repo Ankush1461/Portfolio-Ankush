@@ -17,23 +17,31 @@ const TECH_TAGS = [
 ];
 
 function OrbitingTags({ isDark }) {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile, { passive: true });
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   const tagData = useMemo(() => {
     return TECH_TAGS.map((tag, i) => {
       const angle = (i / TECH_TAGS.length) * 360;
-      // Spread tags further apart fundamentally
-      const radiusBase = 200; // px (widened)
-      const radiusOffset = (i % 5) * 42; // More staggered layers
-      const yOffBase = (i % 8 - 4) * 30; // Further Y deviation
+      const radiusBase = 200;
+      const radiusOffset = (i % 5) * 42;
+      const yOffBase = (i % 8 - 4) * 30;
 
       return {
         tag,
         angle,
         radius: radiusBase + radiusOffset,
-        minRadius: 100 + (radiusOffset * 0.6), // Dynamic min radius for mobile prevents collapsing to a single shell
+        minRadius: 100 + (radiusOffset * 0.6),
         yOff: yOffBase,
         dur: 35 + (i % 6) * 6,
         delay: i * 0.4,
-        size: i % 5 === 0 ? 10 : 8, // Smaller text to prevent visual clutter
+        size: i % 5 === 0 ? 10 : 8,
       };
     });
   }, []);
@@ -62,11 +70,12 @@ function OrbitingTags({ isDark }) {
             borderRadius: 6,
             whiteSpace: "nowrap",
             pointerEvents: "none",
-            zIndex: 0, // Keep behind Spline if we want, or in front. We'll set zIndex: 1
+            zIndex: 0,
             animation: `rcOrbit ${tp.dur}s linear ${tp.delay}s infinite`,
+            animationPlayState: isMobile ? 'paused' : 'running',
             willChange: "transform",
             "--rc-angle": `${tp.angle}deg`,
-            "--rc-r": `clamp(${tp.minRadius}px, 24vw, ${tp.radius}px)`, // Tightly couples mobile offsets mapping directly to the staggered depths
+            "--rc-r": `clamp(${tp.minRadius}px, 24vw, ${tp.radius}px)`,
             "--rc-y": `${tp.yOff}px`,
           }}
         >
@@ -90,6 +99,9 @@ export default function RetroComputer() {
   // Track global pointer events to ensure Spline tracks mouse coordinates infinitely across the whole screen width
   // even though the Canvas DOM element stops at the constrained 768px layout boundary.
   useEffect(() => {
+    const isMobileDevice = typeof window !== 'undefined' && window.innerWidth < 768;
+    if (isMobileDevice) return; // Disable on mobile to prevent battery drain and jank
+
     const handleGlobalPointer = (e) => {
       // Prevent infinite event echo loops from our own dispatched clones
       if (!e.isTrusted) return; 
@@ -267,11 +279,14 @@ export default function RetroComputer() {
                 rotate(calc(-1 * (var(--rc-angle) + 360deg)));
             }
           }
-          @media (max-width: 640px) {
-            .rc-tag:nth-child(n+12) { display: none !important; }
+          @media (max-width: 768px) {
+            .rc-tag:nth-child(n+10) { display: none !important; }
           }
-          @media (max-width: 400px) {
-            .rc-tag:nth-child(n+8) { display: none !important; }
+          @media (max-width: 480px) {
+            .rc-tag:nth-child(n+6) { display: none !important; }
+          }
+          @media (max-width: 360px) {
+            .rc-tag:nth-child(n+4) { display: none !important; }
           }
         `}</style>
       </Box>

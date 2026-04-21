@@ -118,7 +118,7 @@ export default function LoadingScreen({ onLoadingComplete }) {
               right: "0",
               top: "0",
               bottom: "0",
-              width: typeof window !== 'undefined' && window.innerWidth < 768 ? "40px" : "60px",
+              width: typeof window !== 'undefined' && window.innerWidth < 768 ? "18px" : "48px",
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
@@ -132,26 +132,29 @@ export default function LoadingScreen({ onLoadingComplete }) {
           >
              <div
                style={{
-                 writingMode: "vertical-lr",
-                 transform: "rotate(180deg)",
                  color: "#319795",
                  fontFamily: "var(--font-jetbrains), monospace",
-                 fontSize: typeof window !== 'undefined' && window.innerWidth < 768 ? "10px" : "12px",
+                 fontSize: typeof window !== 'undefined' && window.innerWidth < 768 ? "8px" : "12px",
                  fontWeight: 600,
-                 letterSpacing: typeof window !== 'undefined' && window.innerWidth < 768 ? "2px" : "4px",
+                 letterSpacing: typeof window !== 'undefined' && window.innerWidth < 768 ? "1px" : "4px",
                  opacity: 0.8,
-                 marginBottom: "20px"
+                 marginBottom: "20px",
+                 transform: "rotate(-90deg)",
+                 whiteSpace: "nowrap"
                }}
              >
                SYS_LOAD
              </div>
-             <div style={{ height: typeof window !== 'undefined' && window.innerWidth < 768 ? "60px" : "100px", width: "1px", background: "rgba(49, 151, 149, 0.2)", marginBottom: "16px" }} />
+             <div style={{ height: typeof window !== 'undefined' && window.innerWidth < 768 ? "40px" : "100px", width: "1px", background: "rgba(49, 151, 149, 0.2)", marginBottom: "16px" }} />
              <div 
                style={{ 
                  color: "#319795", 
                  fontFamily: "var(--font-jetbrains), monospace", 
-                 fontSize: typeof window !== 'undefined' && window.innerWidth < 768 ? "12px" : "14px", 
-                 fontWeight: "bold" 
+                 fontSize: typeof window !== 'undefined' && window.innerWidth < 768 ? "10px" : "14px", 
+                 fontWeight: "bold",
+                 transform: "rotate(-90deg)",
+                 whiteSpace: "nowrap",
+                 letterSpacing: typeof window !== 'undefined' && window.innerWidth < 768 ? "1px" : "normal"
                }}
              >
                {progress}%
@@ -214,19 +217,19 @@ export default function LoadingScreen({ onLoadingComplete }) {
             {/* Scanner Line Animation */}
             <motion.div
               animate={{
-                top: ["0%", "100%", "0%"],
+                left: ["-100%", "100%"],
               }}
               transition={{
-                duration: 4,
+                duration: 1.5,
                 repeat: Infinity,
                 ease: "linear",
               }}
               style={{
                 position: "absolute",
-                left: 0,
-                right: 0,
-                height: "1px",
-                background: "linear-gradient(90deg, transparent, rgba(49,151,149,0.5), transparent)",
+                top: 0,
+                width: "40%",
+                height: "100%",
+                background: "linear-gradient(90deg, transparent, rgba(49,151,149,0.08), transparent)",
                 zIndex: 2,
                 pointerEvents: "none"
               }}
@@ -307,7 +310,7 @@ export default function LoadingScreen({ onLoadingComplete }) {
               </motion.p>
 
               {/* Progress Container */}
-              <div style={{ position: "relative" }}>
+              <div style={{ position: "relative", maxWidth: "180px", margin: "0 auto" }}>
                 <div
                     style={{
                       width: "100%",
@@ -334,9 +337,9 @@ export default function LoadingScreen({ onLoadingComplete }) {
                     display: "flex",
                     justifyContent: "space-between",
                     fontFamily: "'JetBrains Mono', monospace",
-                    fontSize: "10px",
+                    fontSize: "8.5px",
                     color: "rgba(255,255,255,0.35)",
-                    letterSpacing: "1px"
+                    letterSpacing: "0.5px"
                     }}
                 >
                     <span>INITIALIZING_HYDRATION</span>

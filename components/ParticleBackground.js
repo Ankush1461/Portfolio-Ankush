@@ -4,23 +4,32 @@ import { loadSlim } from "@tsparticles/slim";
 import { Box } from "@chakra-ui/react";
 import { useColorModeValue } from "@/components/ui/color-mode";
 
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768);
+    const handler = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener("resize", handler, { passive: true });
+    return () => window.removeEventListener("resize", handler);
+  }, []);
+  return isMobile;
+}
 
 export default function ParticleBackground() {
   const [init, setInit] = useState(false);
+  const isMobile = useIsMobile();
   const particleColor = useColorModeValue("#202023", "#f0e7db");
   const bgColor = useColorModeValue("#f0e7db", "#202023");
 
   useEffect(() => {
-    const timeoutId = setTimeout(() => {
+    if (!init) {
       initParticlesEngine(async (engine) => {
         await loadSlim(engine);
       }).then(() => {
         setInit(true);
       });
-    }, 0);
-
-    return () => clearTimeout(timeoutId);
-  }, []);
+    }
+  }, [init]);
 
   const options = useMemo(
     () => ({
@@ -32,13 +41,13 @@ export default function ParticleBackground() {
           value: bgColor,
         },
       },
-      fpsLimit: 60,
+      fpsLimit: isMobile ? 30 : 60,
       particles: {
         number: {
-          value: typeof window !== 'undefined' && window.innerWidth < 768 ? 20 : 50,
+          value: isMobile ? 15 : 50,
           density: {
             enable: true,
-            area: 1200,
+            area: isMobile ? 2000 : 1200,
           },
         },
         color: {
@@ -48,21 +57,21 @@ export default function ParticleBackground() {
           type: "circle",
         },
         opacity: {
-          value: 0.3,
+          value: 0.25,
         },
         size: {
-          value: { min: 1, max: 2 },
+          value: { min: 1, max: isMobile ? 1.5 : 2 },
         },
         links: {
           enable: true,
-          distance: 150,
+          distance: isMobile ? 100 : 150,
           color: particleColor,
-          opacity: 0.2,
+          opacity: 0.15,
           width: 0.5,
         },
         move: {
           enable: true,
-          speed: 1,
+          speed: isMobile ? 0.5 : 1,
           direction: "none",
           outModes: {
             default: "bounce",
@@ -85,13 +94,14 @@ export default function ParticleBackground() {
             enable: true,
             mode: "push",
           },
-          resize: true,
+          resize: {
+            enable: !isMobile,
+          },
         },
         modes: {
           repulse: {
             distance: 200,
             duration: 0.4,
-            speed: 1,
             factor: 100,
           },
           push: {
@@ -99,9 +109,9 @@ export default function ParticleBackground() {
           },
         },
       },
-      detectRetina: true,
+      detectRetina: !isMobile,
     }),
-    [particleColor]
+    [particleColor, isMobile]
   );
 
   if (!init) return null;
@@ -120,7 +130,7 @@ export default function ParticleBackground() {
     >
       <Particles
         id="tsparticles"
-        key={particleColor}
+        key={`${particleColor}-${isMobile}`}
         options={options}
       />
     </Box>

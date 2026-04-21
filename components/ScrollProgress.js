@@ -65,12 +65,12 @@ export default function ScrollProgress() {
   return (
     <Box
       position="fixed"
-      right={{ base: "6px", md: "20px" }}
+      right={{ base: "4px", md: "20px" }}
       top="50%"
       transform="translateY(-50%)"
       zIndex={50}
-      height="200px"
-      width="30px"
+      height={{ base: "240px", md: "280px" }}
+      width={{ base: "18px", md: "40px" }}
       display="flex"
       flexDirection="column"
       alignItems="center"
@@ -78,22 +78,35 @@ export default function ScrollProgress() {
       sx={{ willChange: "transform", contain: "layout style" }}
     >
       {/* Terminal Label */}
-      <Text
-        fontSize="10px"
-        fontWeight="bold"
-        fontFamily="mono"
-        color="teal.500"
-        transform="rotate(-90deg)"
-        width="100px"
-        textAlign="center"
-        letterSpacing="widest"
+      <Box
+        position="relative"
+        height="120px"
+        width="100%"
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
       >
-        SYS_LOAD: {percentage}%
-      </Text>
+        <Text
+          fontSize={{ base: "8px", md: "11px" }}
+          fontWeight="bold"
+          fontFamily="mono"
+          color="teal.500"
+          style={{ 
+            whiteSpace: "nowrap",
+            transform: "rotate(-90deg)",
+            transformOrigin: "center",
+            position: "absolute"
+          }}
+          textAlign="center"
+          letterSpacing="widest"
+        >
+          SYS_LOAD: {percentage}%
+        </Text>
+      </Box>
 
       {/* The Tactical Playbook Line */}
       <Box
-        height="120px"
+        height={{ base: "80px", md: "100px" }}
         width="2px"
         bg="whiteAlpha.200"
         position="relative"

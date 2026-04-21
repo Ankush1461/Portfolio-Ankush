@@ -7,13 +7,15 @@ import { useColorModeValue } from "@/components/ui/color-mode";
  * nothing and avoids mounting any hooks, motion values, or springs.
  */
 const CustomCursor = () => {
-  const [hasPointer, setHasPointer] = useState(false);
+  const [hasPrecisionPointer, setHasPrecisionPointer] = useState(false);
 
   useEffect(() => {
-    setHasPointer(window.matchMedia("(pointer: fine)").matches);
+    const isMobileScreen = window.innerWidth < 768;
+    const hasFinePointer = window.matchMedia("(pointer: fine)").matches;
+    setHasPrecisionPointer(!isMobileScreen && hasFinePointer);
   }, []);
 
-  if (!hasPointer) return null;
+  if (!hasPrecisionPointer) return null;
 
   return <CursorInner />;
 };
