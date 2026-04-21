@@ -4,7 +4,6 @@ import { usePathname } from "next/navigation";
 import { Box, Container } from "@chakra-ui/react";
 import dynamic from "next/dynamic";
 import Navbar from "../navbar.js";
-import ChatAssistant from "../chat-assistant.js";
 import CustomCursor from "../custom-cursor.js";
 import ScrollProgress from "../ScrollProgress.js";
 import Footer from "../footer.js";
@@ -12,6 +11,7 @@ import Footer from "../footer.js";
 const RetroComputer = dynamic(() => import("../RetroComputer"), { ssr: false });
 const ParticleBackground = dynamic(() => import("../ParticleBackground"), { ssr: false });
 const LoadingScreen = dynamic(() => import("../LoadingScreen"), { ssr: false });
+const ChatAssistant = dynamic(() => import("../chat-assistant.js"), { ssr: false });
 
 import { AnimatePresence, motion } from "motion/react";
 import { useLoading } from "@/lib/loading-context";
