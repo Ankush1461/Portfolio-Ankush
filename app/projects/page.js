@@ -12,7 +12,6 @@ import {
 } from "@chakra-ui/react";
 import Section from "@/components/section";
 import Layout from "@/components/layouts/article";
-import { useColorModeValue } from "@/components/ui/color-mode";
 import { useLanguage } from "@/lib/i18n";
 import { IoLogoGithub, IoCheckmarkCircleOutline } from "react-icons/io5";
 import { LuExternalLink, LuZap } from "react-icons/lu";
@@ -99,7 +98,7 @@ const ProjectCard = ({ title, description, techStack, highlights, challenges, gi
         />
 
         <Box position="relative" zIndex={1}>
-          <Heading as="h4" fontSize="xl" mb={3} fontFamily="'M PLUS Rounded 1c', sans-serif" color="teal.500">
+          <Heading as="h4" fontSize="xl" mb={3} fontFamily="var(--font-m-plus), sans-serif" color="teal.500">
             {title}
           </Heading>
           

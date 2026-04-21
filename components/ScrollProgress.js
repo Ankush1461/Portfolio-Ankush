@@ -1,4 +1,4 @@
-import { motion, useScroll, useSpring, useTransform } from "motion/react";
+import { motion, useScroll, useSpring } from "motion/react";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Box, Text } from "@chakra-ui/react";
@@ -12,8 +12,8 @@ export default function ScrollProgress() {
   const pathname = usePathname();
   const { scrollYProgress } = useScroll();
   const scaleY = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
+    stiffness: 200,
+    damping: 25,
     restDelta: 0.001
   });
 

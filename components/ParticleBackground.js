@@ -11,11 +11,15 @@ export default function ParticleBackground() {
   const bgColor = useColorModeValue("#f0e7db", "#202023");
 
   useEffect(() => {
-    initParticlesEngine(async (engine) => {
-      await loadSlim(engine);
-    }).then(() => {
-      setInit(true);
-    });
+    const timeoutId = setTimeout(() => {
+      initParticlesEngine(async (engine) => {
+        await loadSlim(engine);
+      }).then(() => {
+        setInit(true);
+      });
+    }, 0);
+
+    return () => clearTimeout(timeoutId);
   }, []);
 
   const options = useMemo(
@@ -31,7 +35,7 @@ export default function ParticleBackground() {
       fpsLimit: 60,
       particles: {
         number: {
-          value: 25,
+          value: typeof window !== 'undefined' && window.innerWidth < 768 ? 20 : 50,
           density: {
             enable: true,
             area: 1200,

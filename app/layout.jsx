@@ -33,31 +33,46 @@ export const viewport = {
   themeColor: "#202023",
   width: 'device-width',
   initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
+  maximumScale: 5,
+  userScalable: true,
 };
+
+import { M_PLUS_Rounded_1c, Inter } from 'next/font/google';
+import localFont from 'next/font/local';
+
+const jetBrainsMono = localFont({
+  src: '../public/fonts/JetBrainsMono-Bold.woff2',
+  variable: '--font-jetbrains',
+  weight: '700',
+});
+
+const mPlus = M_PLUS_Rounded_1c({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '700', '800'],
+  variable: '--font-m-plus',
+});
+
+const inter = Inter({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700'],
+  variable: '--font-inter',
+});
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth">
+    <html lang="en" suppressHydrationWarning className={`${mPlus.variable} ${inter.variable} ${jetBrainsMono.variable}`} data-scroll-behavior="smooth">
       <head>
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <meta name="format-detection" content="telephone=no" />
         <link rel="icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" href="/images/footprint.png" />
         <link rel="shortcut icon" href="/images/footprint.png" type="image/x-icon" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
-        <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
-        <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@300;500;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-        <link rel="preload" href="/scene.splinecode" as="fetch" crossOrigin="anonymous" />
       </head>
-      <body style={{ background: "#202023" }}>
+      <body style={{ background: "#202023 !important" }}>
         <div 
           id="initial-loader" 
           suppressHydrationWarning
-          style={{ position: "fixed", inset: 0, zIndex: 99998, background: "#202023", pointerEvents: "none" }} 
+          style={{ position: "fixed", inset: 0, zIndex: 99998, background: "#202023 !important", pointerEvents: "none" }} 
         />
         <GlobalProviders>
           <Layout>

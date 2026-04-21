@@ -39,14 +39,14 @@ export default function LoadingScreen({ onLoadingComplete }) {
     // Simulate loading progress
     const interval = setInterval(() => {
       setProgress((prev) => {
-        if (prev >= 90) { // Cap at 90% until actually loaded
-          return 90;
+        if (prev >= 95) { // Cap at 95% until actually loaded
+          return 95;
         }
         // Accelerating progress curve
-        const increment = prev < 50 ? 6 : prev < 75 ? 3 : 1;
-        return Math.min(prev + increment, 90);
+        const increment = prev < 50 ? 8 : prev < 75 ? 4 : 2;
+        return Math.min(prev + increment, 95);
       });
-    }, 45);
+    }, 35);
 
     const tryFinish = () => {
       if (isFullyDone) return;
@@ -75,11 +75,18 @@ export default function LoadingScreen({ onLoadingComplete }) {
     const minimumTimer = setTimeout(() => {
       minTimePassed = true;
       tryFinish();
-    }, 3000); 
+    }, 300); 
+
+    // Safety timeout: If Spline fails to load within 3 seconds, finish anyway
+    const safetyTimer = setTimeout(() => {
+      splineFinished = true;
+      tryFinish();
+    }, 3000);
 
     return () => {
       clearInterval(interval);
       clearTimeout(minimumTimer);
+      clearTimeout(safetyTimer);
       window.removeEventListener('spline-loaded', onSplineEvent);
       window.removeEventListener('spline-error', onSplineEvent);
     };
@@ -90,8 +97,8 @@ export default function LoadingScreen({ onLoadingComplete }) {
       {isVisible && (
         <motion.div
           initial={{ opacity: 1 }}
-          exit={{ opacity: 0, filter: "blur(10px)" }}
-          transition={{ duration: 0.6, ease: "easeInOut" }}
+          exit={{ opacity: 0, filter: "blur(5px)" }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
           style={{
             position: "fixed",
             inset: 0,
@@ -111,7 +118,7 @@ export default function LoadingScreen({ onLoadingComplete }) {
               right: "0",
               top: "0",
               bottom: "0",
-              width: "60px",
+              width: typeof window !== 'undefined' && window.innerWidth < 768 ? "40px" : "60px",
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
@@ -120,6 +127,7 @@ export default function LoadingScreen({ onLoadingComplete }) {
               background: "rgba(20, 20, 23, 0.5)",
               backdropFilter: "blur(5px)",
               zIndex: 100,
+              transition: "width 0.3s ease"
             }}
           >
              <div
@@ -127,22 +135,22 @@ export default function LoadingScreen({ onLoadingComplete }) {
                  writingMode: "vertical-lr",
                  transform: "rotate(180deg)",
                  color: "#319795",
-                 fontFamily: "'JetBrains Mono', monospace",
-                 fontSize: "12px",
+                 fontFamily: "var(--font-jetbrains), monospace",
+                 fontSize: typeof window !== 'undefined' && window.innerWidth < 768 ? "10px" : "12px",
                  fontWeight: 600,
-                 letterSpacing: "4px",
+                 letterSpacing: typeof window !== 'undefined' && window.innerWidth < 768 ? "2px" : "4px",
                  opacity: 0.8,
                  marginBottom: "20px"
                }}
              >
                SYS_LOAD
              </div>
-             <div style={{ height: "100px", width: "1px", background: "rgba(49, 151, 149, 0.2)", marginBottom: "16px" }} />
+             <div style={{ height: typeof window !== 'undefined' && window.innerWidth < 768 ? "60px" : "100px", width: "1px", background: "rgba(49, 151, 149, 0.2)", marginBottom: "16px" }} />
              <div 
                style={{ 
                  color: "#319795", 
-                 fontFamily: "'JetBrains Mono', monospace", 
-                 fontSize: "14px", 
+                 fontFamily: "var(--font-jetbrains), monospace", 
+                 fontSize: typeof window !== 'undefined' && window.innerWidth < 768 ? "12px" : "14px", 
                  fontWeight: "bold" 
                }}
              >
@@ -159,30 +167,33 @@ export default function LoadingScreen({ onLoadingComplete }) {
                 "radial-gradient(circle at 1px 1px, rgba(49,151,149,0.08) 1px, transparent 0)",
               backgroundSize: "40px 40px",
               opacity: 0.6,
+              display: typeof window !== 'undefined' && window.innerWidth < 768 ? 'none' : 'block'
             }}
           />
 
           {/* Glow orb behind content */}
-          <motion.div
-            animate={{
-              scale: [1, 1.3, 1],
-              opacity: [0.3, 0.5, 0.3],
-            }}
-            transition={{
-              duration: 3,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-            style={{
-              position: "absolute",
-              width: "300px",
-              height: "300px",
-              borderRadius: "50%",
-              background:
-                "radial-gradient(circle, rgba(49,151,149,0.25) 0%, transparent 70%)",
-              filter: "blur(60px)",
-            }}
-          />
+          {typeof window !== 'undefined' && window.innerWidth >= 768 && (
+            <motion.div
+              animate={{
+                scale: [1, 1.3, 1],
+                opacity: [0.3, 0.5, 0.3],
+              }}
+              transition={{
+                duration: 3,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+              style={{
+                position: "absolute",
+                width: "300px",
+                height: "300px",
+                borderRadius: "50%",
+                background:
+                  "radial-gradient(circle, rgba(49,151,149,0.25) 0%, transparent 70%)",
+                filter: "blur(60px)",
+              }}
+            />
+          )}
 
           {/* Terminal window */}
           <motion.div

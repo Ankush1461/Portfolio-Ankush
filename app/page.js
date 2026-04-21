@@ -6,7 +6,6 @@ import {
   Button,
   Box,
   Heading,
-  Image as Img,
   Link,
   Icon,
   Text,
@@ -23,7 +22,6 @@ import Layout from "@/components/layouts/article";
 import Section from "@/components/section";
 import Paragraph from "@/components/paragraph";
 import { BioSection, BioYear, BioContent } from "@/components/bio";
-import { useColorModeValue } from "@/components/ui/color-mode";
 import { useLanguage } from "@/lib/i18n";
 import Magnetic from "@/components/Magnetic";
 import NextImage from "next/image";
@@ -131,7 +129,7 @@ const Page = () => {
             pointerEvents="none" /* Let mouse pass through the empty glass background padding */
           >
             <Box flex={1} pointerEvents="none">
-              <Heading as="h2" size="2xl" variant="page-title" fontFamily="'M PLUS Rounded 1c', sans-serif" pointerEvents="auto">
+              <Heading as="h2" size="2xl" variant="page-title" fontFamily="var(--font-m-plus), sans-serif" pointerEvents="auto">
                 {t.home.title}
               </Heading>
               <Text mt={1} fontWeight="medium" color="gray.800" _dark={{ color: "gray.300" }} pointerEvents="auto">
@@ -175,7 +173,7 @@ const Page = () => {
                   alt="Profile Image"
                   width={480}
                   height={480}
-                  quality={100}
+                  quality={85}
                   priority
                   style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
                 />

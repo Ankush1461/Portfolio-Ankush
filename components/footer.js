@@ -1,4 +1,4 @@
-import { Box, Text, Container, Link } from '@chakra-ui/react';
+import { Box, Text, Container } from '@chakra-ui/react';
 
 const Footer = () => {
   return (
@@ -14,7 +14,7 @@ const Footer = () => {
           <Text 
             opacity={0.3} 
             fontSize="xs" 
-            fontFamily="'JetBrains Mono', monospace"
+            fontFamily="var(--font-jetbrains), monospace"
             letterSpacing="0.5px"
             textTransform="uppercase"
           >
@@ -24,7 +24,7 @@ const Footer = () => {
           <Text 
             opacity={0.2} 
             fontSize="10px" 
-            fontFamily="'JetBrains Mono', monospace"
+            fontFamily="var(--font-jetbrains), monospace"
             display="flex" 
             alignItems="center"
           >

@@ -30,11 +30,11 @@ const Section = ({ children, delay = 0, mb = "4rem", direction = "left", ...prop
       animate={(isInView && !isLoading) ? "enter" : "initial"}
       variants={revealVariants}
       transition={{
-        delay: delay * 0.5,
+        delay: delay * 0.3,
         type: "spring",
-        stiffness: 200,
-        damping: 25,
-        mass: 0.8,
+        stiffness: 260,
+        damping: 20,
+        mass: 0.5,
       }}
       style={{
         marginBottom: mb,

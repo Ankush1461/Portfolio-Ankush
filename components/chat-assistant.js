@@ -30,7 +30,7 @@ const ChatAssistant = () => {
            setMessages(parsed);
         }
       }
-      } catch(err) { /* Catching silently to keep console clean */ }
+      } catch { /* Catching silently to keep console clean */ }
     setCacheLoaded(true);
   }, []);
 
@@ -38,7 +38,7 @@ const ChatAssistant = () => {
     if (cacheLoaded && messages && messages.length > 0) {
       try {
         localStorage.setItem('ai-chat-history', JSON.stringify(messages));
-      } catch (err) {
+      } catch {
         // Silently fail if storage is unavailable (e.g. incognito)
       }
     }
@@ -71,7 +71,6 @@ const ChatAssistant = () => {
     };
   }, [isOpen]);
 
-  const bg = useColorModeValue('whiteAlpha.800', '#202023dc');
   const border = useColorModeValue('whiteAlpha.500', 'whiteAlpha.200');
   const userBubble = useColorModeValue('teal.500', 'teal.300');
   const aiBubble = useColorModeValue('blackAlpha.100', 'whiteAlpha.100');
@@ -117,7 +116,7 @@ const ChatAssistant = () => {
         const data = await res.json();
         
         setMessages([...newContext, { id: Date.now().toString(), role: 'assistant', content: data.text, text: data.text }]);
-    } catch(err) {
+    } catch {
         setMessages([...newContext, { id: Date.now().toString(), role: 'assistant', content: "Error connecting to AI.", text: "Error connecting to AI." }]);
     } finally {
         setIsLoading(false);

@@ -9,12 +9,11 @@ import {
   Flex,
   IconButton,
 } from "@chakra-ui/react";
-import { useColorModeValue } from "@/components/ui/color-mode";
 import { LuMenu } from "react-icons/lu";
 import ThemeToggleButton from "./theme-toggle-button";
 import LanguageToggleButton from "./language-toggle";
 import { useLanguage } from "@/lib/i18n";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Magnetic from "./Magnetic.js";
 
 const LinkItem = ({ href, path, children, target, ...props }) => {
@@ -48,12 +47,7 @@ const LinkItem = ({ href, path, children, target, ...props }) => {
 const Navbar = (props) => {
   const { path } = props;
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
   const { t } = useLanguage();
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   return (
     <Box

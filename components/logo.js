@@ -38,7 +38,7 @@ const Logo = () => {
         <Text
           color="gray.800"
           _dark={{ color: "whiteAlpha.900" }}
-          fontFamily="'M PLUS Rounded 1c', sans-serif"
+          fontFamily="var(--font-m-plus), sans-serif"
           fontWeight="bold"
           ml={3}
         >

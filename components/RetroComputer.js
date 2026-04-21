@@ -1,6 +1,5 @@
 import { useState, useMemo, useEffect } from 'react';
 import dynamic from 'next/dynamic';
-import Head from 'next/head';
 import { Box, Flex, Spinner } from '@chakra-ui/react';
 import { useColorModeValue } from '@/components/ui/color-mode';
 
@@ -12,11 +11,9 @@ const Spline = dynamic(() => import('@splinetool/react-spline'), {
 });
 
 const TECH_TAGS = [
-  "Python", "PySpark", "SQL", "DBMS", "AI", "ML",
-  "Calculus", "Statistics", "Mathematics",
+  "Python", "SQL", "AI", "ML", "Azure",
   "NumPy", "Pandas", "TensorFlow", "Scikit-Learn",
-  "Docker", "React", "Next.js", "Azure", "FastAPI",
-  "C#", ".NET", "Power Automate", "D365 CRM", "Data Eng",
+  "Docker", "React", "Next.js", "Dynamics CRM", "Data Eng",
 ];
 
 function OrbitingTags({ isDark }) {
@@ -56,7 +53,7 @@ function OrbitingTags({ isDark }) {
             left: "50%",
             top: "50%",
             fontSize: tp.size,
-            fontFamily: "'JetBrains Mono','Fira Code',monospace",
+            fontFamily: "var(--font-jetbrains), 'Fira Code', monospace",
             fontWeight: 700,
             color: tagFg,
             background: tagBgColor,
@@ -67,6 +64,7 @@ function OrbitingTags({ isDark }) {
             pointerEvents: "none",
             zIndex: 0, // Keep behind Spline if we want, or in front. We'll set zIndex: 1
             animation: `rcOrbit ${tp.dur}s linear ${tp.delay}s infinite`,
+            willChange: "transform",
             "--rc-angle": `${tp.angle}deg`,
             "--rc-r": `clamp(${tp.minRadius}px, 24vw, ${tp.radius}px)`, // Tightly couples mobile offsets mapping directly to the staggered depths
             "--rc-y": `${tp.yOff}px`,
@@ -97,9 +95,11 @@ export default function RetroComputer() {
       if (!e.isTrusted) return; 
       
       const canvas = document.querySelector("#rc-spline-wrapper canvas");
+      if (!canvas) return;
+
       const aboutSection = document.getElementById("about-section");
       
-      if (canvas && e.target !== canvas) {
+      if (e.target !== canvas) {
         
         // LIMIT DETECTION AREA: Stop tracking if the mouse is below the start of the About section
         if (aboutSection) {
@@ -107,8 +107,13 @@ export default function RetroComputer() {
           if (e.clientY > rect.top) return; // Exit if mouse is in the content area
         }
 
-        // Self-Healing Retracker pulse
+        // Throttle synthetic events to 60fps max
         const now = Date.now();
+        const lastEvent = parseInt(canvas.dataset.lastSyntheticEvent || "0");
+        if (now - lastEvent < 16) return;
+        canvas.dataset.lastSyntheticEvent = now.toString();
+
+        // Self-Healing Retracker pulse
         const lastEnter = parseInt(canvas.dataset.lastSyntheticEnter || "0");
         if (now - lastEnter > 500) {
           const enterEvent = new PointerEvent("pointerenter", {
@@ -217,12 +222,13 @@ export default function RetroComputer() {
                 scene="/scene.splinecode"
                 onLoad={(splineApp) => {
                   // Buffer for WebGL to actually push its first populated frame
+                  // Increased to 800ms to ensure model is fully visible before loader exit
                   setTimeout(() => {
                     setLoading(false);
                     if (typeof window !== 'undefined') {
                       window.dispatchEvent(new Event('spline-loaded'));
                     }
-                  }, 1200);
+                  }, 800);
                   
                   // Restore Standard Orientation: 
                   // By restricting mouse events to the Hero section above,
@@ -234,7 +240,9 @@ export default function RetroComputer() {
                     if (splineApp._scene) splineApp._scene.background = null;
                     if (splineApp._renderer) splineApp._renderer.setClearAlpha(0);
                     if (splineApp.setColors) splineApp.setColors();
-                  } catch (e) {}
+                  } catch {
+                    // Silently fail if Spline internal API changes
+                  }
                 }}
               />
             </SplineErrorBoundary>

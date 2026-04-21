@@ -1,16 +1,15 @@
 "use client";
-import { useState } from "react";
+import { usePathname } from "next/navigation";
 
 import { Box, Container } from "@chakra-ui/react";
-import { usePathname } from "next/navigation";
 import dynamic from "next/dynamic";
 import Navbar from "../navbar.js";
 import ChatAssistant from "../chat-assistant.js";
 import CustomCursor from "../custom-cursor.js";
 import ScrollProgress from "../ScrollProgress.js";
-import RetroComputer from "../RetroComputer.js";
 import Footer from "../footer.js";
 
+const RetroComputer = dynamic(() => import("../RetroComputer"), { ssr: false });
 const ParticleBackground = dynamic(() => import("../ParticleBackground"), { ssr: false });
 const LoadingScreen = dynamic(() => import("../LoadingScreen"), { ssr: false });
 
@@ -25,9 +24,9 @@ const Main = ({ children }) => {
     <>
       <LoadingScreen onLoadingComplete={() => setIsLoading(false)} />
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={!isLoading ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.8, ease: [0.6, 0.05, 0.01, 0.9] }}
+        initial={{ opacity: 0, y: 5 }}
+        animate={!isLoading ? { opacity: 1, y: 0 } : { opacity: 0 }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
       >
         <Box as="main" pb={8} position="relative" zIndex={1}>
           <ParticleBackground />

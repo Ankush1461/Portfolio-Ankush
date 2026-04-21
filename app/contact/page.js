@@ -19,9 +19,6 @@ import Section from "@/components/section";
 import { useColorModeValue } from "@/components/ui/color-mode";
 import { useLanguage } from "@/lib/i18n";
 import {
-  IoMail,
-  IoCall,
-  IoLocationSharp,
   IoLogoLinkedin,
   IoLogoGithub,
   IoLogoInstagram,
@@ -89,7 +86,7 @@ const Contact = () => {
             as="h4"
             fontSize={18}
             mb={4}
-            fontFamily="'M PLUS Rounded 1c', sans-serif"
+            fontFamily="var(--font-m-plus), sans-serif"
           >
             {t.contact.formTitle}
           </Heading>
