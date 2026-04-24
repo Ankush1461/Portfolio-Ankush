@@ -34,22 +34,30 @@ const CursorInner = () => {
   const cursorX = useSpring(mouseX, springConfig);
   const cursorY = useSpring(mouseY, springConfig);
 
-  const cursorColor = useColorModeValue("rgba(49, 151, 149, 0.4)", "rgba(129, 230, 217, 0.3)");
-  const cursorBorder = useColorModeValue("1px solid rgba(49, 151, 149, 0.8)", "1px solid rgba(129, 230, 217, 0.6)");
+  const cursorColor = useColorModeValue(
+    "rgba(49, 151, 149, 0.4)",
+    "rgba(129, 230, 217, 0.3)",
+  );
+  const cursorBorder = useColorModeValue(
+    "1px solid rgba(49, 151, 149, 0.8)",
+    "1px solid rgba(129, 230, 217, 0.6)",
+  );
 
   useEffect(() => {
-    // We keep the native hardware cursor visible for absolute 0ms latency.
-    // This custom cursor acts as a "trailing halo".
     document.body.style.cursor = "auto";
 
     const handleMouseMove = (e) => {
-      mouseX.set(e.clientX - (isHovering ? cursorSizeHover / 2 : cursorSize / 2));
-      mouseY.set(e.clientY - (isHovering ? cursorSizeHover / 2 : cursorSize / 2));
+      mouseX.set(
+        e.clientX - (isHovering ? cursorSizeHover / 2 : cursorSize / 2),
+      );
+      mouseY.set(
+        e.clientY - (isHovering ? cursorSizeHover / 2 : cursorSize / 2),
+      );
     };
 
     const handleMouseOver = (e) => {
       const target = e.target;
-      const isClickable = 
+      const isClickable =
         target.tagName?.toLowerCase() === "button" ||
         target.tagName?.toLowerCase() === "a" ||
         window.getComputedStyle(target).cursor === "pointer" ||
@@ -57,25 +65,36 @@ const CursorInner = () => {
         target.closest?.("a");
 
       setIsHovering(!!isClickable);
-      
+
       if (isClickable) {
-         mouseX.set(e.clientX - cursorSizeHover / 2);
-         mouseY.set(e.clientY - cursorSizeHover / 2);
+        mouseX.set(e.clientX - cursorSizeHover / 2);
+        mouseY.set(e.clientY - cursorSizeHover / 2);
       } else {
-         mouseX.set(e.clientX - cursorSize / 2);
-         mouseY.set(e.clientY - cursorSize / 2);
+        mouseX.set(e.clientX - cursorSize / 2);
+        mouseY.set(e.clientY - cursorSize / 2);
       }
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("mouseover", handleMouseOver);
+    // CHANGE: Throttle mousemove to 16ms (60fps) instead of every event
+    let lastTime = 0;
+    const throttledMouseMove = (e) => {
+      const now = Date.now();
+      if (now - lastTime > 16) {
+        handleMouseMove(e);
+        lastTime = now;
+      }
+    };
+
+    window.addEventListener("mousemove", throttledMouseMove, {
+      passive: true,
+    });
+    window.addEventListener("mouseover", handleMouseOver, { passive: true });
 
     return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mousemove", throttledMouseMove);
       window.removeEventListener("mouseover", handleMouseOver);
     };
   }, [mouseX, mouseY, isHovering]);
-
   return (
     <motion.div
       style={{
@@ -89,10 +108,10 @@ const CursorInner = () => {
         borderRadius: "50%",
         border: cursorBorder,
       }}
-      initial={{ 
+      initial={{
         backgroundColor: "rgba(0, 0, 0, 0)",
         width: cursorSize,
-        height: cursorSize 
+        height: cursorSize,
       }}
       animate={{
         width: isHovering ? cursorSizeHover : cursorSize,
@@ -107,4 +126,3 @@ const CursorInner = () => {
 };
 
 export default CustomCursor;
-

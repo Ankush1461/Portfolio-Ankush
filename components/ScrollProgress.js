@@ -10,33 +10,43 @@ import { Box, Text } from "@chakra-ui/react";
  */
 export default function ScrollProgress() {
   const pathname = usePathname();
+  const [isMobile, setIsMobile] = useState(false);
+  const [percentage, setPercentage] = useState(0);
+
+  // ALL hooks must be called before any conditional return
   const { scrollYProgress } = useScroll();
   const scaleY = useSpring(scrollYProgress, {
     stiffness: 200,
     damping: 25,
-    restDelta: 0.001
+    restDelta: 0.001,
   });
 
-  const [percentage, setPercentage] = useState(0);
-
-  // Map progress to 0-100%
+  // Effect 1: mobile detection
   useEffect(() => {
-    // Force 100% on contact page immediately
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check, { passive: true });
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  // Effect 2: scroll percentage (must also be before conditional)
+  useEffect(() => {
+    if (isMobile) return; // early exit INSIDE effect is fine
+
     if (pathname && pathname.includes("/contact")) {
       setPercentage(100);
       return;
     }
 
-    // Check if page is scrollable on mount and resize
     const checkScrollability = () => {
-      const docHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
+      const docHeight =
+        document.documentElement.scrollHeight || document.body.scrollHeight;
       const winHeight = window.innerHeight;
-      const isScrollable = docHeight > winHeight + 15; // 15px buffer for cross-browser consistency
-      
+      const isScrollable = docHeight > winHeight + 15;
+
       if (!isScrollable) {
         setPercentage(100);
       } else {
-        // Recalculate based on current scroll position
         setPercentage(Math.round(scrollYProgress.get() * 100));
       }
     };
@@ -45,10 +55,11 @@ export default function ScrollProgress() {
     window.addEventListener("resize", checkScrollability);
 
     const unsubscribe = scrollYProgress.on("change", (latest) => {
-      const docHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
+      const docHeight =
+        document.documentElement.scrollHeight || document.body.scrollHeight;
       const winHeight = window.innerHeight;
       const isScrollable = docHeight > winHeight + 15;
-      
+
       if (isScrollable) {
         setPercentage(Math.round(latest * 100));
       } else {
@@ -60,7 +71,10 @@ export default function ScrollProgress() {
       unsubscribe();
       window.removeEventListener("resize", checkScrollability);
     };
-  }, [scrollYProgress, pathname]);
+  }, [scrollYProgress, pathname, isMobile]);
+
+  // Skip rendering on mobile after ALL hooks have been called
+  if (isMobile) return null;
 
   return (
     <Box
@@ -91,11 +105,11 @@ export default function ScrollProgress() {
           fontWeight="bold"
           fontFamily="mono"
           color="teal.500"
-          style={{ 
+          style={{
             whiteSpace: "nowrap",
             transform: "rotate(-90deg)",
             transformOrigin: "center",
-            position: "absolute"
+            position: "absolute",
           }}
           textAlign="center"
           letterSpacing="widest"
@@ -122,7 +136,7 @@ export default function ScrollProgress() {
             left: 0,
             right: 0,
             background: "linear-gradient(to bottom, transparent, #319795)",
-            transformOrigin: "top"
+            transformOrigin: "top",
           }}
           className="playbook-dot-container"
           height="100%"
@@ -131,17 +145,17 @@ export default function ScrollProgress() {
 
       {/* Football Icon Representation */}
       <motion.div
-        animate={{ 
+        animate={{
           rotate: percentage * 3.6,
-          y: (percentage / 100) * 20 
+          y: (percentage / 100) * 20,
         }}
       >
-        <Box 
-            width="10px" 
-            height="10px" 
-            borderRadius="full" 
-            bg="teal.500" 
-            boxShadow="0 0 10px #319795"
+        <Box
+          width="10px"
+          height="10px"
+          borderRadius="full"
+          bg="teal.500"
+          boxShadow="0 0 10px #319795"
         />
       </motion.div>
     </Box>

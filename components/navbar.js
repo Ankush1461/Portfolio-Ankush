@@ -8,6 +8,7 @@ import {
   Heading,
   Flex,
   IconButton,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 import { LuMenu } from "react-icons/lu";
 import ThemeToggleButton from "./theme-toggle-button";
@@ -18,6 +19,7 @@ import Magnetic from "./Magnetic.js";
 
 const LinkItem = ({ href, path, children, target, ...props }) => {
   const active = path === href;
+  const isDesktop = useBreakpointValue({ base: false, md: true });
   return (
     <Magnetic strength={0.15}>
       <Link
@@ -29,12 +31,16 @@ const LinkItem = ({ href, path, children, target, ...props }) => {
         borderRadius="md"
         fontSize="sm"
         fontWeight="medium"
-        _hover={{ 
-          textDecoration: "none", 
+        _hover={{
+          textDecoration: "none",
           bg: active ? "#88ccca" : "whiteAlpha.200",
-          transform: "scale(1.05)",
+          transform: isDesktop ? "scale(1.05)" : "none",
         }}
-        transition="all 0.2s cubic-bezier(.08,.52,.52,1)"
+        transition={
+          isDesktop
+            ? "all 0.2s cubic-bezier(.08,.52,.52,1)"
+            : "background 0.15s ease"
+        }
         target={target}
         {...props}
       >
@@ -55,11 +61,10 @@ const Navbar = (props) => {
       as="nav"
       w="100%"
       bg="#ffffff40"
-      _dark={{ bg: "#20202380" }}
+      _dark={{ bg: "#20202380", borderColor: "whiteAlpha.100" }}
       css={{ backdropFilter: "blur(18px)", WebkitBackdropFilter: "blur(18px)" }}
       borderBottom="1px"
       borderColor="whiteAlpha.500"
-      dark={{ borderColor: "whiteAlpha.100" }}
       zIndex={10}
     >
       <Container
@@ -105,7 +110,14 @@ const Navbar = (props) => {
             {t.nav.source}
           </Link>
         </Stack>
-        <Box flex={1} textAlign="right" display="flex" justifyContent="flex-end" alignItems="center" gap={2}>
+        <Box
+          flex={1}
+          textAlign="right"
+          display="flex"
+          justifyContent="flex-end"
+          alignItems="center"
+          gap={2}
+        >
           <LanguageToggleButton />
           <ThemeToggleButton />
           <Box display={{ base: "inline-block", md: "none" }}>
@@ -122,20 +134,27 @@ const Navbar = (props) => {
 
         {/* Mobile menu */}
         {isMenuOpen && (
-          <Box
-            display={{ base: "block", md: "none" }}
-            w="100%"
-            mt={2}
-            pb={2}
-          >
+          <Box display={{ base: "block", md: "none" }} w="100%" mt={2} pb={2}>
             <Stack gap={1}>
-              <Link asChild _hover={{ textDecoration: "none" }} onClick={() => setIsMenuOpen(false)}>
+              <Link
+                asChild
+                _hover={{ textDecoration: "none" }}
+                onClick={() => setIsMenuOpen(false)}
+              >
                 <NextLink href="/">{t.nav.about}</NextLink>
               </Link>
-              <Link asChild _hover={{ textDecoration: "none" }} onClick={() => setIsMenuOpen(false)}>
+              <Link
+                asChild
+                _hover={{ textDecoration: "none" }}
+                onClick={() => setIsMenuOpen(false)}
+              >
                 <NextLink href="/projects">{t.nav.projects}</NextLink>
               </Link>
-              <Link asChild _hover={{ textDecoration: "none" }} onClick={() => setIsMenuOpen(false)}>
+              <Link
+                asChild
+                _hover={{ textDecoration: "none" }}
+                onClick={() => setIsMenuOpen(false)}
+              >
                 <NextLink href="/contact">{t.nav.contact}</NextLink>
               </Link>
               <Link

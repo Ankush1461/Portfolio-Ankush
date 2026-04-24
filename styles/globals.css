@@ -1,13 +1,13 @@
 :root {
   --teal-accent: hsl(174, 75%, 41%);
   --teal-glow: hsla(174, 100%, 41%, 0.4);
-  --glass-bg: rgba(255, 255, 255, 0.4); 
-  --glass-border: rgba(255, 255, 255, 0.6); 
+  --glass-bg: rgba(255, 255, 255, 0.4);
+  --glass-border: rgba(255, 255, 255, 0.6);
   --bg-dark: #121214;
 }
 
 .dark {
-  --glass-bg: rgba(20, 20, 23, 0.8); 
+  --glass-bg: rgba(20, 20, 23, 0.8);
   --glass-border: rgba(255, 255, 255, 0.08);
 }
 
@@ -17,8 +17,19 @@ body {
   margin: 0;
   width: 100%;
   overflow-x: hidden;
-  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family:
+    var(--font-inter),
+    -apple-system,
+    BlinkMacSystemFont,
+    Segoe UI,
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    Fira Sans,
+    Droid Sans,
+    Helvetica Neue,
+    sans-serif;
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
   -webkit-text-size-adjust: 100%;
@@ -98,11 +109,16 @@ html {
   contain: layout style;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
-  transform: translate3d(0, 0, 0);
+  transform: translateZ(0);
 }
 
 /* Glassmorphism Classes */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-m-plus), sans-serif;
 }
 
@@ -125,8 +141,19 @@ h1, h2, h3, h4, h5, h6 {
   box-shadow: 0 8px 32px 0 hsla(174, 100%, 41%, 0.15);
 }
 
+/* Disable box-shadow transition on mobile to prevent glow flare on load */
+@media (max-width: 768px) {
+  .glass-card {
+    transition: border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                background 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                backdrop-filter 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+
 /* Fallback for browsers that don't support backdrop-filter */
-@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+@supports not (
+  (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))
+) {
   .glass-card {
     background: rgba(255, 255, 255, 0.98);
   }
@@ -144,9 +171,15 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Animations */
 @keyframes glow-pulse {
-  0% { box-shadow: 0 0 5px var(--teal-glow); }
-  50% { box-shadow: 0 0 25px var(--teal-glow); }
-  100% { box-shadow: 0 0 5px var(--teal-glow); }
+  0% {
+    box-shadow: 0 0 5px var(--teal-glow);
+  }
+  50% {
+    box-shadow: 0 0 25px var(--teal-glow);
+  }
+  100% {
+    box-shadow: 0 0 5px var(--teal-glow);
+  }
 }
 
 .animate-glow {
@@ -164,7 +197,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* GPU Compositing & Optimization - Mobile friendly */
-nav, .glass-card {
+nav,
+.glass-card {
   will-change: opacity;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
@@ -186,14 +220,47 @@ nav, .glass-card {
 }
 
 main {
-  content-visibility: visible; /* Fixed UI scrolling issues by relaxing containment */
+  content-visibility: visible;
   contain-intrinsic-size: auto;
+}
+
+/* Content-visibility for below-fold sections on mobile */
+@media (max-width: 768px) {
+  section,
+  .section {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 500px;
+  }
 }
 
 /* Utility: High-Tech Typography */
 .tech-text {
-  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-family: "JetBrains Mono", "Fira Code", monospace;
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
+/* Chat status pulse */
+@keyframes status-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(40, 200, 64, 0.5);
+  }
+  70% {
+    box-shadow: 0 0 0 6px rgba(40, 200, 64, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(40, 200, 64, 0);
+  }
+}
+
+.status-pulse {
+  animation: status-pulse 2s infinite;
+}
+
+/* Gradient text utility */
+.gradient-text {
+  background: linear-gradient(90deg, #319795, #5eead4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}

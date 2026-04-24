@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 
 const Logo = () => {
   const [mounted, setMounted] = useState(false);
-  const footPrintImg = `/images/footprint${useColorModeValue("", "-dark")}.png`;
+  const footPrintImg = `/images/footprint${useColorModeValue("", "-dark")}.webp`;
 
   useEffect(() => {
     setMounted(true);

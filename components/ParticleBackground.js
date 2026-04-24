@@ -33,98 +33,65 @@ export default function ParticleBackground() {
 
   const options = useMemo(
     () => ({
-      fullScreen: { 
-        enable: false,
-      },
-      background: {
-        color: {
-          value: bgColor,
-        },
-      },
-      fpsLimit: isMobile ? 30 : 60,
+      fullScreen: { enable: false },
+      background: { color: { value: bgColor } },
+      fpsLimit: isMobile ? 15 : 30,
       particles: {
         number: {
-          value: isMobile ? 15 : 50,
-          density: {
-            enable: true,
-            area: isMobile ? 2000 : 1200,
-          },
+          value: isMobile ? 20 : 50,
+          density: { enable: true, area: isMobile ? 4000 : 1200 },
         },
-        color: {
-          value: particleColor,
-        },
-        shape: {
-          type: "circle",
-        },
-        opacity: {
-          value: 0.25,
-        },
-        size: {
-          value: { min: 1, max: isMobile ? 1.5 : 2 },
-        },
+        color: { value: particleColor },
+        shape: { type: "circle" },
+        opacity: { value: 0.25 },
+        size: { value: { min: 0.8, max: isMobile ? 1.2 : 2 } },
         links: {
           enable: true,
           distance: isMobile ? 100 : 150,
           color: particleColor,
-          opacity: 0.15,
-          width: 0.5,
+          opacity: isMobile ? 0.06 : 0.15,
+          width: isMobile ? 0.3 : 0.5,
         },
         move: {
           enable: true,
-          speed: isMobile ? 0.5 : 1,
+          speed: isMobile ? 0.2 : 1,
           direction: "none",
-          outModes: {
-            default: "bounce",
-          },
+          outModes: { default: "bounce" },
           attract: {
-            enable: true,
-            rotateX: 600,
-            rotateY: 1200
-          }
+            enable: !isMobile,
+            rotateX: isMobile ? 0 : 600,
+            rotateY: isMobile ? 0 : 1200,
+          },
         },
       },
       interactivity: {
         detectsOn: "window",
         events: {
-          onHover: {
-            enable: true,
-            mode: "repulse",
-          },
-          onClick: {
-            enable: true,
-            mode: "push",
-          },
-          resize: {
-            enable: !isMobile,
-          },
+          onHover: { enable: false, mode: "repulse" },
+          onClick: { enable: true, mode: "push" },
+          resize: { enable: !isMobile },
         },
         modes: {
-          repulse: {
-            distance: 200,
-            duration: 0.4,
-            factor: 100,
-          },
-          push: {
-            quantity: 4,
-          },
+          repulse: { distance: 200, duration: 0.4, factor: 100 },
+          push: { quantity: isMobile ? 1 : 4 },
         },
       },
       detectRetina: !isMobile,
     }),
-    [particleColor, isMobile]
+    [particleColor, isMobile],
   );
 
   if (!init) return null;
 
   return (
-    <Box 
-      id="particles-container" 
-      position="fixed" 
-      top={0} 
-      left={0} 
-      w="100%" 
-      h="100%" 
-      zIndex={-1} 
+    <Box
+      id="particles-container"
+      position="fixed"
+      top={0}
+      left={0}
+      w="100%"
+      h="100%"
+      zIndex={-1}
       overflow="hidden"
       pointerEvents="none"
     >
@@ -135,5 +102,4 @@ export default function ParticleBackground() {
       />
     </Box>
   );
-
 }

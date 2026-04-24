@@ -11,24 +11,26 @@ const LOADING_MESSAGES = [
   "Connecting the dots between tech & impact...",
 ];
 
-/**
- * Premium full-screen loading splash.
- * Shows a terminal-style typewriter animation with a witty message,
- * then gracefully fades out once the site is ready.
- */
 export default function LoadingScreen({ onLoadingComplete }) {
   const { setIsLoading } = useLoading();
   const [isVisible, setIsVisible] = useState(true);
   const [progress, setProgress] = useState(0);
 
-  // Pick a random message on mount
   const message = useMemo(
     () => LOADING_MESSAGES[Math.floor(Math.random() * LOADING_MESSAGES.length)],
-    []
+    [],
   );
 
+  const [isMobile, setIsMobile] = useState(false);
+
   useEffect(() => {
-    // Remove the server-rendered overlay now that LoadingScreen has hydrated
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check, { passive: true });
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  useEffect(() => {
     const ssrOverlay = document.getElementById("initial-loader");
     if (ssrOverlay) ssrOverlay.style.display = "none";
 
@@ -36,17 +38,13 @@ export default function LoadingScreen({ onLoadingComplete }) {
     let minTimePassed = false;
     let isFullyDone = false;
 
-    // Simulate loading progress
     const interval = setInterval(() => {
       setProgress((prev) => {
-        if (prev >= 95) { // Cap at 95% until actually loaded
-          return 95;
-        }
-        // Accelerating progress curve
-        const increment = prev < 50 ? 8 : prev < 75 ? 4 : 2;
+        if (prev >= 95) return 95;
+        const increment = prev < 50 ? 10 : prev < 75 ? 5 : 3;
         return Math.min(prev + increment, 95);
       });
-    }, 35);
+    }, 30);
 
     const tryFinish = () => {
       if (isFullyDone) return;
@@ -55,10 +53,10 @@ export default function LoadingScreen({ onLoadingComplete }) {
         setProgress(100);
         clearInterval(interval);
         setTimeout(() => {
-           setIsVisible(false);
-           setIsLoading(false); // Update global context
-           if (onLoadingComplete) onLoadingComplete();
-        }, 400); // Small delay to show 100%
+          setIsVisible(false);
+          setIsLoading(false);
+          if (onLoadingComplete) onLoadingComplete();
+        }, 250);
       }
     };
 
@@ -67,38 +65,41 @@ export default function LoadingScreen({ onLoadingComplete }) {
       tryFinish();
     };
 
-    // Listen for events from the Spline component (RetroComputer)
-    window.addEventListener('spline-loaded', onSplineEvent);
-    window.addEventListener('spline-error', onSplineEvent);
+    window.addEventListener("spline-loaded", onSplineEvent);
+    window.addEventListener("spline-error", onSplineEvent);
 
-    // Minimum display time for the animation to feel complete
-    const minimumTimer = setTimeout(() => {
-      minTimePassed = true;
-      tryFinish();
-    }, 300); 
+    const minimumTimer = setTimeout(
+      () => {
+        minTimePassed = true;
+        tryFinish();
+      },
+      isMobile ? 80 : 250,
+    );
 
-    // Safety timeout: If Spline fails to load within 3 seconds, finish anyway
-    const safetyTimer = setTimeout(() => {
-      splineFinished = true;
-      tryFinish();
-    }, 3000);
+    const safetyTimer = setTimeout(
+      () => {
+        splineFinished = true;
+        tryFinish();
+      },
+      isMobile ? 1200 : 2500,
+    );
 
     return () => {
       clearInterval(interval);
       clearTimeout(minimumTimer);
       clearTimeout(safetyTimer);
-      window.removeEventListener('spline-loaded', onSplineEvent);
-      window.removeEventListener('spline-error', onSplineEvent);
+      window.removeEventListener("spline-loaded", onSplineEvent);
+      window.removeEventListener("spline-error", onSplineEvent);
     };
-  }, [onLoadingComplete]);
+  }, [onLoadingComplete, isMobile]);
 
   return (
     <AnimatePresence>
       {isVisible && (
         <motion.div
           initial={{ opacity: 1 }}
-          exit={{ opacity: 0, filter: "blur(5px)" }}
-          transition={{ duration: 0.4, ease: "easeOut" }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2, ease: "easeOut" }}
           style={{
             position: "fixed",
             inset: 0,
@@ -111,14 +112,14 @@ export default function LoadingScreen({ onLoadingComplete }) {
             overflow: "hidden",
           }}
         >
-          {/* Side Indicator - Sticking to the right side */}
+          {/* Side Indicator */}
           <div
             style={{
               position: "fixed",
               right: "0",
               top: "0",
               bottom: "0",
-              width: typeof window !== 'undefined' && window.innerWidth < 768 ? "18px" : "48px",
+              width: isMobile ? "18px" : "48px",
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
@@ -127,41 +128,48 @@ export default function LoadingScreen({ onLoadingComplete }) {
               background: "rgba(20, 20, 23, 0.5)",
               backdropFilter: "blur(5px)",
               zIndex: 100,
-              transition: "width 0.3s ease"
+              transition: "width 0.3s ease",
             }}
           >
-             <div
-               style={{
-                 color: "#319795",
-                 fontFamily: "var(--font-jetbrains), monospace",
-                 fontSize: typeof window !== 'undefined' && window.innerWidth < 768 ? "8px" : "12px",
-                 fontWeight: 600,
-                 letterSpacing: typeof window !== 'undefined' && window.innerWidth < 768 ? "1px" : "4px",
-                 opacity: 0.8,
-                 marginBottom: "20px",
-                 transform: "rotate(-90deg)",
-                 whiteSpace: "nowrap"
-               }}
-             >
-               SYS_LOAD
-             </div>
-             <div style={{ height: typeof window !== 'undefined' && window.innerWidth < 768 ? "40px" : "100px", width: "1px", background: "rgba(49, 151, 149, 0.2)", marginBottom: "16px" }} />
-             <div 
-               style={{ 
-                 color: "#319795", 
-                 fontFamily: "var(--font-jetbrains), monospace", 
-                 fontSize: typeof window !== 'undefined' && window.innerWidth < 768 ? "10px" : "14px", 
-                 fontWeight: "bold",
-                 transform: "rotate(-90deg)",
-                 whiteSpace: "nowrap",
-                 letterSpacing: typeof window !== 'undefined' && window.innerWidth < 768 ? "1px" : "normal"
-               }}
-             >
-               {progress}%
-             </div>
+            <div
+              style={{
+                color: "#319795",
+                fontFamily: "var(--font-jetbrains), monospace",
+                fontSize: isMobile ? "8px" : "12px",
+                fontWeight: 600,
+                letterSpacing: isMobile ? "1px" : "4px",
+                opacity: 0.8,
+                marginBottom: "20px",
+                transform: "rotate(-90deg)",
+                whiteSpace: "nowrap",
+              }}
+            >
+              SYS_LOAD
+            </div>
+            <div
+              style={{
+                height: isMobile ? "40px" : "100px",
+                width: "1px",
+                background: "rgba(49, 151, 149, 0.2)",
+                marginBottom: "16px",
+              }}
+            />
+            <div
+              style={{
+                color: "#319795",
+                fontFamily: "var(--font-jetbrains), monospace",
+                fontSize: isMobile ? "10px" : "14px",
+                fontWeight: "bold",
+                transform: "rotate(-90deg)",
+                whiteSpace: "nowrap",
+                letterSpacing: isMobile ? "1px" : "normal",
+              }}
+            >
+              {progress}%
+            </div>
           </div>
 
-          {/* Subtle animated background grid */}
+          {/* Background grid — desktop only */}
           <div
             style={{
               position: "absolute",
@@ -170,22 +178,15 @@ export default function LoadingScreen({ onLoadingComplete }) {
                 "radial-gradient(circle at 1px 1px, rgba(49,151,149,0.08) 1px, transparent 0)",
               backgroundSize: "40px 40px",
               opacity: 0.6,
-              display: typeof window !== 'undefined' && window.innerWidth < 768 ? 'none' : 'block'
+              display: isMobile ? "none" : "block",
             }}
           />
 
-          {/* Glow orb behind content */}
-          {typeof window !== 'undefined' && window.innerWidth >= 768 && (
+          {/* Glow orb — desktop only */}
+          {!isMobile && (
             <motion.div
-              animate={{
-                scale: [1, 1.3, 1],
-                opacity: [0.3, 0.5, 0.3],
-              }}
-              transition={{
-                duration: 3,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
+              animate={{ scale: [1, 1.3, 1], opacity: [0.3, 0.5, 0.3] }}
+              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
               style={{
                 position: "absolute",
                 width: "300px",
@@ -200,42 +201,41 @@ export default function LoadingScreen({ onLoadingComplete }) {
 
           {/* Terminal window */}
           <motion.div
-            initial={{ y: 30, opacity: 0 }}
+            initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.8, ease: "circOut" }}
+            transition={{ duration: 0.4, ease: "circOut" }}
             style={{
               position: "relative",
               width: "min(480px, 90vw)",
-              background: "rgba(20, 20, 23, 0.75)",
-              backdropFilter: "blur(25px)",
+              background: isMobile ? "#1a1a1e" : "rgba(20, 20, 23, 0.75)",
+              backdropFilter: isMobile ? "none" : "blur(25px)",
               border: "1px solid rgba(49,151,149,0.15)",
               borderRadius: "24px",
               overflow: "hidden",
-              boxShadow: "0 40px 100px rgba(0,0,0,0.8), 0 0 40px rgba(49,151,149,0.1)",
+              boxShadow: isMobile
+                ? "0 20px 40px rgba(0,0,0,0.6)"
+                : "0 40px 100px rgba(0,0,0,0.8), 0 0 40px rgba(49,151,149,0.1)",
             }}
           >
-            {/* Scanner Line Animation */}
-            <motion.div
-              animate={{
-                left: ["-100%", "100%"],
-              }}
-              transition={{
-                duration: 1.5,
-                repeat: Infinity,
-                ease: "linear",
-              }}
-              style={{
-                position: "absolute",
-                top: 0,
-                width: "40%",
-                height: "100%",
-                background: "linear-gradient(90deg, transparent, rgba(49,151,149,0.08), transparent)",
-                zIndex: 2,
-                pointerEvents: "none"
-              }}
-            />
+            {/* Scanner — desktop only */}
+            {!isMobile && (
+              <motion.div
+                animate={{ left: ["-100%", "100%"] }}
+                transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  width: "40%",
+                  height: "100%",
+                  background:
+                    "linear-gradient(90deg, transparent, rgba(49,151,149,0.08), transparent)",
+                  zIndex: 2,
+                  pointerEvents: "none",
+                }}
+              />
+            )}
 
-            {/* Terminal title bar */}
+            {/* Title bar */}
             <div
               style={{
                 display: "flex",
@@ -243,13 +243,37 @@ export default function LoadingScreen({ onLoadingComplete }) {
                 gap: "10px",
                 padding: "16px 20px",
                 borderBottom: "1px solid rgba(255,255,255,0.05)",
-                background: "rgba(255,255,255,0.02)"
+                background: "rgba(255,255,255,0.02)",
               }}
             >
               <div style={{ display: "flex", gap: "6px" }}>
-                <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#ff5f57", boxShadow: "0 0 8px rgba(255,95,87,0.3)" }} />
-                <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#febc2e", boxShadow: "0 0 8px rgba(254,188,46,0.3)" }} />
-                <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#28c840", boxShadow: "0 0 8px rgba(40,200,64,0.3)" }} />
+                <div
+                  style={{
+                    width: 10,
+                    height: 10,
+                    borderRadius: "50%",
+                    background: "#ff5f57",
+                    boxShadow: "0 0 8px rgba(255,95,87,0.3)",
+                  }}
+                />
+                <div
+                  style={{
+                    width: 10,
+                    height: 10,
+                    borderRadius: "50%",
+                    background: "#febc2e",
+                    boxShadow: "0 0 8px rgba(254,188,46,0.3)",
+                  }}
+                />
+                <div
+                  style={{
+                    width: 10,
+                    height: 10,
+                    borderRadius: "50%",
+                    background: "#28c840",
+                    boxShadow: "0 0 8px rgba(40,200,64,0.3)",
+                  }}
+                />
               </div>
               <span
                 style={{
@@ -258,7 +282,7 @@ export default function LoadingScreen({ onLoadingComplete }) {
                   fontFamily: "'JetBrains Mono', monospace",
                   color: "rgba(255,255,255,0.4)",
                   letterSpacing: "1.5px",
-                  fontWeight: 500
+                  fontWeight: 500,
                 }}
               >
                 PROD_INIT_PHASE
@@ -267,7 +291,6 @@ export default function LoadingScreen({ onLoadingComplete }) {
 
             {/* Terminal body */}
             <div style={{ padding: "28px 32px 36px" }}>
-              {/* Command line */}
               <div
                 style={{
                   display: "flex",
@@ -279,10 +302,16 @@ export default function LoadingScreen({ onLoadingComplete }) {
                 }}
               >
                 <span style={{ color: "#319795", fontWeight: 700 }}>❯</span>
-                <span style={{ color: "rgba(255,255,255,0.85)" }}>run sync --portfolio</span>
+                <span style={{ color: "rgba(255,255,255,0.85)" }}>
+                  run sync --portfolio
+                </span>
                 <motion.div
                   animate={{ opacity: [1, 0, 1] }}
-                  transition={{ duration: 0.8, repeat: Infinity, ease: "linear" }}
+                  transition={{
+                    duration: 0.6,
+                    repeat: Infinity,
+                    ease: "linear",
+                  }}
                   style={{
                     width: "8px",
                     height: "16px",
@@ -292,68 +321,73 @@ export default function LoadingScreen({ onLoadingComplete }) {
                 />
               </div>
 
-              {/* Message with subtle glow */}
               <motion.p
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 0.2, duration: 0.4 }}
+                transition={{ delay: 0.15, duration: 0.3 }}
                 style={{
                   fontFamily: "'JetBrains Mono', monospace",
                   fontSize: "12.5px",
                   color: "rgba(94,234,212,0.9)",
                   margin: "0 0 28px 0",
                   lineHeight: 1.8,
-                  textShadow: "0 0 10px rgba(49,151,149,0.3)"
+                  textShadow: "0 0 10px rgba(49,151,149,0.3)",
                 }}
               >
                 {message}
               </motion.p>
 
-              {/* Progress Container */}
-              <div style={{ position: "relative", maxWidth: "180px", margin: "0 auto" }}>
+              {/* Progress */}
+              <div
+                style={{
+                  position: "relative",
+                  maxWidth: "180px",
+                  margin: "0 auto",
+                }}
+              >
                 <div
-                    style={{
-                      width: "100%",
-                      height: "2px",
-                      background: "rgba(255,255,255,0.03)",
-                      borderRadius: "2px",
-                      overflow: "hidden",
-                      marginBottom: "12px"
-                    }}
+                  style={{
+                    width: "100%",
+                    height: "2px",
+                    background: "rgba(255,255,255,0.03)",
+                    borderRadius: "2px",
+                    overflow: "hidden",
+                    marginBottom: "12px",
+                  }}
                 >
-                    <motion.div
+                  <motion.div
                     animate={{ width: `${progress}%` }}
-                    transition={{ type: "spring", bounce: 0, duration: 0.3 }}
+                    transition={{ duration: 0.15, ease: "linear" }}
                     style={{
-                        height: "100%",
-                        background: "linear-gradient(90deg, #319795, #5eead4)",
-                        boxShadow: "0 0 20px rgba(49,151,149,0.6)",
+                      height: "100%",
+                      background: "linear-gradient(90deg, #319795, #5eead4)",
+                      boxShadow: "0 0 20px rgba(49,151,149,0.6)",
                     }}
-                    />
+                  />
                 </div>
 
                 <div
-                    style={{
+                  style={{
                     display: "flex",
                     justifyContent: "space-between",
                     fontFamily: "'JetBrains Mono', monospace",
                     fontSize: "8.5px",
                     color: "rgba(255,255,255,0.35)",
-                    letterSpacing: "0.5px"
-                    }}
+                    letterSpacing: "0.5px",
+                  }}
                 >
-                    <span>INITIALIZING_HYDRATION</span>
-                    <span style={{ color: "#319795" }}>{progress}%</span>
+                  <span>INITIALIZING_HYDRATION</span>
+                  <span style={{ color: "#319795" }}>{progress}%</span>
                 </div>
               </div>
             </div>
           </motion.div>
 
-          {/* Center Bottom Signature */}
+          {/* Signature */}
           <motion.p
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6, duration: 0.6 }}
+            transition={{ delay: 0.3, duration: 0.4 }}
             style={{
               position: "absolute",
               bottom: "40px",
@@ -362,7 +396,7 @@ export default function LoadingScreen({ onLoadingComplete }) {
               color: "rgba(255,255,255,0.15)",
               letterSpacing: "6px",
               textTransform: "uppercase",
-              fontWeight: 700
+              fontWeight: 700,
             }}
           >
             ANKUSH KARMAKAR
